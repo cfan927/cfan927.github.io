@@ -86,17 +86,17 @@
 <meta property="og:site_name" content="Cfan927">
 <meta property="og:description" content="编辑：赵志奇 审校：田兆瑞 原文链接：http://docs.mitk.org/nightly/GeometryOverviewPage.html 几何简介几何（geometry）用于描述数据对象在空间和时间上的几何特性。为了以正确的方式去使用geometry类，必须理解MITK中三种不同的坐标系类型：  1.世界坐标 世界坐标（world coordinates）描述了全局坐标系下的所有MITK">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/CoordinateTypes.png">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/worldcoordinateSystem.png">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/WorldcoordinateSystemCenterBased.png">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/image4.png">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/PixelCenterBased.png">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/ITK_VTK_MITK_Geometries.png">
-<meta property="og:updated_time" content="2018-10-06T05:10:49.948Z">
+<meta property="og:image" content="http://yoursite.com/2018/04/20/【MITK%20Concepts】几何(Geometry)/CoordinateTypes.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/20/【MITK%20Concepts】几何(Geometry)/worldcoordinateSystem.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/20/【MITK%20Concepts】几何(Geometry)/WorldcoordinateSystemCenterBased.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/20/【MITK%20Concepts】几何(Geometry)/image4.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/20/【MITK%20Concepts】几何(Geometry)/PixelCenterBased.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/20/【MITK%20Concepts】几何(Geometry)/ITK_VTK_MITK_Geometries.png">
+<meta property="og:updated_time" content="2018-10-06T06:06:37.773Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK Concepts】几何(Geometry)">
 <meta name="twitter:description" content="编辑：赵志奇 审校：田兆瑞 原文链接：http://docs.mitk.org/nightly/GeometryOverviewPage.html 几何简介几何（geometry）用于描述数据对象在空间和时间上的几何特性。为了以正确的方式去使用geometry类，必须理解MITK中三种不同的坐标系类型：  1.世界坐标 世界坐标（world coordinates）描述了全局坐标系下的所有MITK">
-<meta name="twitter:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/CoordinateTypes.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/04/20/【MITK%20Concepts】几何(Geometry)/CoordinateTypes.png">
 
 
 
@@ -359,13 +359,13 @@
 
       
         <p>编辑：赵志奇 审校：田兆瑞 原文链接<a href="http://docs.mitk.org/nightly/GeometryOverviewPage.html" target="_blank" rel="noopener">：http://docs.mitk.org/nightly/GeometryOverviewPage.html</a></p>
-<h1 id="几何简介"><a href="#几何简介" class="headerlink" title="几何简介"></a>几何简介</h1><p>几何（geometry）用于描述数据对象在空间和时间上的几何特性。为了以正确的方式去使用geometry类，必须理解MITK中三种不同的坐标系类型： <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/CoordinateTypes.png" alt=""></p>
+<h1 id="几何简介"><a href="#几何简介" class="headerlink" title="几何简介"></a>几何简介</h1><p>几何（geometry）用于描述数据对象在空间和时间上的几何特性。为了以正确的方式去使用geometry类，必须理解MITK中三种不同的坐标系类型： <img src="/2018/04/20/【MITK Concepts】几何(Geometry)/CoordinateTypes.png" alt=""></p>
 <h2 id="1-世界坐标"><a href="#1-世界坐标" class="headerlink" title="1.世界坐标"></a>1.世界坐标</h2><ul>
 <li>世界坐标（world coordinates）描述了全局坐标系下的所有MITK对象的实际空间位置，通常由成像模态（modality）指定。</li>
 <li>世界坐标由<a href="http://docs.mitk.org/nightly/namespacemitk.html#a0c6e9c2b0dbf9c3b7b2254d452aa14a1" title="mitk :: Point3D" target="_blank" rel="noopener">mitk :: Point3D</a>的对象表示。</li>
 <li>geometry定义了世界坐标系下的数据对象的偏移（offset），方向（orientation）和比例大小（scale）。</li>
 <li>世界坐标总是以毫米（mm）为单位。</li>
-<li>通过调用<a href="http://docs.mitk.org/nightly/classmitk_1_1BaseGeometry.html#a5520f5827eecb7cdfae8b0011313cc29" title="BaseGeometry :: IndexToWorld()" target="_blank" rel="noopener">BaseGeometry :: IndexToWorld()</a>可以将索引坐标转换为世界坐标。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/worldcoordinateSystem.png" alt=""> <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/WorldcoordinateSystemCenterBased.png" alt=""></li>
+<li>通过调用<a href="http://docs.mitk.org/nightly/classmitk_1_1BaseGeometry.html#a5520f5827eecb7cdfae8b0011313cc29" title="BaseGeometry :: IndexToWorld()" target="_blank" rel="noopener">BaseGeometry :: IndexToWorld()</a>可以将索引坐标转换为世界坐标。 <img src="/2018/04/20/【MITK Concepts】几何(Geometry)/worldcoordinateSystem.png" alt=""> <img src="/2018/04/20/【MITK Concepts】几何(Geometry)/WorldcoordinateSystemCenterBased.png" alt=""></li>
 </ul>
 <h2 id="2-连续索引坐标："><a href="#2-连续索引坐标：" class="headerlink" title="2.连续索引坐标："></a>2.连续索引坐标：</h2><ul>
 <li>通过像素间距划分世界坐标，同时将偏移量考虑进去，就可以得到数据对象中的连续索引坐标（continuous index coordinates）。所以连续坐标值可能是浮点数。</li>
@@ -388,13 +388,13 @@
 <li>更多的属性（例如：原点，范围，…）可在<a href="http://docs.mitk.org/nightly/classmitk_1_1BaseGeometry.html" title="BaseGeometry类的文档" target="_blank" rel="noopener">BaseGeometry类的文档</a>中找到。</li>
 <li><strong>非常重要：</strong> 一个名为isImageGeometry的flag，标示着坐标是否是基于中心(center-based)的！</li>
 </ul>
-<p>BaseData的每个数据对象（子）类都有一个TimeGeometry，可通过BaseData::Get TimeGeometry()获得。这个TimeGeometry包括一个或者多个BaseGeometry对象，它们在特定的时间点描述对象，例如：提供世界坐标和索引坐标之间的转换，还包含了覆盖数据放置的区域的包围盒。使用抽象TimeGeometry类的不同实现，可能会在时间步数如何保存和计算的时间方面有所不同。 有两种方式来表示时间：TimePointType或者是TimeStepType。第一个类似于连续索引坐标，定义了以毫秒为单位从时间点零开始的时间点（Time Point），记录了从零时间点到该时间点的时间。第二个类似于索引坐标，这些离散值指定了从0到GetNumberOfTimeSteps()的当前的时间步数（Time Step），表示当前时间点经过了多少个Time Step。 时间点和时间步之间的转换是通过调用方法TimeGeometry::TimeStepToTimePoint()或者TimeGeometry::TimePointToTimeStep()实现的。请注意，时间步长的持续时间可能因对象而异，因此一般来说最好使用时间点计算相应的时间步长。另外，时间步长的距离也不需要随着时间等距离（时间段上的time step也无需相同），这取决于使用的TimeGeometry实现。 每个TimeGeometry都有一个包围盒，覆盖相应对象在所有时间步中所处的整个区域。这个包围盒可以通过调用TimeGeometry::GetBoundingBoxInWorld()获得，并且始终在世界坐标系中。包围盒是从所有时间步计算的，调用TimeGeometry::Update()手动启动这个计算过程。如果调用getter，包围盒不会更新。 TimeGeometry不提供世界坐标到图像坐标的转换，因为每一个time step可能有不同的变换。如果需要图像坐标和世界坐标之间的转换，则必须通过TimeGeometry::GetGeometryForTimeStep()或TimeGeometry::GetGeometryForTimePoint()获取特定time step或time point的BaseGeometry，然后使用此geometry计算变换。 TimeGeometry是一个抽象类，因此不可能去实例化它。必须使用派生类。目前唯一可以选择的类是ProportionalTimeGeometry()，它假定时间步长是等距排列的。为了用给定的几何初始化一个对象，结合现有的BaseGeometry和time steps的数目，调用ProportionalTimeGeometry::Initialize()。给定的几何将被复制，而不是引用！ 此外，BaseGeometry也是一个抽象类，必须使用派生类。最简单的实现，即BaseGeometry类的一对一实现是Geometry3D类。 SlicedGeometry3D是BaseGemetry的一个子类，它描述了由切片组成的数据对象，例如Image类型的对象（或者SlicedData，它是Image的父类）。因此，Image::GetTimeGeometry()将包含一个SlicedGeometry3D实例列表。有一个特殊的方法SlicedData::GetSlicedGeometry(t)直接返回一个SlicedGeometry3D以避免需要类型转换。 SlicedGeometry3D类包含了描述图像中切片的PlaneGeometry对象的列表。这里我们有从0到GetSlices()的空间steps。 SlicedGeometry3D::InitializeEvenlySpaced(PlaneGeometry *planeGeometry, unsigned int slices)初始化一堆厚度相同的切片，下一个开始的位置是上一个的结束位置。 PlaneGeometry提供了在3D空间处理2D流型（manifold，简单来讲，就是可以用二维坐标系描述的对象）的方法。例如，它允许使用PlaneGeometry::Map()映射2D流型上的3D点。 最后，有一个AbstractTransformGeometry，它是由vtkAbstractTransform定义的，它描述了3D空间中的2D流形。它是任意用户定义的几何的抽象父类。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/image4.png" alt=""></p>
-<h2 id="重要内容"><a href="#重要内容" class="headerlink" title="重要内容"></a>重要内容</h2><p>如果你使用图像，请仔细阅读本节内容！ 图像边角（corner）位置的定义与其他数据对象的不同： 如前一节所述，数据对象（例如：曲面）的世界坐标通常指定对象的左下角。 相比之下，图像几何是基于中心的，这意味着属于图像的体素的世界坐标指向该体素的中心。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/PixelCenterBased.png" alt=""> 如果一个表面的原点位于世界坐标（15,10,0）处，那么图像的原点世界坐标在内部计算如下：</p>
+<p>BaseData的每个数据对象（子）类都有一个TimeGeometry，可通过BaseData::Get TimeGeometry()获得。这个TimeGeometry包括一个或者多个BaseGeometry对象，它们在特定的时间点描述对象，例如：提供世界坐标和索引坐标之间的转换，还包含了覆盖数据放置的区域的包围盒。使用抽象TimeGeometry类的不同实现，可能会在时间步数如何保存和计算的时间方面有所不同。 有两种方式来表示时间：TimePointType或者是TimeStepType。第一个类似于连续索引坐标，定义了以毫秒为单位从时间点零开始的时间点（Time Point），记录了从零时间点到该时间点的时间。第二个类似于索引坐标，这些离散值指定了从0到GetNumberOfTimeSteps()的当前的时间步数（Time Step），表示当前时间点经过了多少个Time Step。 时间点和时间步之间的转换是通过调用方法TimeGeometry::TimeStepToTimePoint()或者TimeGeometry::TimePointToTimeStep()实现的。请注意，时间步长的持续时间可能因对象而异，因此一般来说最好使用时间点计算相应的时间步长。另外，时间步长的距离也不需要随着时间等距离（时间段上的time step也无需相同），这取决于使用的TimeGeometry实现。 每个TimeGeometry都有一个包围盒，覆盖相应对象在所有时间步中所处的整个区域。这个包围盒可以通过调用TimeGeometry::GetBoundingBoxInWorld()获得，并且始终在世界坐标系中。包围盒是从所有时间步计算的，调用TimeGeometry::Update()手动启动这个计算过程。如果调用getter，包围盒不会更新。 TimeGeometry不提供世界坐标到图像坐标的转换，因为每一个time step可能有不同的变换。如果需要图像坐标和世界坐标之间的转换，则必须通过TimeGeometry::GetGeometryForTimeStep()或TimeGeometry::GetGeometryForTimePoint()获取特定time step或time point的BaseGeometry，然后使用此geometry计算变换。 TimeGeometry是一个抽象类，因此不可能去实例化它。必须使用派生类。目前唯一可以选择的类是ProportionalTimeGeometry()，它假定时间步长是等距排列的。为了用给定的几何初始化一个对象，结合现有的BaseGeometry和time steps的数目，调用ProportionalTimeGeometry::Initialize()。给定的几何将被复制，而不是引用！ 此外，BaseGeometry也是一个抽象类，必须使用派生类。最简单的实现，即BaseGeometry类的一对一实现是Geometry3D类。 SlicedGeometry3D是BaseGemetry的一个子类，它描述了由切片组成的数据对象，例如Image类型的对象（或者SlicedData，它是Image的父类）。因此，Image::GetTimeGeometry()将包含一个SlicedGeometry3D实例列表。有一个特殊的方法SlicedData::GetSlicedGeometry(t)直接返回一个SlicedGeometry3D以避免需要类型转换。 SlicedGeometry3D类包含了描述图像中切片的PlaneGeometry对象的列表。这里我们有从0到GetSlices()的空间steps。 SlicedGeometry3D::InitializeEvenlySpaced(PlaneGeometry *planeGeometry, unsigned int slices)初始化一堆厚度相同的切片，下一个开始的位置是上一个的结束位置。 PlaneGeometry提供了在3D空间处理2D流型（manifold，简单来讲，就是可以用二维坐标系描述的对象）的方法。例如，它允许使用PlaneGeometry::Map()映射2D流型上的3D点。 最后，有一个AbstractTransformGeometry，它是由vtkAbstractTransform定义的，它描述了3D空间中的2D流形。它是任意用户定义的几何的抽象父类。 <img src="/2018/04/20/【MITK Concepts】几何(Geometry)/image4.png" alt=""></p>
+<h2 id="重要内容"><a href="#重要内容" class="headerlink" title="重要内容"></a>重要内容</h2><p>如果你使用图像，请仔细阅读本节内容！ 图像边角（corner）位置的定义与其他数据对象的不同： 如前一节所述，数据对象（例如：曲面）的世界坐标通常指定对象的左下角。 相比之下，图像几何是基于中心的，这意味着属于图像的体素的世界坐标指向该体素的中心。 <img src="/2018/04/20/【MITK Concepts】几何(Geometry)/PixelCenterBased.png" alt=""> 如果一个表面的原点位于世界坐标（15,10,0）处，那么图像的原点世界坐标在内部计算如下：</p>
 <pre><code>&lt;center&gt;(15-0.5*X-Spacing\n
                 10-0.5*Y-Spacing\n
                   0-0.5*Z-Spacing)\n&lt;/center&gt;
 </code></pre><p>如果图像的间距（x,y,z）=（1,1,3），那么边角（corner）的坐标是（14.5,9.5，-1.5）。 <strong>如果你的几何描述一幅图像，则必须将成员变量isImageGeometry更改为true。这个变量表明你的几何体是否是基于中心的。这个改变可以用两种方法完成：</strong> <strong>1.你确定你的原点已经是基于中心的，无论是因为你进行了手动调整还是从其他图像复制过来的。在这种情况下，可以调用函数setImageGeometry(true)或imageGeometryOn()将bool变量设置为true。</strong> <strong>2.你创建了一个新的几何，没有将原点手动调整为基于中心，isImageGeometry为false（默认值）。在这种情况下，调用函数ChangeImageGeometryConsideringOriginOffset(true)， 它会自动调整你的原点，并将bool标志设置为true。</strong> <strong>如果你获得了发生位移的轮廓、图形或其它事物，则表示你没有考虑上述的原点偏移。</strong> <strong>一幅图像具有一个<a href="http://docs.mitk.org/nightly/classmitk_1_1TimeGeometry.html" title="TimeGeometry" target="_blank" rel="noopener">TimeGeometry</a>，其中包含一个或多个<a href="http://docs.mitk.org/nightly/classmitk_1_1SlicedGeometry3D.html" title="SlicedGeometry3D" target="_blank" rel="noopener">SlicedGeometry3D</a>实例（每个time step一个），所有这些实例都包含<a href="http://docs.mitk.org/nightly/classmitk_1_1PlaneGeometry.html" title="PlaneGeometry" target="_blank" rel="noopener">PlaneGeometry</a>（子类）的一个或多个实例。</strong> <strong>提醒：引用图像的几何实例对角落的定义稍有不同，参阅<a href="http://docs.mitk.org/nightly/classmitk_1_1BaseGeometry.html#aa17f891919eb44ae608a799e35ba061c" title="BaseGeometry :: SetImageGeometry" target="_blank" rel="noopener">BaseGeometry :: SetImageGeometry</a>。 这是通常由<a href="http://docs.mitk.org/nightly/classmitk_1_1Image.html" title="Image" target="_blank" rel="noopener">Image</a>自动调用的。</strong></p>
-<h1 id="MITK、ITK和VTK几何之间的联系"><a href="#MITK、ITK和VTK几何之间的联系" class="headerlink" title="MITK、ITK和VTK几何之间的联系"></a>MITK、ITK和VTK几何之间的联系</h1><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/ITK_VTK_MITK_Geometries.png" alt=""></p>
+<h1 id="MITK、ITK和VTK几何之间的联系"><a href="#MITK、ITK和VTK几何之间的联系" class="headerlink" title="MITK、ITK和VTK几何之间的联系"></a>MITK、ITK和VTK几何之间的联系</h1><p><img src="/2018/04/20/【MITK Concepts】几何(Geometry)/ITK_VTK_MITK_Geometries.png" alt=""></p>
 <ul>
 <li><strong>VTK转换用于渲染</strong></li>
 <li><strong>ITK转换用于计算</strong></li>

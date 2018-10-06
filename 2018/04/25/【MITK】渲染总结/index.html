@@ -86,17 +86,17 @@
 <meta property="og:site_name" content="Cfan927">
 <meta property="og:description" content="编辑：王祺 审校：田兆瑞 1.综述官方文档参考：http://docs.mitk.org/nightly/QVTKRendering.html MITK的渲染底层是基于VTK的，大家对VTK的渲染应该都有了解，是一个面向对象的管道过滤器模型的渲染方式。本文建立在大家对VTK的渲染基础有了解的情况下进行讨论的。在VTK中，所有能够存在于一个渲染场景(2D或3D)中的可见物体，都继承自vtkProp(">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_hierarchy-1.png">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/1-1.png">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/2-1.png">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/3-1.png">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/4-1.png">
-<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/5-1.png">
-<meta property="og:updated_time" content="2018-10-06T05:26:15.966Z">
+<meta property="og:image" content="http://yoursite.com/2018/04/25/【MITK】渲染总结/pipelining_hierarchy-1.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/25/【MITK】渲染总结/1-1.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/25/【MITK】渲染总结/2-1.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/25/【MITK】渲染总结/3-1.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/25/【MITK】渲染总结/4-1.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/25/【MITK】渲染总结/5-1.png">
+<meta property="og:updated_time" content="2018-10-06T06:23:20.318Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK】渲染总结">
 <meta name="twitter:description" content="编辑：王祺 审校：田兆瑞 1.综述官方文档参考：http://docs.mitk.org/nightly/QVTKRendering.html MITK的渲染底层是基于VTK的，大家对VTK的渲染应该都有了解，是一个面向对象的管道过滤器模型的渲染方式。本文建立在大家对VTK的渲染基础有了解的情况下进行讨论的。在VTK中，所有能够存在于一个渲染场景(2D或3D)中的可见物体，都继承自vtkProp(">
-<meta name="twitter:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_hierarchy-1.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/04/25/【MITK】渲染总结/pipelining_hierarchy-1.png">
 
 
 
@@ -360,7 +360,7 @@
       
         <p>编辑：王祺 审校：田兆瑞</p>
 <h1 id="1-综述"><a href="#1-综述" class="headerlink" title="1.综述"></a>1.综述</h1><p>官方文档参考：<a href="http://docs.mitk.org/nightly/QVTKRendering.html" target="_blank" rel="noopener">http://docs.mitk.org/nightly/QVTKRendering.html</a> MITK的渲染底层是基于VTK的，大家对VTK的渲染应该都有了解，是一个面向对象的管道过滤器模型的渲染方式。本文建立在大家对VTK的渲染基础有了解的情况下进行讨论的。在VTK中，所有能够存在于一个渲染场景(2D或3D)中的可见物体，都继承自vtkProp(或其子类vtkActor)。MITK使用新的接口类，vtkMitkRenderProp，同样继承自vtkProp，所有的MITK渲染工作都通过这个接口类进行。</p>
-<h1 id="2-MITK渲染管线（pipline）"><a href="#2-MITK渲染管线（pipline）" class="headerlink" title="2. MITK渲染管线（pipline）"></a>2. MITK渲染管线（pipline）</h1><h2 id="2-1-综述"><a href="#2-1-综述" class="headerlink" title="2.1 综述"></a>2.1 综述</h2><p>vtkMitkRenderProp类连接上mitk::VtkPropRender类可以把MITK的渲染管线集成到VTK的渲染管线里。QmitkRenderWindow并不是继承自mitk::RenderWindow，而是继承自QVTKWidget，这个是由VTK提供的，其实就是VTK中的RenderWindow在QT窗口组件中的显示，不考虑QT的话QVTKWidget和RenderWindow没有本质差别。 MITK的渲染流程如下： • 1.向QmitkRenderWindow发送的一个render请求 • 2.更新请求应该被送给RenderingManager • 3. RenderingManager会请求更新所有的vtkRenderWindow • 4. vtkRenderWindow然后调用它关联着的所有vtkRenderer的Render()函数。 • 5. vtkRenderer调用vtkMitkRenderProp中的四个函数 • 6.这些函数调用被转给mitk::VtkPropRenderer • 7.根据mapper的类型(基于OpenGL或VTK)，OpenGL被enabled或disabled。 • 8-1.在OpenGL渲染的情况下，每个mapper的Paint()函数都被调用 • 8-2.如果mapper是基于VTK的，这四个函数调用被转给 mitk::VtkMapper，然后在具体的mapper中实现这四个函数，对应的VtkProp被计算 MITK使用一些特别的vtkRenderer（不在标准MITK渲染管道之中）来渲染一些特殊的物体，比如显示梯度背景(mitk::GradientBackground)、显示视频资源(QmitkVideoBackround和mitk::VideoSource)、或显示logo（mitk::ManufacturerLogo）等等。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_hierarchy-1.png" alt=""></p>
+<h1 id="2-MITK渲染管线（pipline）"><a href="#2-MITK渲染管线（pipline）" class="headerlink" title="2. MITK渲染管线（pipline）"></a>2. MITK渲染管线（pipline）</h1><h2 id="2-1-综述"><a href="#2-1-综述" class="headerlink" title="2.1 综述"></a>2.1 综述</h2><p>vtkMitkRenderProp类连接上mitk::VtkPropRender类可以把MITK的渲染管线集成到VTK的渲染管线里。QmitkRenderWindow并不是继承自mitk::RenderWindow，而是继承自QVTKWidget，这个是由VTK提供的，其实就是VTK中的RenderWindow在QT窗口组件中的显示，不考虑QT的话QVTKWidget和RenderWindow没有本质差别。 MITK的渲染流程如下： • 1.向QmitkRenderWindow发送的一个render请求 • 2.更新请求应该被送给RenderingManager • 3. RenderingManager会请求更新所有的vtkRenderWindow • 4. vtkRenderWindow然后调用它关联着的所有vtkRenderer的Render()函数。 • 5. vtkRenderer调用vtkMitkRenderProp中的四个函数 • 6.这些函数调用被转给mitk::VtkPropRenderer • 7.根据mapper的类型(基于OpenGL或VTK)，OpenGL被enabled或disabled。 • 8-1.在OpenGL渲染的情况下，每个mapper的Paint()函数都被调用 • 8-2.如果mapper是基于VTK的，这四个函数调用被转给 mitk::VtkMapper，然后在具体的mapper中实现这四个函数，对应的VtkProp被计算 MITK使用一些特别的vtkRenderer（不在标准MITK渲染管道之中）来渲染一些特殊的物体，比如显示梯度背景(mitk::GradientBackground)、显示视频资源(QmitkVideoBackround和mitk::VideoSource)、或显示logo（mitk::ManufacturerLogo）等等。 <img src="/2018/04/25/【MITK】渲染总结/pipelining_hierarchy-1.png" alt=""></p>
 <h2 id="2-2-类图分析-相关类介绍"><a href="#2-2-类图分析-相关类介绍" class="headerlink" title="2.2 类图分析/相关类介绍"></a>2.2 类图分析/相关类介绍</h2><p>上图左边是VTK相关的类，右边是MITK相关的类</p>
 <h3 id="2-2-1-QmitkStdMultiWidget"><a href="#2-2-1-QmitkStdMultiWidget" class="headerlink" title="2.2.1 QmitkStdMultiWidget"></a>2.2.1 QmitkStdMultiWidget</h3><p>这个类是workbench显示的四个窗口的类，从类图中我们可以看到这个类对应了4个QmitkRenderWindow类，所以它其实是对QmitkRenderWindow（渲染窗口）的集成，主要的渲染的实现以及设置是由下面的类控制的。获取4个QmitkRenderWindow可以通过QmitkRenderWindow * GetRenderWindow (unsigned int number)得到每个QmitkRenderWindow。其中的参数为渲染窗口的编号。 这个类同时开放了一些接口更改集成的4个窗口的具体显示，可以用以下的函数来设置相应的细节和功能：</p>
 <ul>
@@ -372,7 +372,7 @@
 </li>
 <li><p><strong>const mitk::Point3D GetCrossPosition () const</strong> 得到三种视图平面的交汇点</p>
 </li>
-<li><p><strong>int GetLayout () const</strong><br>得到4个窗口的布局，具体的布局是一个枚举，见下图 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/1-1.png" alt=""></p>
+<li><p><strong>int GetLayout () const</strong><br>得到4个窗口的布局，具体的布局是一个枚举，见下图 <img src="/2018/04/25/【MITK】渲染总结/1-1.png" alt=""></p>
 </li>
 <li><p><strong>void SetDataStorage (mitk::DataStorage *ds)</strong><br>设置4个渲染窗口的datastorage</p>
 </li>
@@ -431,9 +431,9 @@
 </ul>
 <h3 id="2-2-4-mitkVtkPropRenderer"><a href="#2-2-4-mitkVtkPropRenderer" class="headerlink" title="2.2.4 mitkVtkPropRenderer"></a>2.2.4 mitkVtkPropRenderer</h3><p>这个类的前身是OpenGLRender，现在替换成了这个类。这个类会做一些底层的设置，比较复杂，但是可以看到比较多相对底层的渲染的实现。这个类需要更加仔细得看一看，下面分析一下这个类。 首先是这个类的公有成员：</p>
 <ul>
-<li><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/2-1.png" alt=""> 这个枚举定义了渲染的vtkProp的四种类型，就是之前提到过的不透明、透明、遮挡、体数据。这个枚举会作为参数传递给下面的函数。</p>
+<li><p><img src="/2018/04/25/【MITK】渲染总结/2-1.png" alt=""> 这个枚举定义了渲染的vtkProp的四种类型，就是之前提到过的不透明、透明、遮挡、体数据。这个枚举会作为参数传递给下面的函数。</p>
 </li>
-<li><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/3-1.png" alt=""> 这个枚举定义了上面所说的vtkPick的三种类型。可以在.cpp函数里找到对这部分的注释，主要介绍了三种不同类型的区别，第一种速度最快但不支持透明物体，最后一种速度最慢但是效果最好。具体的PickMode的设置是通过宏定义的，不用再往下深究了。</p>
+<li><p><img src="/2018/04/25/【MITK】渲染总结/3-1.png" alt=""> 这个枚举定义了上面所说的vtkPick的三种类型。可以在.cpp函数里找到对这部分的注释，主要介绍了三种不同类型的区别，第一种速度最快但不支持透明物体，最后一种速度最慢但是效果最好。具体的PickMode的设置是通过宏定义的，不用再往下深究了。</p>
 </li>
 <li><p><code>typedef std::map MappersMapType;</code> 这个自定义类型是存储Mapper的map，会在下面的函数中用到。</p>
 </li>
@@ -446,7 +446,7 @@
 </li>
 <li><p><strong>int mitk::VtkPropRenderer::Render(mitk::VtkPropRenderer::RenderType type)</strong> 使用这个函数来开始MITK的渲染进程。其中的参数就是之前的那个枚举类中的值。值得一提的是在函数的具体实现中其实只实现了Oqaque和Overlayer两个类型的几何图形的渲染。并且Overlayer主要是用来渲染文本的，渲染出一个只包含该文本的图片。</p>
 </li>
-<li><p><strong>void mitk::VtkPropRenderer::PrepareMapperQueue()</strong><br>这个函数在上一个函数中被调用了。主要的作用是迭代data tree来找到应该用来渲染的对应的mapper。例如如果data tree的这个节点是个图片，那么就把MappersMapType对应的节点的位置设置为图片的mapper。通过这种方式来对用来渲染这个data tree的所有节点的mapper进行分类。 这个体有一行代码很有意思： <code>const mitk::Mapper::Pointer mapper = node-&amp;gt;GetMapper(m_MapperID);</code> 这个GetMapper函数真正调用的是<strong>mitk::Mapper::Pointer mitk::CoreObjectFactory::CreateMapper(mitk::DataNode *node, MapperSlotId id)</strong> 这个函数，这个函数判断DataNode的类型从而指定特定的mapper，这个地方是我认为真正为data tree中的每个node分配不同的mapper的位置。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/4-1.png" alt=""> 这段代码就是上个函数的一部分，可以看到是如何通过MapSlotid和node的类型来确定使用哪个mapper的。也就是说MITK在渲染的过程中自动分析了要渲染的物体的类型从而指定特定的mapper。3D部分也是差不多的代码。</p>
+<li><p><strong>void mitk::VtkPropRenderer::PrepareMapperQueue()</strong><br>这个函数在上一个函数中被调用了。主要的作用是迭代data tree来找到应该用来渲染的对应的mapper。例如如果data tree的这个节点是个图片，那么就把MappersMapType对应的节点的位置设置为图片的mapper。通过这种方式来对用来渲染这个data tree的所有节点的mapper进行分类。 这个体有一行代码很有意思： <code>const mitk::Mapper::Pointer mapper = node-&amp;gt;GetMapper(m_MapperID);</code> 这个GetMapper函数真正调用的是<strong>mitk::Mapper::Pointer mitk::CoreObjectFactory::CreateMapper(mitk::DataNode *node, MapperSlotId id)</strong> 这个函数，这个函数判断DataNode的类型从而指定特定的mapper，这个地方是我认为真正为data tree中的每个node分配不同的mapper的位置。 <img src="/2018/04/25/【MITK】渲染总结/4-1.png" alt=""> 这段代码就是上个函数的一部分，可以看到是如何通过MapSlotid和node的类型来确定使用哪个mapper的。也就是说MITK在渲染的过程中自动分析了要渲染的物体的类型从而指定特定的mapper。3D部分也是差不多的代码。</p>
 </li>
 <li><p><strong>void mitk::VtkPropRenderer::InitRenderer(vtkRenderWindow *renderWindow)</strong><br>这个函数是用来初始化renderer的，被构造函数所调用，设置了交互和回调函数。</p>
 </li>
@@ -486,7 +486,7 @@
 <h2 id="3-2"><a href="#3-2" class="headerlink" title="3.2"></a>3.2</h2><p>如果我们需要新建一个渲染管线，大部分情况下我们可以为这个渲染管线设置独特的交互，和QmitkStdMultiWidget不一样的交互，我们需要实现下面的代码，很好理解。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新建一个RenderManager</span></span><br><span class="line">mitk::RenderingManager::Pointer renderingManager = mitk::RenderingManager::New();</span><br><span class="line"><span class="comment">// 新建一个DataStorage和Interactior</span></span><br><span class="line">mitk::DataStorage::Pointer dataStorage = mitk::DataStorage::New();</span><br><span class="line">mitk::GlobalInteraction::Pointer globalInteraction = mitk::GlobalInteraction::New();</span><br><span class="line"><span class="comment">//绑定到RenderManager</span></span><br><span class="line">renderingManager-&gt;SetDataStorage( dataStorage );</span><br><span class="line">renderingManager-&gt;SetGlobalInteraction( globalInteraction );</span><br><span class="line"><span class="comment">// 新建一个QmitkRenderWindow，包含了这个RenderManager</span></span><br><span class="line">QmitkRenderWindow* renderWindow = <span class="keyword">new</span> QmitkRenderWindow( parent, <span class="string">"name"</span>, renderer, renderingManager )</span><br></pre></td></tr></table></figure>
 <h2 id="3-3-为一个数据节点设置一个独特的Mapper"><a href="#3-3-为一个数据节点设置一个独特的Mapper" class="headerlink" title="3.3 为一个数据节点设置一个独特的Mapper"></a>3.3 为一个数据节点设置一个独特的Mapper</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//首先新建一个Mapper，Mapper的种类见下图，可以根据自己的需要选择合适的mapper</span></span><br><span class="line">newMapper = mitk::GPUVolumeMapper3D::New();</span><br><span class="line"><span class="comment">//有两种方式设置一个节点的mapper,一种是通过node设置，一种是通过mapper设置，这两种方法都可以，通过node设置的话第一个参数是MapperSlotID</span></span><br><span class="line"><span class="comment">//node-&gt;SetMapper(1, newMapper);</span></span><br><span class="line">newMapper-&gt;SetDataNode(node);</span><br></pre></td></tr></table></figure>
-<p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/5-1.png" alt=""></p>
+<p><img src="/2018/04/25/【MITK】渲染总结/5-1.png" alt=""></p>
 <h1 id="4-MITK渲染遇到的问题"><a href="#4-MITK渲染遇到的问题" class="headerlink" title="4. MITK渲染遇到的问题"></a>4. MITK渲染遇到的问题</h1><p>说到MITK渲染的问题，得回到为什么要分析MITK的渲染。最初的任务是移植Mevislab的一个渲染效果到MITK中，因为MITK集成的VTK和Mevislab都是使用OpenGL的底层，好像可以互相移植一下。在分析了Mevislab中的工程的过程中，发现其实Mevislab的使用是很灵活的，提供了大量的效果的过滤器，有很多基础的显示算法都集成进去了，但是我在VTK中并没有找到相应过滤器，这给我很大的困扰。后来调查了一下Mevislab发现其实它并不是直接使用的OpenGL作为底层，而是使用封装了OpenGL的OpenInventor作为底层，有兴趣的同学可以查一下OpenInventor（OIV）。OIV和VTK的能力显然是不对等的，方向也不是一致的，一个是专业用来渲染的API，一个是数据可视化的API。这就使得很多OIV中的效果无法在VTK中复现。也就很难再MITK中复现。 以上的意思就是如果不扩展VTK，那么MITK的渲染效果其实是有很大的制约，光靠API的调用是无法完成的。我目前在学习OpenGL，其实有些VTK中没有集成的效果我也知道如何用OpenGL实现，但是如何集成到VTK中还是一个障碍，这需要更改VTK的源码，是个很复杂的工作。这个工作我认为其实意义不大，不如直接不用VTK换一个底层API来的方便。 MITK渲染最大的问题就在于VTK的制约，如果无法对VTK有很大的显示效果的提升，那么MITK的显示效果不可能提升。 另外的一个大问题在于MITK的渲染框架太过复杂，上面的类图分析已经展示了它调用的复杂性，对于很多刚接触的人来说简直头大。其实这不利于用MITK进行开发。</p>
 <h1 id="5-个人感想"><a href="#5-个人感想" class="headerlink" title="5.个人感想"></a>5.个人感想</h1><p>我本人对计算机图形学很感兴趣，所以接了这个任务，收获颇丰，它直接促使我学习VTK以及继续学习OpenGL。图形学本身的学习很辛苦，是个复杂而且深奥的学问，我了解到的这部分其实连门都还没入，真正的工业级的渲染水平远远不是VTK和MITK能达到的。因为我还在学习中，接触的还很浅，也许文中会出现错误，实乃水平所致，多多包涵。在后续的学习中如果水平长进，会继续维护这个文档，同时跟进VTK以及MITK的渲染改进工作。 图形学是个很有意思且富有美感的学科，希望会有对图形学同样感兴趣的同学，一起讨论，一起前进。</p>
 
