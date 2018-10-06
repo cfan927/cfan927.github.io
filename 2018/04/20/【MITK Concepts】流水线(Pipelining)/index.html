@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="编辑：赵志奇 审校：田兆瑞 原文链接：http://docs.mitk.org/nightly/PipelineingConceptPage.html 流水线简介MITK中的图像处理大量使用了流水线（pipelining）的概念，在使用MITK进行开发的过程中，对其有个清晰的理解至关重要。本文档将首先阐明流水线背后的一般思想，然后讨论一些你应该了解的MITK细节。 在现实世界中，管道将某种类型的源">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【MITK Concepts】流水线(Pipelining)">
+<meta property="og:url" content="http://yoursite.com/2018/04/20/【MITK Concepts】流水线(Pipelining)/index.html">
+<meta property="og:site_name" content="Cfan927">
+<meta property="og:description" content="编辑：赵志奇 审校：田兆瑞 原文链接：http://docs.mitk.org/nightly/PipelineingConceptPage.html 流水线简介MITK中的图像处理大量使用了流水线（pipelining）的概念，在使用MITK进行开发的过程中，对其有个清晰的理解至关重要。本文档将首先阐明流水线背后的一般思想，然后讨论一些你应该了解的MITK细节。 在现实世界中，管道将某种类型的源">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_example_ct.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_example_us.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_update.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_hierarchy.png">
+<meta property="og:updated_time" content="2018-10-06T03:02:51.019Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【MITK Concepts】流水线(Pipelining)">
+<meta name="twitter:description" content="编辑：赵志奇 审校：田兆瑞 原文链接：http://docs.mitk.org/nightly/PipelineingConceptPage.html 流水线简介MITK中的图像处理大量使用了流水线（pipelining）的概念，在使用MITK进行开发的过程中，对其有个清晰的理解至关重要。本文档将首先阐明流水线背后的一般思想，然后讨论一些你应该了解的MITK细节。 在现实世界中，管道将某种类型的源">
+<meta name="twitter:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_example_ct.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/20/【MITK Concepts】流水线(Pipelining)/"/>
+
+
+
+
+
+  <title>【MITK Concepts】流水线(Pipelining) | Cfan927</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cfan927</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mitk">
+          <a href="/mitk/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-medkit"></i> <br />
+            
+            MITK
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-design_patterns">
+          <a href="/design_patterns/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-magic"></i> <br />
+            
+            设计模式
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-c++">
+          <a href="/cpp/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-code"></i> <br />
+            
+            C++
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/20/【MITK Concepts】流水线(Pipelining)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cfan927">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cfan927">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【MITK Concepts】流水线(Pipelining)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-20T17:01:58+08:00">
+                2018-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mitk/" itemprop="url" rel="index">
+                    <span itemprop="name">mitk</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>编辑：赵志奇 审校：田兆瑞 原文链接：<a href="http://docs.mitk.org/nightly/PipelineingConceptPage.html" target="_blank" rel="noopener">http://docs.mitk.org/nightly/PipelineingConceptPage.html</a></p>
+<h1 id="流水线简介"><a href="#流水线简介" class="headerlink" title="流水线简介"></a>流水线简介</h1><p>MITK中的图像处理大量使用了流水线（pipelining）的概念，在使用MITK进行开发的过程中，对其有个清晰的理解至关重要。本文档将首先阐明流水线背后的一般思想，然后讨论一些你应该了解的MITK细节。 在现实世界中，管道将某种类型的源和用户连接起来。 因此，我们确定了三个关键概念： 1.源（source）：生成某种类型的数据； 2.管道（pipeline）：传输数据，许多不同的管道段可以组合接通成管线，从而实现该功能； 3.用户（consumer）：使用这些数据来满足自己的需要。 将MITK中的管道和真实的管道相比较的话，有一点不同的是：物理管道永远不会处理它的内容，而在软件开发过程中，管道通常会这样做（这就是它们经常也被称为滤波器的原因）。有人可能会问，为什么不在用户对象本身中实现处理逻辑，因为它明显知道如何处理它的数据。两个主要原因是可重用性和灵活性。比如说，有人想要显示CT图像中的骨骼分割结果，他可以构建一个单独的类来解决这个问题，或者在显示类和源之间构建一个管道。我们知道在CT扫描中骨骼非常亮，所以我们使用一个阈值滤波器，然后使用一个分割滤波器来解决这个问题。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_example_ct.png" alt=""> 现在让我们进一步假设，在成功将这种新技术出售给一家大公司后，我们计划利用超声成像技术做同样的事情。超声图像的亮度关系（与CT）基本相同，但超声图像有很多噪声，对比度明显更低。由于我们使用了流水线，所以这不成问题：我们不需要更改原有的分割类，只需在原有的管道前插入两个新的滤波器即可： <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_example_us.png" alt=""> 这看起来可能微不足道，但是当处理来自许多不同厂商的许多不同设备的输入流时，对不同规格的广泛支持，使得流水线技术可以节省很多时间。</p>
+<h1 id="MITK中的流水线"><a href="#MITK中的流水线" class="headerlink" title="MITK中的流水线"></a>MITK中的流水线</h1><h2 id="更新机制"><a href="#更新机制" class="headerlink" title="更新机制"></a>更新机制</h2><p>管道中的数据流只在用户调用Update()函数时触发。然后，管道的每个部分依次触发它前面（滤波器等）的Update()方法。最后，源使用自己的GenerateData()方法创建一批新的数据，并通知其后续者新数据可用。然后，管道可以开始处理数据，直到完成的数据被最后一个滤波器输出。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_update.png" alt=""></p>
+<h2 id="管道层次结构"><a href="#管道层次结构" class="headerlink" title="管道层次结构"></a>管道层次结构</h2><p>除用户（可以是任何类）之外，管道所有部分的基类都是mitk::BaseProcess。该类引入了处理数据的能力，具备输出和输入。但是，这个类很少被直接使用。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_hierarchy.png" alt=""> 几个源类扩展了BaseProcess。由它们提供的数据类型，ImageSource，PointSetSource和SurfaceSource都标志着管道的开始。 滤波器自身扩展了其中一个源类。这可能不会立即有意义，但从根本上来说滤波器就是一个具有额外输入的源。</p>
+<h1 id="使用滤波器"><a href="#使用滤波器" class="headerlink" title="使用滤波器"></a>使用滤波器</h1><h2 id="设置一个管道"><a href="#设置一个管道" class="headerlink" title="设置一个管道"></a>设置一个管道</h2><pre><code>// Create Participants
+mitk::USVideoDevice::Pointer videoDevice = mitk::USVideoDevice::New(&quot;-1&quot;, &quot;Manufacturer&quot;, &quot;Model&quot;);
+TestUSFilter::Pointer filter = TestUSFilter::New();
+// Make Videodevice produce it&apos;s first set of Data, so it&apos;s output isn&apos;t empty
+videoDevice-&gt;Update();
+// attacht filter input to device output
+filter-&gt;SetInput(videoDevice-&gt;GetOutput());
+// Pipeline is now functional
+filter-&gt;Update();
+</code></pre><h2 id="写我们自己的滤波器"><a href="#写我们自己的滤波器" class="headerlink" title="写我们自己的滤波器"></a>写我们自己的滤波器</h2><p>下面给出第一次写一个滤波器的推荐方法：</p>
+<ul>
+<li>确定输入及输出所需的数据类型；</li>
+<li>根据第一步的信息，扩展BaseProcess可用的最具体的子类，例如，一个处理图像的滤波器，应该扩展ImageToImageFilter；</li>
+<li>确定需要多少输入和输出；</li>
+<li><p>在构造函数中，定义输出的数量，并创建一个输出；</p>
+<p>//set number of outputs<br>this-&gt;SetNumberOfOutputs(1);</p>
+<p>//create a new output<br>mitk::Image::Pointer newOutput = mitk::Image::New();<br>this-&gt;SetNthOutput(0, newOutput);</p>
+</li>
+</ul>
+<ul>
+<li>实现MakeOutput()方法，该方法创建一个新的、可以写入的、干净的输出，请参阅具有类似任务的滤波器；</li>
+<li>实现GenerateData()方法，该方法将根据输入生成输出。在执行时，可以假定输入的是新数据集。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/20/【MITK Concepts】几何(Geometry)/" rel="next" title="【MITK Concepts】几何(Geometry)">
+                <i class="fa fa-chevron-left"></i> 【MITK Concepts】几何(Geometry)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/25/【MITK】渲染总结/" rel="prev" title="【MITK】渲染总结">
+                【MITK】渲染总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Cfan927" />
+            
+              <p class="site-author-name" itemprop="name">Cfan927</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#流水线简介"><span class="nav-number">1.</span> <span class="nav-text">流水线简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MITK中的流水线"><span class="nav-number">2.</span> <span class="nav-text">MITK中的流水线</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#更新机制"><span class="nav-number">2.1.</span> <span class="nav-text">更新机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管道层次结构"><span class="nav-number">2.2.</span> <span class="nav-text">管道层次结构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用滤波器"><span class="nav-number">3.</span> <span class="nav-text">使用滤波器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置一个管道"><span class="nav-number">3.1.</span> <span class="nav-text">设置一个管道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写我们自己的滤波器"><span class="nav-number">3.2.</span> <span class="nav-text">写我们自己的滤波器</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bit-lwj</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

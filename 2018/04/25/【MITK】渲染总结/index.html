@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="编辑：王祺 审校：田兆瑞 1.综述官方文档参考：http://docs.mitk.org/nightly/QVTKRendering.html MITK的渲染底层是基于VTK的，大家对VTK的渲染应该都有了解，是一个面向对象的管道过滤器模型的渲染方式。本文建立在大家对VTK的渲染基础有了解的情况下进行讨论的。在VTK中，所有能够存在于一个渲染场景(2D或3D)中的可见物体，都继承自vtkProp(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【MITK】渲染总结">
+<meta property="og:url" content="http://yoursite.com/2018/04/25/【MITK】渲染总结/index.html">
+<meta property="og:site_name" content="Cfan927">
+<meta property="og:description" content="编辑：王祺 审校：田兆瑞 1.综述官方文档参考：http://docs.mitk.org/nightly/QVTKRendering.html MITK的渲染底层是基于VTK的，大家对VTK的渲染应该都有了解，是一个面向对象的管道过滤器模型的渲染方式。本文建立在大家对VTK的渲染基础有了解的情况下进行讨论的。在VTK中，所有能够存在于一个渲染场景(2D或3D)中的可见物体，都继承自vtkProp(">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_hierarchy-1.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/1-1.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/2-1.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/3-1.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/4-1.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/5-1.png">
+<meta property="og:updated_time" content="2018-10-06T03:07:11.341Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【MITK】渲染总结">
+<meta name="twitter:description" content="编辑：王祺 审校：田兆瑞 1.综述官方文档参考：http://docs.mitk.org/nightly/QVTKRendering.html MITK的渲染底层是基于VTK的，大家对VTK的渲染应该都有了解，是一个面向对象的管道过滤器模型的渲染方式。本文建立在大家对VTK的渲染基础有了解的情况下进行讨论的。在VTK中，所有能够存在于一个渲染场景(2D或3D)中的可见物体，都继承自vtkProp(">
+<meta name="twitter:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_hierarchy-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/25/【MITK】渲染总结/"/>
+
+
+
+
+
+  <title>【MITK】渲染总结 | Cfan927</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cfan927</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mitk">
+          <a href="/mitk/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-medkit"></i> <br />
+            
+            MITK
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-design_patterns">
+          <a href="/design_patterns/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-magic"></i> <br />
+            
+            设计模式
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-c++">
+          <a href="/cpp/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-code"></i> <br />
+            
+            C++
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/25/【MITK】渲染总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cfan927">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cfan927">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【MITK】渲染总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-25T14:42:17+08:00">
+                2018-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mitk/" itemprop="url" rel="index">
+                    <span itemprop="name">mitk</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>编辑：王祺 审校：田兆瑞</p>
+<h1 id="1-综述"><a href="#1-综述" class="headerlink" title="1.综述"></a>1.综述</h1><p>官方文档参考：<a href="http://docs.mitk.org/nightly/QVTKRendering.html" target="_blank" rel="noopener">http://docs.mitk.org/nightly/QVTKRendering.html</a> MITK的渲染底层是基于VTK的，大家对VTK的渲染应该都有了解，是一个面向对象的管道过滤器模型的渲染方式。本文建立在大家对VTK的渲染基础有了解的情况下进行讨论的。在VTK中，所有能够存在于一个渲染场景(2D或3D)中的可见物体，都继承自vtkProp(或其子类vtkActor)。MITK使用新的接口类，vtkMitkRenderProp，同样继承自vtkProp，所有的MITK渲染工作都通过这个接口类进行。</p>
+<h1 id="2-MITK渲染管线（pipline）"><a href="#2-MITK渲染管线（pipline）" class="headerlink" title="2. MITK渲染管线（pipline）"></a>2. MITK渲染管线（pipline）</h1><h2 id="2-1-综述"><a href="#2-1-综述" class="headerlink" title="2.1 综述"></a>2.1 综述</h2><p>vtkMitkRenderProp类连接上mitk::VtkPropRender类可以把MITK的渲染管线集成到VTK的渲染管线里。QmitkRenderWindow并不是继承自mitk::RenderWindow，而是继承自QVTKWidget，这个是由VTK提供的，其实就是VTK中的RenderWindow在QT窗口组件中的显示，不考虑QT的话QVTKWidget和RenderWindow没有本质差别。 MITK的渲染流程如下： • 1.向QmitkRenderWindow发送的一个render请求 • 2.更新请求应该被送给RenderingManager • 3. RenderingManager会请求更新所有的vtkRenderWindow • 4. vtkRenderWindow然后调用它关联着的所有vtkRenderer的Render()函数。 • 5. vtkRenderer调用vtkMitkRenderProp中的四个函数 • 6.这些函数调用被转给mitk::VtkPropRenderer • 7.根据mapper的类型(基于OpenGL或VTK)，OpenGL被enabled或disabled。 • 8-1.在OpenGL渲染的情况下，每个mapper的Paint()函数都被调用 • 8-2.如果mapper是基于VTK的，这四个函数调用被转给 mitk::VtkMapper，然后在具体的mapper中实现这四个函数，对应的VtkProp被计算 MITK使用一些特别的vtkRenderer（不在标准MITK渲染管道之中）来渲染一些特殊的物体，比如显示梯度背景(mitk::GradientBackground)、显示视频资源(QmitkVideoBackround和mitk::VideoSource)、或显示logo（mitk::ManufacturerLogo）等等。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_hierarchy-1.png" alt=""></p>
+<h2 id="2-2-类图分析-相关类介绍"><a href="#2-2-类图分析-相关类介绍" class="headerlink" title="2.2 类图分析/相关类介绍"></a>2.2 类图分析/相关类介绍</h2><p>上图左边是VTK相关的类，右边是MITK相关的类</p>
+<h3 id="2-2-1-QmitkStdMultiWidget"><a href="#2-2-1-QmitkStdMultiWidget" class="headerlink" title="2.2.1 QmitkStdMultiWidget"></a>2.2.1 QmitkStdMultiWidget</h3><p>这个类是workbench显示的四个窗口的类，从类图中我们可以看到这个类对应了4个QmitkRenderWindow类，所以它其实是对QmitkRenderWindow（渲染窗口）的集成，主要的渲染的实现以及设置是由下面的类控制的。获取4个QmitkRenderWindow可以通过QmitkRenderWindow * GetRenderWindow (unsigned int number)得到每个QmitkRenderWindow。其中的参数为渲染窗口的编号。 这个类同时开放了一些接口更改集成的4个窗口的具体显示，可以用以下的函数来设置相应的细节和功能：</p>
+<ul>
+<li><p><strong>void RequestUpdate ()</strong><br>请求窗口更新，一般是对渲染做了改变之后使用</p>
+</li>
+<li><p><strong>void ForceImmediateUpdate ()</strong><br>请求立即更新，会强迫render立即渲染，上一个函数是发送一个更新的事件，由管线决定什么时候更新。一般不会使用这个函数</p>
+</li>
+<li><p><strong>mitk::MouseModeSwitcher * GetMouseModeSwitcher ()</strong><br>返回一个鼠标模式切换器，这个切换器可以在不同的鼠标交互方式中切换，具体见MouseModeSwitcher类</p>
+</li>
+<li><p><strong>const mitk::Point3D GetCrossPosition () const</strong> 得到三种视图平面的交汇点</p>
+</li>
+<li><p><strong>int GetLayout () const</strong><br>得到4个窗口的布局，具体的布局是一个枚举，见下图 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/1-1.png" alt=""></p>
+</li>
+<li><p><strong>void SetDataStorage (mitk::DataStorage *ds)</strong><br>设置4个渲染窗口的datastorage</p>
+</li>
+<li><p><strong>void ActivateMenuWidget (bool state)</strong><br>是否打开菜单</p>
+</li>
+<li><p><strong>void SetCornerAnnotationVisibility (bool visibility)</strong><br>是否可见中央的注释</p>
+</li>
+<li><p><strong>void SetDecorationProperties (std::string text, mitk::Color color, int widgetNumber)</strong><br>设置每个窗口的中央注释，第一个参数为注释内容，第二个为注释的颜色，第三个是要设置的窗口编号</p>
+</li>
+<li><p><strong>void SetGradientBackgroundColorForRenderWindow (const mitk::Color &amp;upper, const mitk::Color &amp;lower, unsigned int widgetNumber)</strong><br>设置每个渲染窗口的渐变背景颜色，第一个参数为上方的颜色，第二个位下方的颜色，第三个为窗口编号</p>
+</li>
+<li><p><strong>void SetDecorationColor (unsigned int widgetNumber, mitk::Color color)</strong> 设置每个窗口边框的颜色以及注释的颜色</p>
+</li>
+</ul>
+<h3 id="2-2-2-QmitkRenderWindow"><a href="#2-2-2-QmitkRenderWindow" class="headerlink" title="2.2.2 QmitkRenderWindow"></a>2.2.2 QmitkRenderWindow</h3><p>这个类在上文已经介绍过继承关系，其实可以理解为继承自VTK的Renderwindow，同时继承自RenderWindowBase。 构造函数：</p>
+<pre><code>QmitkRenderWindow (QWidget *parent=nullptr, const QString &amp;name=&quot;unnamed renderwindow&quot;, mitk::VtkPropRenderer *renderer=nullptr, mitk::RenderingManager *renderingManager=nullptr, mitk::BaseRenderer::RenderingMode::Type renderingMode=mitk::BaseRenderer::RenderingMode::Standard)
+</code></pre><p>从构造函数的参数可以看出来它需要一个QT的窗口来放置这个RenderWindow，需要一个名字，需要一个VtkPropRender，但是可以暂时设置为NULL，还需要一个RenderManager，暂时也可以设置为NULL，最后一个参数是设置这个渲染窗口的渲染模式，默认为Standard，还可以选择为DepthPeeling（深度剥离），MultiSampling（多重采样），在构造函数的函数体中对三种渲染模式进行了相关参数的设置。 函数体中调用了RenderWindowBase的Initialization（）函数来初始化构造函数中的DataStorage、VTKPropRender和vtkMitkRenderProp。这也是为什么在构造函数参数列表中这两个参数可以设置为NULL，因为要在Initialization中进行初始化。通过这个构造函数可以发现渲染窗口已经包含了VtkPropRender和vtkMitkRenderProp。还有一些函数可以对渲染窗口进行设置，下面就来介绍一下。</p>
+<ul>
+<li><p><strong>void QmitkRenderWindow::SetResendQtEvents ( bool resend )</strong> 设置渲染窗口接收到的QT事件（例如鼠标点击、键盘按键等等）是否传递给它的父窗口，默认为是。</p>
+</li>
+<li><p><strong>void SetLayoutIndex (unsigned int layoutIndex)</strong> 设置窗口的布局索引</p>
+</li>
+<li><p><strong>void QmitkRenderWindow::LayoutDesignListChanged(int layoutDesignIndex)</strong> 改变窗口菜单中的布局的列表</p>
+</li>
+<li><p><strong>void HideRenderWindowMenu ()</strong> 隐藏菜单</p>
+</li>
+<li><p><strong>vtkRenderWindow * GetVtkRenderWindow () override</strong> 得到关联的Vtk渲染窗口</p>
+</li>
+<li><p><strong>vtkRenderWindowInteractor * GetVtkRenderWindowInteractor () override</strong> 得到关联的Vtk渲染窗口交互</p>
+</li>
+<li><p><strong>void FullScreenMode (bool state)</strong><br>是否全屏显示</p>
+</li>
+<li><p>继承自它的父类mitk::RenderWindowBase的函数，<strong>virtual mitk::VtkPropRenderer * GetRenderer ()</strong><br>可以得到VtkPropRender。</p>
+</li>
+</ul>
+<h3 id="2-2-3-vtkMitkRenderProp"><a href="#2-2-3-vtkMitkRenderProp" class="headerlink" title="2.2.3 vtkMitkRenderProp"></a>2.2.3 vtkMitkRenderProp</h3><p>这个类是个客制化的vtkProp类，它实现了MITK和VTK之间的渲染接口。它把render（）请求传递到VtkPropRenderer，VtkPropRender回应渲染数据的请求。总的来说就是vtkMitkRenderProp定义要渲染的物体，然后VtkPropRender定义如何渲染，这两个对应的VTK管线中的Prop和Render。 下面是这个类开放的公共接口。</p>
+<ul>
+<li><p><strong>void SetPropRenderer (mitk::VtkPropRenderer::Pointer propRenderer)</strong><br>为这个vtkMitkRenderProp设置对应的VtkPropRender</p>
+</li>
+<li><p><strong>int RenderOpaqueGeometry (vtkViewport *viewport) override</strong> 渲染不透明的几何部分</p>
+</li>
+<li><p><strong>int RenderOverlay (vtkViewport *viewport) override</strong><br>渲染遮盖的几何部分</p>
+</li>
+<li><p><strong>double * GetBounds () override</strong><br>得到渲染窗口的边界（大小）。</p>
+</li>
+<li><p><strong>void ReleaseGraphicsResources (vtkWindow *window) override</strong> 调 用了vtkPropRender里同名的函数，会在那个类里介绍。</p>
+</li>
+<li><p><strong>void InitPathTraversal () override vtkAssemblyPath * GetNextPath () override int GetNumberOfPaths () override</strong> 这三个函数都是VtkPicker相关的函数，API Reference中写的是前两个函数会提供给vtkPicker一个包含所有MITK对象的列表和所有基于VTK的mapper。首先介绍vtkPicker：vtkPicker用于拾取vtkProp3D实例，它通过发射一条光线到图形窗口中，并与Actor的线框(Bounding box)相交，光线是从窗口坐标系统中拾取的一点到相机所在的位置的连线。因为光线可能会与多个Actor的线框相交，所以可能会返回多个vtkProp3D的实例。vtkPicker返回的是与光线相交的Prop实例的一个列表、世界坐标系统中的拾取坐标以及最靠近相机的Prop和Mapper实例。所以个人认为这几个函数是用来告诉vtkPicker可能拾取到的物体的所有类型和所有可能的Mapper都有什么。</p>
+</li>
+<li><p>i<strong>nt HasTranslucentPolygonalGeometry () override</strong><br>在渲染时被调用，返回是否有透明的几何图形。有趣的是这个函数调用了上面的InitPathTraversal（）函数。往下看了看InitPathTraversal（）函数之后，发现这个函数的主要作用并不像官方API参考提到的那样。这个函数初始化了对vtkCollection的当前指向元素指向到vtkCollection的最顶部元素。而这个vtkCollection函数是用来保存一系列的vtk对象的。其中一个用处就是存储vtkPropAssembly的结构路径，即这个vtkProp的组合是以什么结构组成的。这个函数之所以会用到vtkPropAssembly，因为判断是否有透明的几何图形不仅要在一个vtkProp中判断，如果是一个vtkPropAssembly，就要通过对应的vtkCollection来遍历所有的vtkProp来依次判断。因此InitPathTraversal（）函数就是用来初始化vtkCollection的指向位置的。</p>
+</li>
+<li><p><strong>int RenderTranslucentPolygonalGeometry (vtkViewport *) override</strong><br>渲染vtkProp中透明的几何部分</p>
+</li>
+<li><p><strong>int RenderVolumetricGeometry (vtkViewport *) override</strong><br>渲染vtkProp中的体数据</p>
+</li>
+</ul>
+<h3 id="2-2-4-mitkVtkPropRenderer"><a href="#2-2-4-mitkVtkPropRenderer" class="headerlink" title="2.2.4 mitkVtkPropRenderer"></a>2.2.4 mitkVtkPropRenderer</h3><p>这个类的前身是OpenGLRender，现在替换成了这个类。这个类会做一些底层的设置，比较复杂，但是可以看到比较多相对底层的渲染的实现。这个类需要更加仔细得看一看，下面分析一下这个类。 首先是这个类的公有成员：</p>
+<ul>
+<li><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/2-1.png" alt=""> 这个枚举定义了渲染的vtkProp的四种类型，就是之前提到过的不透明、透明、遮挡、体数据。这个枚举会作为参数传递给下面的函数。</p>
+</li>
+<li><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/3-1.png" alt=""> 这个枚举定义了上面所说的vtkPick的三种类型。可以在.cpp函数里找到对这部分的注释，主要介绍了三种不同类型的区别，第一种速度最快但不支持透明物体，最后一种速度最慢但是效果最好。具体的PickMode的设置是通过宏定义的，不用再往下深究了。</p>
+</li>
+<li><p><code>typedef std::map MappersMapType;</code> 这个自定义类型是存储Mapper的map，会在下面的函数中用到。</p>
+</li>
+</ul>
+<p>公有函数：</p>
+<ul>
+<li><p>构造函数 <strong>mitk::VtkPropRenderer::VtkPropRenderer（…）</strong> 参数太多在这里省略，具体可以看.cpp文件。这个构造函数初始化了vtkPicker、vtkLight和vtkRender，同时初始化了一个3D的mapper：PlaneGeometryDataVtkMapper3D，这个mapper可以用来渲染平面的3D图形。只要存在一个VtkPropRender就至少有这个mapper。</p>
+</li>
+<li><p><strong>void SetDataStorage (mitk::DataStorage *storage) override</strong><br>设置了用来渲染的Prop存放的DataStorage。</p>
+</li>
+<li><p><strong>int mitk::VtkPropRenderer::Render(mitk::VtkPropRenderer::RenderType type)</strong> 使用这个函数来开始MITK的渲染进程。其中的参数就是之前的那个枚举类中的值。值得一提的是在函数的具体实现中其实只实现了Oqaque和Overlayer两个类型的几何图形的渲染。并且Overlayer主要是用来渲染文本的，渲染出一个只包含该文本的图片。</p>
+</li>
+<li><p><strong>void mitk::VtkPropRenderer::PrepareMapperQueue()</strong><br>这个函数在上一个函数中被调用了。主要的作用是迭代data tree来找到应该用来渲染的对应的mapper。例如如果data tree的这个节点是个图片，那么就把MappersMapType对应的节点的位置设置为图片的mapper。通过这种方式来对用来渲染这个data tree的所有节点的mapper进行分类。 这个体有一行代码很有意思： <code>const mitk::Mapper::Pointer mapper = node-&amp;gt;GetMapper(m_MapperID);</code> 这个GetMapper函数真正调用的是<strong>mitk::Mapper::Pointer mitk::CoreObjectFactory::CreateMapper(mitk::DataNode *node, MapperSlotId id)</strong> 这个函数，这个函数判断DataNode的类型从而指定特定的mapper，这个地方是我认为真正为data tree中的每个node分配不同的mapper的位置。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/4-1.png" alt=""> 这段代码就是上个函数的一部分，可以看到是如何通过MapSlotid和node的类型来确定使用哪个mapper的。也就是说MITK在渲染的过程中自动分析了要渲染的物体的类型从而指定特定的mapper。3D部分也是差不多的代码。</p>
+</li>
+<li><p><strong>void mitk::VtkPropRenderer::InitRenderer(vtkRenderWindow *renderWindow)</strong><br>这个函数是用来初始化renderer的，被构造函数所调用，设置了交互和回调函数。</p>
+</li>
+<li><p><strong>void mitk::VtkPropRenderer::RenderingCallback(vtkObject *caller, unsigned long, void *, void *)</strong><br>这个函数被上面的函数所调用，设置了交互的回调函数，具体的交互方式可以通过这两个函数设置。</p>
+</li>
+<li><p><strong>void mitk::VtkPropRenderer::Resize(int w, int h)</strong><br>这个函数是用来在窗口大小改变后自动调用的函数，两个参数是新的窗口的宽高。</p>
+</li>
+<li><p><strong>void mitk::VtkPropRenderer::InitSize(int w, int h)</strong><br>这个函数是用来初始化窗口大小。</p>
+</li>
+<li><p><strong>int mitk::VtkPropRenderer::WriteSimpleText(std::string text, double posX, double posY, double color1, double color2, double color3, float opacity)</strong><br>这个函数是用来渲染简单的文本，参数名字就告诉了我们是什么作用。把文本作为vtkTextActor，并且加入了TextCollection这个map，函数返回了该文本在TextCollection中的位置索引。</p>
+</li>
+<li><p><strong>void mitk::VtkPropRenderer::MakeCurrent()</strong><br>调用这个函数尝试让调用的窗口成为调用线程的当前图形环境。</p>
+</li>
+<li><p><strong>void mitk::VtkPropRenderer::PickWorldPoint(const mitk::Point2D &amp;displayPoint, mitk::Point3D &amp;worldPoint) const</strong><br>这个函数是用来执行Pick点的操作的，第一个参数是用户在屏幕上点的坐标，第二个参数存储我们Pick到的点。这个函数里有三个判断，分别对应了之前的三种不同的Pick方式，具体方式见上面的介绍。</p>
+</li>
+<li><p><strong>mitk::DataNode *mitk::VtkPropRenderer::PickObject(const Point2D &amp;displayPosition, Point3D &amp;worldPosition) const</strong><br>这个函数和上一个类似，但是是用来执行Pick对象操作的，返回的是一个存储了Pick到的对象的节点。</p>
+</li>
+<li><p><strong>void mitk::VtkPropRenderer::ReleaseGraphicsResources(vtkWindow * /<em>renWin</em>/)</strong><br>这个函数是用来释放当前窗口的图形资源的。它判断了每个DataNode的节点，如果该节点的数据有一个vtk的mapper，那么说明这是一个用来渲染的图形资源，然后就释放它。</p>
+</li>
+<li><p><strong>void mitk::VtkPropRenderer::PrepareRender()</strong><br>在渲染前的一些准备，主要的工作就是判断当前窗口的mapper类型，如果是3Dmapper的话就设置镜头为跟踪球模式（就是我们常用的那种3d交互模式），如果是2D的话就是没什么交互模式。</p>
+</li>
+</ul>
+<p>至此所有的类分析就结束了，下面介绍一些具体方面的编码。</p>
+<h1 id="3-编码参考"><a href="#3-编码参考" class="headerlink" title="3.编码参考"></a>3.编码参考</h1><p>这部分的编码涉及的方面比较少，因为暂时我也在学习过程中，把能用到的都先贴上来，后续还会继续扩充这部分的内容。</p>
+<h2 id="3-1"><a href="#3-1" class="headerlink" title="3.1"></a>3.1</h2><ul>
+<li><p>通过这行代码得到当前的QmitkRenderWindow: <code>this-&amp;gt;GetRenderWindowPart()-&amp;gt;GetRenderWindow(&quot;axial&quot;);</code> 括号中的是renderwindow的名称，在初始化的时候进行过设置。</p>
+</li>
+<li><p>通过这行代码得到当前的vtkRenderWindow: <code>this-&amp;gt;GetRenderWindowPart()-&amp;gt;GetRenderWindow(&quot;axial&quot;)-&amp;gt;GetVtkRenderWindow();</code></p>
+</li>
+<li><p>可以通过这行代码更新所有的QmitkStdMultiWidget窗口: <code>mitk::RenderingManager::GetInstance()-&amp;gt;RequestUpdateAll()</code> 或者 <code>this-&amp;gt;RequestRenderWindowUpdate();</code></p>
+</li>
+<li><p>一个单独的QmitkRenderWindow的更新可以这样实现: <code>mitk::RenderingManager::GetInstance()-&amp;gt;RequestUpdate(this-&amp;gt;GetRenderWindowPart()-&amp;gt;GetRenderWindow(&quot;axial&quot;)-&amp;gt;GetVtkRenderWindow());</code></p>
+</li>
+<li><p><strong>GetRenderWindowPart()</strong>这个函数如果在窗口关闭的情况下会请求不到指针，所以不要在窗口关闭的情况下使用这个函数。</p>
+</li>
+</ul>
+<h2 id="3-2"><a href="#3-2" class="headerlink" title="3.2"></a>3.2</h2><p>如果我们需要新建一个渲染管线，大部分情况下我们可以为这个渲染管线设置独特的交互，和QmitkStdMultiWidget不一样的交互，我们需要实现下面的代码，很好理解。</p>
+<pre><code>//新建一个RenderManager
+mitk::RenderingManager::Pointer renderingManager = mitk::RenderingManager::New();
+// 新建一个DataStorage和Interactior
+mitk::DataStorage::Pointer dataStorage = mitk::DataStorage::New();
+mitk::GlobalInteraction::Pointer globalInteraction = mitk::GlobalInteraction::New();
+//绑定到RenderManager
+renderingManager-&gt;SetDataStorage( dataStorage );
+renderingManager-&gt;SetGlobalInteraction( globalInteraction );
+// 新建一个QmitkRenderWindow，包含了这个RenderManager
+QmitkRenderWindow* renderWindow = new QmitkRenderWindow( parent, &quot;name&quot;, renderer, renderingManager )
+</code></pre><h2 id="3-3-为一个数据节点设置一个独特的Mapper"><a href="#3-3-为一个数据节点设置一个独特的Mapper" class="headerlink" title="3.3 为一个数据节点设置一个独特的Mapper"></a>3.3 为一个数据节点设置一个独特的Mapper</h2><pre><code>//首先新建一个Mapper，Mapper的种类见下图，可以根据自己的需要选择合适的mapper
+newMapper = mitk::GPUVolumeMapper3D::New();
+//有两种方式设置一个节点的mapper,一种是通过node设置，一种是通过mapper设置，这两种方法都可以，通过node设置的话第一个参数是MapperSlotID
+//node-&gt;SetMapper(1, newMapper);
+newMapper-&gt;SetDataNode(node);
+</code></pre><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/5-1.png" alt=""></p>
+<h1 id="4-MITK渲染遇到的问题"><a href="#4-MITK渲染遇到的问题" class="headerlink" title="4. MITK渲染遇到的问题"></a>4. MITK渲染遇到的问题</h1><p>说到MITK渲染的问题，得回到为什么要分析MITK的渲染。最初的任务是移植Mevislab的一个渲染效果到MITK中，因为MITK集成的VTK和Mevislab都是使用OpenGL的底层，好像可以互相移植一下。在分析了Mevislab中的工程的过程中，发现其实Mevislab的使用是很灵活的，提供了大量的效果的过滤器，有很多基础的显示算法都集成进去了，但是我在VTK中并没有找到相应过滤器，这给我很大的困扰。后来调查了一下Mevislab发现其实它并不是直接使用的OpenGL作为底层，而是使用封装了OpenGL的OpenInventor作为底层，有兴趣的同学可以查一下OpenInventor（OIV）。OIV和VTK的能力显然是不对等的，方向也不是一致的，一个是专业用来渲染的API，一个是数据可视化的API。这就使得很多OIV中的效果无法在VTK中复现。也就很难再MITK中复现。 以上的意思就是如果不扩展VTK，那么MITK的渲染效果其实是有很大的制约，光靠API的调用是无法完成的。我目前在学习OpenGL，其实有些VTK中没有集成的效果我也知道如何用OpenGL实现，但是如何集成到VTK中还是一个障碍，这需要更改VTK的源码，是个很复杂的工作。这个工作我认为其实意义不大，不如直接不用VTK换一个底层API来的方便。 MITK渲染最大的问题就在于VTK的制约，如果无法对VTK有很大的显示效果的提升，那么MITK的显示效果不可能提升。 另外的一个大问题在于MITK的渲染框架太过复杂，上面的类图分析已经展示了它调用的复杂性，对于很多刚接触的人来说简直头大。其实这不利于用MITK进行开发。</p>
+<h1 id="5-个人感想"><a href="#5-个人感想" class="headerlink" title="5.个人感想"></a>5.个人感想</h1><p>我本人对计算机图形学很感兴趣，所以接了这个任务，收获颇丰，它直接促使我学习VTK以及继续学习OpenGL。图形学本身的学习很辛苦，是个复杂而且深奥的学问，我了解到的这部分其实连门都还没入，真正的工业级的渲染水平远远不是VTK和MITK能达到的。因为我还在学习中，接触的还很浅，也许文中会出现错误，实乃水平所致，多多包涵。在后续的学习中如果水平长进，会继续维护这个文档，同时跟进VTK以及MITK的渲染改进工作。 图形学是个很有意思且富有美感的学科，希望会有对图形学同样感兴趣的同学，一起讨论，一起前进。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/20/【MITK Concepts】流水线(Pipelining)/" rel="next" title="【MITK Concepts】流水线(Pipelining)">
+                <i class="fa fa-chevron-left"></i> 【MITK Concepts】流水线(Pipelining)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/02/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Cfan927" />
+            
+              <p class="site-author-name" itemprop="name">Cfan927</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-综述"><span class="nav-number">1.</span> <span class="nav-text">1.综述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-MITK渲染管线（pipline）"><span class="nav-number">2.</span> <span class="nav-text">2. MITK渲染管线（pipline）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-综述"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 综述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-类图分析-相关类介绍"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 类图分析/相关类介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-QmitkStdMultiWidget"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 QmitkStdMultiWidget</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-QmitkRenderWindow"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 QmitkRenderWindow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-3-vtkMitkRenderProp"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.3 vtkMitkRenderProp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-4-mitkVtkPropRenderer"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.2.4 mitkVtkPropRenderer</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-编码参考"><span class="nav-number">3.</span> <span class="nav-text">3.编码参考</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1"><span class="nav-number">3.1.</span> <span class="nav-text">3.1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2"><span class="nav-number">3.2.</span> <span class="nav-text">3.2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-为一个数据节点设置一个独特的Mapper"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 为一个数据节点设置一个独特的Mapper</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-MITK渲染遇到的问题"><span class="nav-number">4.</span> <span class="nav-text">4. MITK渲染遇到的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-个人感想"><span class="nav-number">5.</span> <span class="nav-text">5.个人感想</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bit-lwj</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

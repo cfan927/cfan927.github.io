@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1 命名约定1.1 通用命名规则 驼峰命名法：利用大小写更替来指示不同的单词，如： ImageFilterPixelTypeDataStorageNodePredicateProperty    避免使用下划线，如： Image_Filer_Node    变量名应表达代码背后的含义，如： BoundingBox::Pointer boundingBox = BoundingBox::New();">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【规范】编码规范（C++）">
+<meta property="og:url" content="http://yoursite.com/2018/03/05/【规范】编码规范（C++）/index.html">
+<meta property="og:site_name" content="Cfan927">
+<meta property="og:description" content="1 命名约定1.1 通用命名规则 驼峰命名法：利用大小写更替来指示不同的单词，如： ImageFilterPixelTypeDataStorageNodePredicateProperty    避免使用下划线，如： Image_Filer_Node    变量名应表达代码背后的含义，如： BoundingBox::Pointer boundingBox = BoundingBox::New();">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-06T03:09:03.515Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【规范】编码规范（C++）">
+<meta name="twitter:description" content="1 命名约定1.1 通用命名规则 驼峰命名法：利用大小写更替来指示不同的单词，如： ImageFilterPixelTypeDataStorageNodePredicateProperty    避免使用下划线，如： Image_Filer_Node    变量名应表达代码背后的含义，如： BoundingBox::Pointer boundingBox = BoundingBox::New();">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/05/【规范】编码规范（C++）/"/>
+
+
+
+
+
+  <title>【规范】编码规范（C++） | Cfan927</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cfan927</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mitk">
+          <a href="/mitk/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-medkit"></i> <br />
+            
+            MITK
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-design_patterns">
+          <a href="/design_patterns/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-magic"></i> <br />
+            
+            设计模式
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-c++">
+          <a href="/cpp/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-code"></i> <br />
+            
+            C++
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/05/【规范】编码规范（C++）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cfan927">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cfan927">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【规范】编码规范（C++）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T12:49:41+08:00">
+                2018-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/cpp/" itemprop="url" rel="index">
+                    <span itemprop="name">cpp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-命名约定"><a href="#1-命名约定" class="headerlink" title="1 命名约定"></a>1 命名约定</h1><h2 id="1-1-通用命名规则"><a href="#1-1-通用命名规则" class="headerlink" title="1.1 通用命名规则"></a>1.1 通用命名规则</h2><ul>
+<li><p>驼峰命名法：利用大小写更替来指示不同的单词，如：</p>
+<p>ImageFilter<br>PixelType<br>DataStorage<br>NodePredicateProperty</p>
+</li>
+</ul>
+<ul>
+<li><p>避免使用下划线，如：</p>
+<p>Image_Filer<br>_Node</p>
+</li>
+</ul>
+<ul>
+<li><p>变量名应表达代码背后的含义，如：</p>
+<p>BoundingBox::Pointer boundingBox = BoundingBox::New();</p>
+</li>
+</ul>
+<ul>
+<li><p>拼写出全名而非缩写，如：</p>
+<p>mitk::DataNode* node;</p>
+</li>
+</ul>
+<ul>
+<li><p>通用简称允许缩写，如：</p>
+<p>ROI表示 Region of Interest</p>
+</li>
+</ul>
+<h2 id="1-2-类"><a href="#1-2-类" class="headerlink" title="1.2 类"></a>1.2 类</h2><ul>
+<li>类名以大写字母开头</li>
+<li><p>类命名需依据以下一般性规则：</p>
+<p>class name = <algorithm><input><concept></concept></algorithm></p>
+</li>
+</ul>
+<p>如：</p>
+<pre><code>Accessor：类型之间的访问和转换，如NullScalarAccessor
+Container：点或图像等对象的容器，如VectorContainer
+Filter：参与数据处理管道的类，如AddImageFilter
+Mapper：将数据从一种形式转换为另一种形式，如ContourMapper2D
+Reader/Writer：读取/写入单个数据对象的类，如VtkSurfaceReader
+</code></pre><ul>
+<li><p>像ExampleClass这样的MITK类应该在命名空间mitk中，其相应的文件应该命名为mitkExampleClass.h/.cpp。</p>
+<p>mitk::DataStorage</p>
+</li>
+</ul>
+<ul>
+<li><p>Qt特定的MITK类（如QmitkListView）应在其类名中包含前缀Qmitk，并将其相应的文件命名为QmitkListView.h/.cpp。</p>
+<p>QmitkDataStorageComboBox</p>
+</li>
+</ul>
+<ul>
+<li>头文件以.h结尾</li>
+<li>源文件以.cpp结尾</li>
+<li>模板类文件以.txx结尾</li>
+</ul>
+<h2 id="1-3-方法-函数"><a href="#1-3-方法-函数" class="headerlink" title="1.3 方法/函数"></a>1.3 方法/函数</h2><ul>
+<li>以大写字母开头</li>
+<li><p>代码中引用类的方法时，应显式使用this-&gt;指针，如：</p>
+<p>mitk::DataStorage::SetOfObjects::ConstPointer all = this-&gt;GetAll();</p>
+</li>
+</ul>
+<h2 id="1-4-信号-槽方法-函数"><a href="#1-4-信号-槽方法-函数" class="headerlink" title="1.4 信号/槽方法/函数"></a>1.4 信号/槽方法/函数</h2><ul>
+<li><p>槽函数命名依据如下一般性规则：</p>
+<p>On[发送信号的变量]<a href="">信号类型</a>;</p>
+</li>
+</ul>
+<p>如：</p>
+<pre><code>connect( loadImagePushButton, SIGNAL( clicked(bool ) ),SLOT( OnLoadImagePushButtonClicked( bool ) ) );
+void mitk::Image::OnLoadImagePushButtonClicked( bool )
+{
+... Do something ...
+}
+</code></pre><ul>
+<li><p>信号命名依据如下一般性规则：</p>
+<p>Signal<a href="">方法名称</a>;</p>
+</li>
+</ul>
+<p>如：</p>
+<pre><code>emit SignalFinishedSegmentation();
+</code></pre><h2 id="1-5-类数据成员"><a href="#1-5-类数据成员" class="headerlink" title="1.5 类数据成员"></a>1.5 类数据成员</h2><ul>
+<li><p>类数据成员添加 m_ 前缀，且下划线后首字母大写，如：</p>
+<p>m_Volumes<br>m_OffsetTable<br>m_ImageMask</p>
+</li>
+</ul>
+<ul>
+<li><p>Qt类数据成员不加前缀，并以小写字母开头，如：</p>
+<p>loadImageButton<br>closeImageAction</p>
+</li>
+</ul>
+<h2 id="1-6-局部变量"><a href="#1-6-局部变量" class="headerlink" title="1.6 局部变量"></a>1.6 局部变量</h2><ul>
+<li><p>驼峰命名法，且第一个单词以小写字母开头，如：</p>
+<p>offset<br>data<br>slicesIt</p>
+</li>
+</ul>
+<h2 id="1-7-全局变量"><a href="#1-7-全局变量" class="headerlink" title="1.7 全局变量"></a>1.7 全局变量</h2><ul>
+<li>应尽量减少全局变量的使用，如果必须，使用g_作为前缀，以便更好的区分局部变量。</li>
+</ul>
+<h2 id="1-8-常量"><a href="#1-8-常量" class="headerlink" title="1.8 常量"></a>1.8 常量</h2><ul>
+<li><p>在全局或类里的常量名称前加k，且除开头的k之外每个单词首字母均大写，如</p>
+<p>m_kImageMask<br>g_kImageMask</p>
+</li>
+</ul>
+<h2 id="1-9-Qt变量"><a href="#1-9-Qt变量" class="headerlink" title="1.9 Qt变量"></a>1.9 Qt变量</h2><ul>
+<li><p>GUI变量以Qt控件类型名结尾，如：</p>
+<p>QPushButton<em> loadImagePushButton;<br>QAction</em> closeImageAction;<br>QCheckBox<em> hideImageCheckBox;<br>QRadioButton</em> binaryImageRadioButton;</p>
+</li>
+</ul>
+<h2 id="1-10-类型命名"><a href="#1-10-类型命名" class="headerlink" title="1.10 类型命名"></a>1.10 类型命名</h2><ul>
+<li><p>类型名称的每个单词首字母均大写，不包含下划线，所有类型命名（class，struct，typedef，enum）均使用相同约定，如：</p>
+<p>MyExcitingClass<br>MyExcitingEnum</p>
+</li>
+</ul>
+<ul>
+<li><p>Typedef声明的类型名以单词Type结尾，如：</p>
+<p>typedef TPixel PixelType;<br>typedef itk::Image&lt; TPixel, VImageDimension &gt; ImageType;<br>typedef std::list<a href="mitk::Image::Pointer" target="_blank" rel="noopener">mitk::Image::Pointer</a> ImageListType;</p>
+</li>
+</ul>
+<h1 id="2-指针"><a href="#2-指针" class="headerlink" title="2 指针"></a>2 指针</h1><h2 id="2-1-指针的声明"><a href="#2-1-指针的声明" class="headerlink" title="2.1 指针的声明"></a>2.1 指针的声明</h2><ul>
+<li><p>指针*/引用&amp;应与变量连接，如：</p>
+<p>int *counter;<br>int &counter;</p>
+</li>
+</ul>
+<h2 id="2-2-智能指针-SmartPointer"><a href="#2-2-智能指针-SmartPointer" class="headerlink" title="2.2 智能指针 SmartPointer"></a>2.2 智能指针 SmartPointer</h2><ul>
+<li>SmartPointers必须用于以itk::Object作为基类的类</li>
+<li><p>将刚创建的实例分配给普通指针会导致崩溃，因为引用计数会立即减少到零，并且对象会被销毁</p>
+<p>itk::Object::Pointer object = itk::Object::New();</p>
+</li>
+</ul>
+<ul>
+<li>当变量的作用域保留时，静态声明也被禁止并导致异常，因为当引用计数仍大于零时调用了析构函数</li>
+<li>请注意，使用智能指针需要在设置输入时使用真实（普通）指针。如果你想要返回一个新创建的智能指针（该指针不在类中）（例如，如果您编写了一个Clone方法），则必须返回一个智能指针（比较itkMacro.h）。如果智能指针保存在类中，则返回一个真正的（普通）指针就足够了。 -测试SmartPointer是否为空应使用IsNull（）和IsNotNull（）方法。简单的使用==NULL会发出警告。</li>
+</ul>
+<h1 id="3-命名空间"><a href="#3-命名空间" class="headerlink" title="3 命名空间"></a>3 命名空间</h1><ul>
+<li><p>ARMD类应包含在命名空间armd内，如：</p>
+<p>#include “…”<br>namespace armd<br>{</p>
+<pre><code>class TestClass
+{
+    ...
+}
+</code></pre><p>}</p>
+</li>
+</ul>
+<h1 id="4-代码布局和缩进"><a href="#4-代码布局和缩进" class="headerlink" title="4 代码布局和缩进"></a>4 代码布局和缩进</h1><h2 id="4-1-整体布局"><a href="#4-1-整体布局" class="headerlink" title="4.1 整体布局"></a>4.1 整体布局</h2><ul>
+<li>禁止使用 using namespace xx污染命名空间</li>
+<li>禁止使用尾随空格</li>
+<li><p>变量声明应该是每行一个声明，如</p>
+<p>int sliceNumber;<br>char *stringName;<br>ImageType::Pointer image;</p>
+</li>
+</ul>
+<ul>
+<li>每一个限定符（public/protected/private）内，声明顺序如下：</li>
+</ul>
+<p>顺序</p>
+<p>内容</p>
+<p>权限</p>
+<p>1</p>
+<p>typedefs和enums</p>
+<p>public</p>
+<p>2</p>
+<p>常量</p>
+<p>public/private</p>
+<p>3</p>
+<p>构造函数</p>
+<p>public</p>
+<p>4</p>
+<p>析构函数</p>
+<p>public</p>
+<p>5</p>
+<p>成员函数，含静态数据成员</p>
+<p>public/protected/private</p>
+<p>6</p>
+<p>成员变量，含静态成员变量</p>
+<p>public/protected/private</p>
+<h2 id="4-2-类布局"><a href="#4-2-类布局" class="headerlink" title="4.2 类布局"></a>4.2 类布局</h2><ul>
+<li><p>Copyright（.h，.cpp文件均需包含）</p>
+<p>// Copyright 2018 Ariemedi LLC.     版权<br>// License(BSD/GPL/…)             许可证，BSD/GPL/MIT/…<br>// Author: Li Wenjie                作者<br>// This is …                      文件内容简短说明</p>
+</li>
+</ul>
+<ul>
+<li><p>Include[A..Z]</p>
+<p>#include “… .h”</p>
+</li>
+</ul>
+<ul>
+<li><p>Namespace</p>
+<p>namespace armd<br>{</p>
+</li>
+</ul>
+<ul>
+<li><p>Typedefs</p>
+<p>public:<br>  ….typedefs….</p>
+</li>
+</ul>
+<ul>
+<li><p>Methods</p>
+<p>public:<br>  ….methods….<br>protected:<br>  ….methods….<br>private:<br>  ….methods….</p>
+</li>
+</ul>
+<ul>
+<li><p>QT Signals</p>
+<p>signals:<br>  Signal…();</p>
+</li>
+</ul>
+<ul>
+<li><p>QT Slots</p>
+<p>public slots:<br>  On…();<br>protected slots:<br>  On…();</p>
+</li>
+</ul>
+<ul>
+<li><p>数据成员定义为私有，放在类结尾</p>
+<p>private/protected:<br>  ….class data members….<br>};<br>}<br>#endif</p>
+</li>
+</ul>
+<h1 id="5-大括号的使用"><a href="#5-大括号的使用" class="headerlink" title="5 大括号的使用"></a>5 大括号的使用</h1><ul>
+<li>if，for，while，switch等必须使用大括号{}</li>
+<li><p>大括号单独占一行，如</p>
+<p>for ( unsigned int i = 0; i &lt; 3; ++i )<br>{<br>… do something …<br>}</p>
+</li>
+</ul>
+<ul>
+<li><p>代码段只有一行时可以将其放在一行，如：</p>
+<p>if ( condition ) { foo = 1; }<br>else if ( condition2 ) { foo = 3; }<br>else { return; }</p>
+</li>
+</ul>
+<h1 id="6-include保护符"><a href="#6-include保护符" class="headerlink" title="6 include保护符"></a>6 include保护符</h1><ul>
+<li>#inlcude 保护符是一个特殊的构造，用于在处理#include指令时避免双重包含的问题</li>
+<li>#inlcude 保护符的命名约定是：ClassName_h</li>
+</ul>
+<h1 id="7-其它"><a href="#7-其它" class="headerlink" title="7 其它"></a>7 其它</h1><ul>
+<li>头文件中尽量使用前置声明</li>
+<li>只将这些头文件包含在真正必要的头文件中，其余部分包含在实现文件中</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/05/【规范】UI规范/" rel="prev" title="【规范】UI规范">
+                【规范】UI规范 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Cfan927" />
+            
+              <p class="site-author-name" itemprop="name">Cfan927</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-命名约定"><span class="nav-number">1.</span> <span class="nav-text">1 命名约定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-通用命名规则"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 通用命名规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-类"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-方法-函数"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 方法/函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-信号-槽方法-函数"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 信号/槽方法/函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-类数据成员"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 类数据成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-局部变量"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 局部变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-全局变量"><span class="nav-number">1.7.</span> <span class="nav-text">1.7 全局变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8-常量"><span class="nav-number">1.8.</span> <span class="nav-text">1.8 常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-9-Qt变量"><span class="nav-number">1.9.</span> <span class="nav-text">1.9 Qt变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-10-类型命名"><span class="nav-number">1.10.</span> <span class="nav-text">1.10 类型命名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-指针"><span class="nav-number">2.</span> <span class="nav-text">2 指针</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-指针的声明"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 指针的声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-智能指针-SmartPointer"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 智能指针 SmartPointer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-命名空间"><span class="nav-number">3.</span> <span class="nav-text">3 命名空间</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-代码布局和缩进"><span class="nav-number">4.</span> <span class="nav-text">4 代码布局和缩进</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-整体布局"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 整体布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-类布局"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 类布局</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-大括号的使用"><span class="nav-number">5.</span> <span class="nav-text">5 大括号的使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-include保护符"><span class="nav-number">6.</span> <span class="nav-text">6 include保护符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-其它"><span class="nav-number">7.</span> <span class="nav-text">7 其它</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bit-lwj</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
