@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="1.设置图像文件、表面文件路径 和Step6一样，在Step7中我们加载图像文件Pic3D.nrrd； 在本节，我们通过一个VTK filter把上一节的分割结果转为曲面模型； 设置完毕后，将MitkStep7设置为启动项。  2.运行程序Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下： 123456789">
+<meta name="description" content="The article has been encrypted, please enter your password to view.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【MITK Examples】Step7-把区域增长分割结果转为曲面">
 <meta property="og:url" content="http://yoursite.com/2018/04/11/【MITK Examples】Step7-把区域增长分割结果转为曲面/index.html">
 <meta property="og:site_name" content="Cfan927">
-<meta property="og:description" content="1.设置图像文件、表面文件路径 和Step6一样，在Step7中我们加载图像文件Pic3D.nrrd； 在本节，我们通过一个VTK filter把上一节的分割结果转为曲面模型； 设置完毕后，将MitkStep7设置为启动项。  2.运行程序Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下： 123456789">
+<meta property="og:description" content="The article has been encrypted, please enter your password to view.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/04/11/【MITK%20Examples】Step7-把区域增长分割结果转为曲面/Step7%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
-<meta property="og:updated_time" content="2018-10-06T06:21:12.272Z">
+<meta property="og:updated_time" content="2018-10-06T07:01:05.882Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK Examples】Step7-把区域增长分割结果转为曲面">
-<meta name="twitter:description" content="1.设置图像文件、表面文件路径 和Step6一样，在Step7中我们加载图像文件Pic3D.nrrd； 在本节，我们通过一个VTK filter把上一节的分割结果转为曲面模型； 设置完毕后，将MitkStep7设置为启动项。  2.运行程序Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下： 123456789">
-<meta name="twitter:image" content="http://yoursite.com/2018/04/11/【MITK%20Examples】Step7-把区域增长分割结果转为曲面/Step7%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
+<meta name="twitter:description" content="The article has been encrypted, please enter your password to view.">
 
 
 
@@ -353,15 +351,20 @@
       
 
       
-        <h1 id="1-设置图像文件、表面文件路径"><a href="#1-设置图像文件、表面文件路径" class="headerlink" title="1.设置图像文件、表面文件路径"></a>1.设置图像文件、表面文件路径</h1><ul>
-<li>和Step6一样，在Step7中我们加载图像文件Pic3D.nrrd；</li>
-<li>在本节，我们通过一个VTK filter把上一节的分割结果转为曲面模型；</li>
-<li>设置完毕后，将MitkStep7设置为启动项。</li>
-</ul>
-<h1 id="2-运行程序"><a href="#2-运行程序" class="headerlink" title="2.运行程序"></a>2.运行程序</h1><p>Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (m_ResultImage.IsNotNull())</span><br><span class="line">  &#123;</span><br><span class="line">    m_ResultNode-&gt;SetProperty(<span class="string">"volumerendering"</span>, mitk::BoolProperty::New(<span class="literal">false</span>));</span><br><span class="line"></span><br><span class="line">    vtkMarchingCubes *surfaceCreator = vtkMarchingCubes::New();</span><br><span class="line">    surfaceCreator-&gt;SetInputData(m_ResultImage-&gt;GetVtkImageData());</span><br><span class="line">    surfaceCreator-&gt;SetValue(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    surfaceCreator-&gt;Update();</span><br><span class="line"></span><br><span class="line">    mitk::Surface::Pointer surface = mitk::Surface::New();</span><br><span class="line">    surface-&gt;SetVtkPolyData(surfaceCreator-&gt;GetOutput()); <span class="comment">// VTK6_TODO</span></span><br><span class="line"></span><br><span class="line">    mitk::DataNode::Pointer surfaceNode = mitk::DataNode::New();</span><br><span class="line">    surfaceNode-&gt;SetData(surface);</span><br><span class="line"></span><br><span class="line">    m_DataStorage-&gt;Add(surfaceNode);</span><br><span class="line"></span><br><span class="line">    mitk::RenderingManager::GetInstance()-&gt;RequestUpdateAll();</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"8"</span>;</span><br><span class="line">    surfaceCreator-&gt;Delete();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Step7运行结果"><a href="#Step7运行结果" class="headerlink" title="Step7运行结果"></a>Step7运行结果</h3><p><img src="/2018/04/11/【MITK Examples】Step7-把区域增长分割结果转为曲面/Step7%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt=""></p>
-
+        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<div id="hbe-security">
+  <div class="hbe-input-container">
+  <input type="password" class="hbe-form-control" id="pass" placeholder="Please enter the password to read the blog." />
+    <label for="pass">Please enter the password to read the blog.</label>
+    <div class="bottom-line"></div>
+  </div>
+</div>
+<div id="decryptionError" style="display: none;">Incorrect Password!</div>
+<div id="noContentError" style="display: none;">No content to display!</div>
+<div id="encrypt-blog" style="display:none">
+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
+</div>
+<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
       
     </div>
     
@@ -449,17 +452,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -524,22 +518,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-设置图像文件、表面文件路径"><span class="nav-number">1.</span> <span class="nav-text">1.设置图像文件、表面文件路径</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-运行程序"><span class="nav-number">2.</span> <span class="nav-text">2.运行程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step7运行结果"><span class="nav-number">2.0.1.</span> <span class="nav-text">Step7运行结果</span></a></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。 1.选取特定类型数据，如“Surface”、“Image”等类型1234567mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(&quot;Surface&quot;);mitk::Data">
+<meta name="description" content="The article has been encrypted, please enter your password to view.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【MITK】选取mitkDataStorage中特定数据">
 <meta property="og:url" content="http://yoursite.com/2018/03/06/【MITK】选取mitkDataStorage中特定数据/index.html">
 <meta property="og:site_name" content="Cfan927">
-<meta property="og:description" content="本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。 1.选取特定类型数据，如“Surface”、“Image”等类型1234567mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(&quot;Surface&quot;);mitk::Data">
+<meta property="og:description" content="The article has been encrypted, please enter your password to view.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-06T05:26:37.458Z">
+<meta property="og:updated_time" content="2018-10-06T07:01:18.654Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK】选取mitkDataStorage中特定数据">
-<meta name="twitter:description" content="本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。 1.选取特定类型数据，如“Surface”、“Image”等类型1234567mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(&quot;Surface&quot;);mitk::Data">
+<meta name="twitter:description" content="The article has been encrypted, please enter your password to view.">
 
 
 
@@ -351,10 +351,20 @@
       
 
       
-        <p>本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。</p>
-<h2 id="1-选取特定类型数据，如“Surface”、“Image”等类型"><a href="#1-选取特定类型数据，如“Surface”、“Image”等类型" class="headerlink" title="1.选取特定类型数据，如“Surface”、“Image”等类型"></a>1.选取特定类型数据，如“Surface”、“Image”等类型</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(<span class="string">"Surface"</span>);</span><br><span class="line">mitk::DataStorage::SetOfObjects::ConstPointer setOfObjectsSurface = <span class="keyword">this</span>-&gt;GetDataStorage()-&gt;GetSubset(predicateDataTypeSurface);</span><br><span class="line"><span class="comment">// transform all surface node</span></span><br><span class="line"><span class="keyword">for</span> (mitk::DataStorage::SetOfObjects::ConstIterator nodeIt = setOfObjectsSurface-&gt;Begin(); nodeIt != setOfObjectsSurface-&gt;End(); ++nodeIt) <span class="comment">// for each _DataNode</span></span><br><span class="line">&#123;</span><br><span class="line">    nodeIt.Value().GetPointer()-&gt;GetData()-&gt;GetGeometry()-&gt;SetIndexToWorldTransform(mitkTransform);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="2-选取特定属性数据，如“name”属性为“Face”的数据"><a href="#2-选取特定属性数据，如“name”属性为“Face”的数据" class="headerlink" title="2.选取特定属性数据，如“name”属性为“Face”的数据"></a>2.选取特定属性数据，如“name”属性为“Face”的数据</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mitk::NodePredicateProperty::Pointer p = mitk::NodePredicateProperty::New(<span class="string">"name"</span>, mitk::StringProperty::New(<span class="string">"Face"</span>));</span><br><span class="line">mitk::DataStorage::SetOfObjects::ConstPointer rs = <span class="keyword">this</span>-&gt;GetDataStorage()-&gt;GetSubset(p);</span><br><span class="line"><span class="comment">// Get element</span></span><br><span class="line"><span class="keyword">if</span> (rs-&gt;Size() &gt;= <span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    mitk::DataNode::Pointer dataNode = rs-&gt;GetElement(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<div id="hbe-security">
+  <div class="hbe-input-container">
+  <input type="password" class="hbe-form-control" id="pass" placeholder="Please enter the password to read the blog." />
+    <label for="pass">Please enter the password to read the blog.</label>
+    <div class="bottom-line"></div>
+  </div>
+</div>
+<div id="decryptionError" style="display: none;">Incorrect Password!</div>
+<div id="noContentError" style="display: none;">No content to display!</div>
+<div id="encrypt-blog" style="display:none">
+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
+</div>
+<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
       
     </div>
     
@@ -442,17 +452,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -517,22 +518,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-选取特定类型数据，如“Surface”、“Image”等类型"><span class="nav-number">1.</span> <span class="nav-text">1.选取特定类型数据，如“Surface”、“Image”等类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-选取特定属性数据，如“name”属性为“Face”的数据"><span class="nav-number">2.</span> <span class="nav-text">2.选取特定属性数据，如“name”属性为“Face”的数据</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
