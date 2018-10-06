@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="1 命名约定1.1 通用命名规则 驼峰命名法：利用大小写更替来指示不同的单词，如： ImageFilterPixelTypeDataStorageNodePredicateProperty    避免使用下划线，如： Image_Filer_Node    变量名应表达代码背后的含义，如： BoundingBox::Pointer boundingBox = BoundingBox::New();">
+<meta name="description" content="1 命名约定1.1 通用命名规则 驼峰命名法：利用大小写更替来指示不同的单词，如：  1234ImageFilterPixelTypeDataStorageNodePredicateProperty  避免使用下划线，如：  12Image_Filer_Node  变量名应表达代码背后的含义，如：  1BoundingBox::Pointer boundingBox = BoundingBox::">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【规范】编码规范（C++）">
 <meta property="og:url" content="http://yoursite.com/2018/03/05/【规范】编码规范（C++）/index.html">
 <meta property="og:site_name" content="Cfan927">
-<meta property="og:description" content="1 命名约定1.1 通用命名规则 驼峰命名法：利用大小写更替来指示不同的单词，如： ImageFilterPixelTypeDataStorageNodePredicateProperty    避免使用下划线，如： Image_Filer_Node    变量名应表达代码背后的含义，如： BoundingBox::Pointer boundingBox = BoundingBox::New();">
+<meta property="og:description" content="1 命名约定1.1 通用命名规则 驼峰命名法：利用大小写更替来指示不同的单词，如：  1234ImageFilterPixelTypeDataStorageNodePredicateProperty  避免使用下划线，如：  12Image_Filer_Node  变量名应表达代码背后的含义，如：  1BoundingBox::Pointer boundingBox = BoundingBox::">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-06T03:09:03.515Z">
+<meta property="og:updated_time" content="2018-10-06T05:37:23.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【规范】编码规范（C++）">
-<meta name="twitter:description" content="1 命名约定1.1 通用命名规则 驼峰命名法：利用大小写更替来指示不同的单词，如： ImageFilterPixelTypeDataStorageNodePredicateProperty    避免使用下划线，如： Image_Filer_Node    变量名应表达代码背后的含义，如： BoundingBox::Pointer boundingBox = BoundingBox::New();">
+<meta name="twitter:description" content="1 命名约定1.1 通用命名规则 驼峰命名法：利用大小写更替来指示不同的单词，如：  1234ImageFilterPixelTypeDataStorageNodePredicateProperty  避免使用下划线，如：  12Image_Filer_Node  变量名应表达代码背后的含义，如：  1BoundingBox::Pointer boundingBox = BoundingBox::">
 
 
 
@@ -352,52 +352,40 @@
 
       
         <h1 id="1-命名约定"><a href="#1-命名约定" class="headerlink" title="1 命名约定"></a>1 命名约定</h1><h2 id="1-1-通用命名规则"><a href="#1-1-通用命名规则" class="headerlink" title="1.1 通用命名规则"></a>1.1 通用命名规则</h2><ul>
-<li><p>驼峰命名法：利用大小写更替来指示不同的单词，如：</p>
-<p>ImageFilter<br>PixelType<br>DataStorage<br>NodePredicateProperty</p>
-</li>
+<li>驼峰命名法：利用大小写更替来指示不同的单词，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ImageFilter</span><br><span class="line">PixelType</span><br><span class="line">DataStorage</span><br><span class="line">NodePredicateProperty</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>避免使用下划线，如：</p>
-<p>Image_Filer<br>_Node</p>
-</li>
+<li>避免使用下划线，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Image_Filer</span><br><span class="line">_Node</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>变量名应表达代码背后的含义，如：</p>
-<p>BoundingBox::Pointer boundingBox = BoundingBox::New();</p>
-</li>
+<li>变量名应表达代码背后的含义，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BoundingBox::Pointer boundingBox = BoundingBox::New();</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>拼写出全名而非缩写，如：</p>
-<p>mitk::DataNode* node;</p>
-</li>
+<li>拼写出全名而非缩写，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mitk::DataNode* node;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>通用简称允许缩写，如：</p>
-<p>ROI表示 Region of Interest</p>
-</li>
+<li>通用简称允许缩写，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ROI表示 Region of Interest</span><br></pre></td></tr></table></figure>
 <h2 id="1-2-类"><a href="#1-2-类" class="headerlink" title="1.2 类"></a>1.2 类</h2><ul>
 <li>类名以大写字母开头</li>
-<li><p>类命名需依据以下一般性规则：</p>
-<p>class name = <algorithm><input><concept></concept></algorithm></p>
-</li>
+<li>类命名需依据以下一般性规则：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">name</span> = &lt;algorithm&gt;&lt;input&gt;&lt;concept&gt;</span></span><br></pre></td></tr></table></figure>
 <p>如：</p>
-<pre><code>Accessor：类型之间的访问和转换，如NullScalarAccessor
-Container：点或图像等对象的容器，如VectorContainer
-Filter：参与数据处理管道的类，如AddImageFilter
-Mapper：将数据从一种形式转换为另一种形式，如ContourMapper2D
-Reader/Writer：读取/写入单个数据对象的类，如VtkSurfaceReader
-</code></pre><ul>
-<li><p>像ExampleClass这样的MITK类应该在命名空间mitk中，其相应的文件应该命名为mitkExampleClass.h/.cpp。</p>
-<p>mitk::DataStorage</p>
-</li>
-</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Accessor：类型之间的访问和转换，如NullScalarAccessor</span><br><span class="line">Container：点或图像等对象的容器，如VectorContainer</span><br><span class="line">Filter：参与数据处理管道的类，如AddImageFilter</span><br><span class="line">Mapper：将数据从一种形式转换为另一种形式，如ContourMapper2D</span><br><span class="line">Reader/Writer：读取/写入单个数据对象的类，如VtkSurfaceReader</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>Qt特定的MITK类（如QmitkListView）应在其类名中包含前缀Qmitk，并将其相应的文件命名为QmitkListView.h/.cpp。</p>
-<p>QmitkDataStorageComboBox</p>
-</li>
+<li>像ExampleClass这样的MITK类应该在命名空间mitk中，其相应的文件应该命名为mitkExampleClass.h/.cpp。</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mitk::DataStorage</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Qt特定的MITK类（如QmitkListView）应在其类名中包含前缀Qmitk，并将其相应的文件命名为QmitkListView.h/.cpp。</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QmitkDataStorageComboBox</span><br></pre></td></tr></table></figure>
 <ul>
 <li>头文件以.h结尾</li>
 <li>源文件以.cpp结尾</li>
@@ -405,173 +393,162 @@ Reader/Writer：读取/写入单个数据对象的类，如VtkSurfaceReader
 </ul>
 <h2 id="1-3-方法-函数"><a href="#1-3-方法-函数" class="headerlink" title="1.3 方法/函数"></a>1.3 方法/函数</h2><ul>
 <li>以大写字母开头</li>
-<li><p>代码中引用类的方法时，应显式使用this-&gt;指针，如：</p>
-<p>mitk::DataStorage::SetOfObjects::ConstPointer all = this-&gt;GetAll();</p>
-</li>
+<li>代码中引用类的方法时，应显式使用this-&gt;指针，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mitk::DataStorage::SetOfObjects::ConstPointer all = <span class="keyword">this</span>-&gt;GetAll();</span><br></pre></td></tr></table></figure>
 <h2 id="1-4-信号-槽方法-函数"><a href="#1-4-信号-槽方法-函数" class="headerlink" title="1.4 信号/槽方法/函数"></a>1.4 信号/槽方法/函数</h2><ul>
-<li><p>槽函数命名依据如下一般性规则：</p>
-<p>On[发送信号的变量]<a href="">信号类型</a>;</p>
-</li>
+<li>槽函数命名依据如下一般性规则：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">On[发送信号的变量][信号类型]();</span><br></pre></td></tr></table></figure>
 <p>如：</p>
-<pre><code>connect( loadImagePushButton, SIGNAL( clicked(bool ) ),SLOT( OnLoadImagePushButtonClicked( bool ) ) );
-void mitk::Image::OnLoadImagePushButtonClicked( bool )
-{
-... Do something ...
-}
-</code></pre><ul>
-<li><p>信号命名依据如下一般性规则：</p>
-<p>Signal<a href="">方法名称</a>;</p>
-</li>
-</ul>
-<p>如：</p>
-<pre><code>emit SignalFinishedSegmentation();
-</code></pre><h2 id="1-5-类数据成员"><a href="#1-5-类数据成员" class="headerlink" title="1.5 类数据成员"></a>1.5 类数据成员</h2><ul>
-<li><p>类数据成员添加 m_ 前缀，且下划线后首字母大写，如：</p>
-<p>m_Volumes<br>m_OffsetTable<br>m_ImageMask</p>
-</li>
-</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">connect( loadImagePushButton, SIGNAL( clicked(<span class="keyword">bool</span> ) ),SLOT( OnLoadImagePushButtonClicked( <span class="keyword">bool</span> ) ) );</span><br><span class="line"><span class="keyword">void</span> mitk::Image::OnLoadImagePushButtonClicked( <span class="keyword">bool</span> )</span><br><span class="line">&#123;</span><br><span class="line">  ... Do something ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>Qt类数据成员不加前缀，并以小写字母开头，如：</p>
-<p>loadImageButton<br>closeImageAction</p>
-</li>
+<li>信号命名依据如下一般性规则：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Signal[方法名称]();</span><br></pre></td></tr></table></figure>
+<p>如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">emit <span class="title">SignalFinishedSegmentation</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<h2 id="1-5-类数据成员"><a href="#1-5-类数据成员" class="headerlink" title="1.5 类数据成员"></a>1.5 类数据成员</h2><ul>
+<li>类数据成员添加 m_ 前缀，且下划线后首字母大写，如：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m_Volumes</span><br><span class="line">m_OffsetTable</span><br><span class="line">m_ImageMask</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Qt类数据成员不加前缀，并以小写字母开头，如：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">loadImageButton</span><br><span class="line">closeImageAction</span><br></pre></td></tr></table></figure>
 <h2 id="1-6-局部变量"><a href="#1-6-局部变量" class="headerlink" title="1.6 局部变量"></a>1.6 局部变量</h2><ul>
-<li><p>驼峰命名法，且第一个单词以小写字母开头，如：</p>
-<p>offset<br>data<br>slicesIt</p>
-</li>
+<li>驼峰命名法，且第一个单词以小写字母开头，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">offset</span><br><span class="line">data</span><br><span class="line">slicesIt</span><br></pre></td></tr></table></figure>
 <h2 id="1-7-全局变量"><a href="#1-7-全局变量" class="headerlink" title="1.7 全局变量"></a>1.7 全局变量</h2><ul>
 <li>应尽量减少全局变量的使用，如果必须，使用g_作为前缀，以便更好的区分局部变量。</li>
 </ul>
 <h2 id="1-8-常量"><a href="#1-8-常量" class="headerlink" title="1.8 常量"></a>1.8 常量</h2><ul>
-<li><p>在全局或类里的常量名称前加k，且除开头的k之外每个单词首字母均大写，如</p>
-<p>m_kImageMask<br>g_kImageMask</p>
-</li>
+<li>在全局或类里的常量名称前加k，且除开头的k之外每个单词首字母均大写，如</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">m_kImageMask</span><br><span class="line">g_kImageMask</span><br></pre></td></tr></table></figure>
 <h2 id="1-9-Qt变量"><a href="#1-9-Qt变量" class="headerlink" title="1.9 Qt变量"></a>1.9 Qt变量</h2><ul>
-<li><p>GUI变量以Qt控件类型名结尾，如：</p>
-<p>QPushButton<em> loadImagePushButton;<br>QAction</em> closeImageAction;<br>QCheckBox<em> hideImageCheckBox;<br>QRadioButton</em> binaryImageRadioButton;</p>
-</li>
+<li>GUI变量以Qt控件类型名结尾，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QPushButton* loadImagePushButton;</span><br><span class="line">QAction* closeImageAction;</span><br><span class="line">QCheckBox* hideImageCheckBox;</span><br><span class="line">QRadioButton* binaryImageRadioButton;</span><br></pre></td></tr></table></figure>
 <h2 id="1-10-类型命名"><a href="#1-10-类型命名" class="headerlink" title="1.10 类型命名"></a>1.10 类型命名</h2><ul>
-<li><p>类型名称的每个单词首字母均大写，不包含下划线，所有类型命名（class，struct，typedef，enum）均使用相同约定，如：</p>
-<p>MyExcitingClass<br>MyExcitingEnum</p>
-</li>
+<li>类型名称的每个单词首字母均大写，不包含下划线，所有类型命名（class，struct，typedef，enum）均使用相同约定，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MyExcitingClass</span><br><span class="line">MyExcitingEnum</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>Typedef声明的类型名以单词Type结尾，如：</p>
-<p>typedef TPixel PixelType;<br>typedef itk::Image&lt; TPixel, VImageDimension &gt; ImageType;<br>typedef std::list<a href="mitk::Image::Pointer" target="_blank" rel="noopener">mitk::Image::Pointer</a> ImageListType;</p>
-</li>
+<li>Typedef声明的类型名以单词Type结尾，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> TPixel PixelType;</span><br><span class="line"><span class="keyword">typedef</span> itk::Image&lt; TPixel, VImageDimension &gt; ImageType;</span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">std</span>::<span class="built_in">list</span>&lt;mitk::Image::Pointer&gt; ImageListType;</span><br></pre></td></tr></table></figure>
 <h1 id="2-指针"><a href="#2-指针" class="headerlink" title="2 指针"></a>2 指针</h1><h2 id="2-1-指针的声明"><a href="#2-1-指针的声明" class="headerlink" title="2.1 指针的声明"></a>2.1 指针的声明</h2><ul>
-<li><p>指针*/引用&amp;应与变量连接，如：</p>
-<p>int *counter;<br>int &counter;</p>
-</li>
+<li>指针*/引用&amp;应与变量连接，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *counter;</span><br><span class="line"><span class="keyword">int</span> &amp;counter;</span><br></pre></td></tr></table></figure>
 <h2 id="2-2-智能指针-SmartPointer"><a href="#2-2-智能指针-SmartPointer" class="headerlink" title="2.2 智能指针 SmartPointer"></a>2.2 智能指针 SmartPointer</h2><ul>
 <li>SmartPointers必须用于以itk::Object作为基类的类</li>
-<li><p>将刚创建的实例分配给普通指针会导致崩溃，因为引用计数会立即减少到零，并且对象会被销毁</p>
-<p>itk::Object::Pointer object = itk::Object::New();</p>
-</li>
+<li>将刚创建的实例分配给普通指针会导致崩溃，因为引用计数会立即减少到零，并且对象会被销毁</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">itk::Object::Pointer object = itk::Object::New();</span><br></pre></td></tr></table></figure>
 <ul>
 <li>当变量的作用域保留时，静态声明也被禁止并导致异常，因为当引用计数仍大于零时调用了析构函数</li>
 <li>请注意，使用智能指针需要在设置输入时使用真实（普通）指针。如果你想要返回一个新创建的智能指针（该指针不在类中）（例如，如果您编写了一个Clone方法），则必须返回一个智能指针（比较itkMacro.h）。如果智能指针保存在类中，则返回一个真正的（普通）指针就足够了。 -测试SmartPointer是否为空应使用IsNull（）和IsNotNull（）方法。简单的使用==NULL会发出警告。</li>
 </ul>
 <h1 id="3-命名空间"><a href="#3-命名空间" class="headerlink" title="3 命名空间"></a>3 命名空间</h1><ul>
-<li><p>ARMD类应包含在命名空间armd内，如：</p>
-<p>#include “…”<br>namespace armd<br>{</p>
-<pre><code>class TestClass
-{
-    ...
-}
-</code></pre><p>}</p>
-</li>
+<li>ARMD类应包含在命名空间armd内，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"..."</span></span></span><br><span class="line"><span class="keyword">namespace</span> armd</span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">TestClass</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="4-代码布局和缩进"><a href="#4-代码布局和缩进" class="headerlink" title="4 代码布局和缩进"></a>4 代码布局和缩进</h1><h2 id="4-1-整体布局"><a href="#4-1-整体布局" class="headerlink" title="4.1 整体布局"></a>4.1 整体布局</h2><ul>
 <li>禁止使用 using namespace xx污染命名空间</li>
 <li>禁止使用尾随空格</li>
-<li><p>变量声明应该是每行一个声明，如</p>
-<p>int sliceNumber;<br>char *stringName;<br>ImageType::Pointer image;</p>
-</li>
+<li>变量声明应该是每行一个声明，如</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sliceNumber;</span><br><span class="line"><span class="keyword">char</span> *stringName;</span><br><span class="line">ImageType::Pointer image;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>每一个限定符（public/protected/private）内，声明顺序如下：</li>
 </ul>
-<p>顺序</p>
-<p>内容</p>
-<p>权限</p>
-<p>1</p>
-<p>typedefs和enums</p>
-<p>public</p>
-<p>2</p>
-<p>常量</p>
-<p>public/private</p>
-<p>3</p>
-<p>构造函数</p>
-<p>public</p>
-<p>4</p>
-<p>析构函数</p>
-<p>public</p>
-<p>5</p>
-<p>成员函数，含静态数据成员</p>
-<p>public/protected/private</p>
-<p>6</p>
-<p>成员变量，含静态成员变量</p>
-<p>public/protected/private</p>
+<table>
+<thead>
+<tr>
+<th>顺序</th>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">权限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td style="text-align:center">typedefs和enums</td>
+<td style="text-align:center">public</td>
+</tr>
+<tr>
+<td>2</td>
+<td style="text-align:center">常量</td>
+<td style="text-align:center">public/private</td>
+</tr>
+<tr>
+<td>3</td>
+<td style="text-align:center">构造函数</td>
+<td style="text-align:center">public</td>
+</tr>
+<tr>
+<td>4</td>
+<td style="text-align:center">析构函数</td>
+<td style="text-align:center">public</td>
+</tr>
+<tr>
+<td>5</td>
+<td style="text-align:center">成员函数，含静态数据成员</td>
+<td style="text-align:center">public/protected/private</td>
+</tr>
+<tr>
+<td>6</td>
+<td style="text-align:center">成员变量，含静态成员变量</td>
+<td style="text-align:center">public/protected/private</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>本文来自 大大的微笑 的CSDN 博客 ，全文地址请点击：<a href="https://blog.csdn.net/chwshuang/article/details/52350551?utm_source=copy" target="_blank" rel="noopener">https://blog.csdn.net/chwshuang/article/details/52350551?utm_source=copy</a></p>
 <h2 id="4-2-类布局"><a href="#4-2-类布局" class="headerlink" title="4.2 类布局"></a>4.2 类布局</h2><ul>
-<li><p>Copyright（.h，.cpp文件均需包含）</p>
-<p>// Copyright 2018 Ariemedi LLC.     版权<br>// License(BSD/GPL/…)             许可证，BSD/GPL/MIT/…<br>// Author: Li Wenjie                作者<br>// This is …                      文件内容简短说明</p>
-</li>
+<li>Copyright（.h，.cpp文件均需包含）</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright 2018 Ariemedi LLC.     版权</span></span><br><span class="line"><span class="comment">// License(BSD/GPL/...)             许可证，BSD/GPL/MIT/...</span></span><br><span class="line"><span class="comment">// Author: Li Wenjie                作者</span></span><br><span class="line"><span class="comment">// This is ...                      文件内容简短说明</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>Include[A..Z]</p>
-<p>#include “… .h”</p>
-</li>
+<li>Include[A..Z]</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"... .h"</span></span></span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>Namespace</p>
-<p>namespace armd<br>{</p>
-</li>
+<li>Namespace</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> armd</span><br><span class="line">&#123;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>Typedefs</p>
-<p>public:<br>  ….typedefs….</p>
-</li>
+<li>Typedefs</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  ....typedefs....</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>Methods</p>
-<p>public:<br>  ….methods….<br>protected:<br>  ….methods….<br>private:<br>  ….methods….</p>
-</li>
+<li>Methods</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  ....methods....</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">  ....methods....</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  ....methods....</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>QT Signals</p>
-<p>signals:<br>  Signal…();</p>
-</li>
+<li>QT Signals</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">signals:</span><br><span class="line">  Signal...();</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>QT Slots</p>
-<p>public slots:<br>  On…();<br>protected slots:<br>  On…();</p>
-</li>
+<li>QT Slots</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> slots:</span><br><span class="line">  On...();</span><br><span class="line"><span class="keyword">protected</span> slots:</span><br><span class="line">  On...();</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>数据成员定义为私有，放在类结尾</p>
-<p>private/protected:<br>  ….class data members….<br>};<br>}<br>#endif</p>
-</li>
+<li>数据成员定义为私有，放在类结尾</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>/<span class="keyword">protected</span>:</span><br><span class="line">  ....class data members....</span><br><span class="line">&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <h1 id="5-大括号的使用"><a href="#5-大括号的使用" class="headerlink" title="5 大括号的使用"></a>5 大括号的使用</h1><ul>
 <li>if，for，while，switch等必须使用大括号{}</li>
-<li><p>大括号单独占一行，如</p>
-<p>for ( unsigned int i = 0; i &lt; 3; ++i )<br>{<br>… do something …<br>}</p>
-</li>
+<li>大括号单独占一行，如</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ( <span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; ++i )</span><br><span class="line">&#123;</span><br><span class="line">... <span class="keyword">do</span> something ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>代码段只有一行时可以将其放在一行，如：</p>
-<p>if ( condition ) { foo = 1; }<br>else if ( condition2 ) { foo = 3; }<br>else { return; }</p>
-</li>
+<li>代码段只有一行时可以将其放在一行，如：</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( condition ) &#123; foo = <span class="number">1</span>; &#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> ( condition2 ) &#123; foo = <span class="number">3</span>; &#125;</span><br><span class="line"><span class="keyword">else</span> &#123; <span class="keyword">return</span>; &#125;</span><br></pre></td></tr></table></figure>
 <h1 id="6-include保护符"><a href="#6-include保护符" class="headerlink" title="6 include保护符"></a>6 include保护符</h1><ul>
 <li>#inlcude 保护符是一个特殊的构造，用于在处理#include指令时避免双重包含的问题</li>
 <li>#inlcude 保护符的命名约定是：ClassName_h</li>

@@ -87,7 +87,7 @@
 <meta property="og:description" content="原文参考：http://docs.mitk.org/nightly/Step02Page.html 1.设置图像文件、表面文件路径Step2程序演示了如何加载多个数据集。在运行程序时需要传入两个参数：图像文件Pic3D.nrrd及曲面文件lungs.vtk。 - lungs.vtk若无法通过点击MITK官网中的下载链接http:/http://mitk.org/download/tutorial-">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/step2%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
-<meta property="og:updated_time" content="2018-10-06T03:02:57.385Z">
+<meta property="og:updated_time" content="2018-10-06T05:18:48.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK Examples】Step2-加载一个或多个数据集">
 <meta name="twitter:description" content="原文参考：http://docs.mitk.org/nightly/Step02Page.html 1.设置图像文件、表面文件路径Step2程序演示了如何加载多个数据集。在运行程序时需要传入两个参数：图像文件Pic3D.nrrd及曲面文件lungs.vtk。 - lungs.vtk若无法通过点击MITK官网中的下载链接http:/http://mitk.org/download/tutorial-">
@@ -356,24 +356,8 @@
         <p>原文参考：<a href="http://docs.mitk.org/nightly/Step02Page.html" target="_blank" rel="noopener">http://docs.mitk.org/nightly/Step02Page.html</a></p>
 <h1 id="1-设置图像文件、表面文件路径"><a href="#1-设置图像文件、表面文件路径" class="headerlink" title="1.设置图像文件、表面文件路径"></a>1.设置图像文件、表面文件路径</h1><p>Step2程序演示了如何加载多个数据集。在运行程序时需要传入两个参数：图像文件Pic3D.nrrd及曲面文件lungs.vtk。 - lungs.vtk若无法通过点击MITK官网中的下载链接<a href="http:/http://mitk.org/download/tutorial-data/lungs.vtk/" target="_blank" rel="noopener">http:/http://mitk.org/download/tutorial-data/lungs.vtk/</a>下载的话，复制该链接使用迅雷下载即可； - 按照Step1中的方法，将两个文件的地址添加到Step2的命令参数中去，两个参数之间用空格隔开； - 设置完毕后，把MitkStep2设置为启动项目。</p>
 <h1 id="2-运行程序"><a href="#2-运行程序" class="headerlink" title="2.运行程序"></a>2.运行程序</h1><h2 id="2-1-修改代码"><a href="#2-1-修改代码" class="headerlink" title="2.1 修改代码"></a>2.1 修改代码</h2><p>Step2代码仅在Step1代码的基础上修改了Part II和Part III部分。改动部分如下所示：</p>
-<pre><code>//*************************************************************************
- // Part II: 从文件中读取数据
- //（与Step1不同的地方在于，Step2使用for循环读取了两个文件，而Step1只读取了一个）
- //*************************************************************************
- int i;
- for (i = 1; i &lt; argc; ++i)
- {
-   // 测试
-   if (strcmp(argv[i], &quot;-testing&quot;) == 0)
-     continue;
-
-   //*********************************************************************
-   // Part III: 将数据放入到数据存储中
-   //*********************************************************************
-   // 向数据存储中添加数据节点
-   mitk::IOUtil::Load(argv[i], *storage);
- }
-</code></pre><h2 id="2-2-Step2程序运行结果："><a href="#2-2-Step2程序运行结果：" class="headerlink" title="2.2 Step2程序运行结果："></a>2.2 Step2程序运行结果：</h2><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/step2%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt=""></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//*************************************************************************</span></span><br><span class="line"><span class="comment">// Part II: 从文件中读取数据</span></span><br><span class="line"><span class="comment">//（与Step1不同的地方在于，Step2使用for循环读取了两个文件，而Step1只读取了一个）</span></span><br><span class="line"><span class="comment">//*************************************************************************</span></span><br><span class="line"><span class="keyword">int</span> i;</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; argc; ++i)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 测试</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">strcmp</span>(argv[i], <span class="string">"-testing"</span>) == <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//*********************************************************************</span></span><br><span class="line">  <span class="comment">// Part III: 将数据放入到数据存储中</span></span><br><span class="line">  <span class="comment">//*********************************************************************</span></span><br><span class="line">  <span class="comment">// 向数据存储中添加数据节点</span></span><br><span class="line">  mitk::IOUtil::Load(argv[i], *storage);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-Step2程序运行结果："><a href="#2-2-Step2程序运行结果：" class="headerlink" title="2.2 Step2程序运行结果："></a>2.2 Step2程序运行结果：</h2><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/step2%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt=""></p>
 
       
     </div>

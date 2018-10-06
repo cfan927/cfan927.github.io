@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_example_us.png">
 <meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_update.png">
 <meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_hierarchy.png">
-<meta property="og:updated_time" content="2018-10-06T03:02:51.019Z">
+<meta property="og:updated_time" content="2018-10-06T05:17:26.872Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK Concepts】流水线(Pipelining)">
 <meta name="twitter:description" content="编辑：赵志奇 审校：田兆瑞 原文链接：http://docs.mitk.org/nightly/PipelineingConceptPage.html 流水线简介MITK中的图像处理大量使用了流水线（pipelining）的概念，在使用MITK进行开发的过程中，对其有个清晰的理解至关重要。本文档将首先阐明流水线背后的一般思想，然后讨论一些你应该了解的MITK细节。 在现实世界中，管道将某种类型的源">
@@ -360,25 +360,15 @@
 <h1 id="流水线简介"><a href="#流水线简介" class="headerlink" title="流水线简介"></a>流水线简介</h1><p>MITK中的图像处理大量使用了流水线（pipelining）的概念，在使用MITK进行开发的过程中，对其有个清晰的理解至关重要。本文档将首先阐明流水线背后的一般思想，然后讨论一些你应该了解的MITK细节。 在现实世界中，管道将某种类型的源和用户连接起来。 因此，我们确定了三个关键概念： 1.源（source）：生成某种类型的数据； 2.管道（pipeline）：传输数据，许多不同的管道段可以组合接通成管线，从而实现该功能； 3.用户（consumer）：使用这些数据来满足自己的需要。 将MITK中的管道和真实的管道相比较的话，有一点不同的是：物理管道永远不会处理它的内容，而在软件开发过程中，管道通常会这样做（这就是它们经常也被称为滤波器的原因）。有人可能会问，为什么不在用户对象本身中实现处理逻辑，因为它明显知道如何处理它的数据。两个主要原因是可重用性和灵活性。比如说，有人想要显示CT图像中的骨骼分割结果，他可以构建一个单独的类来解决这个问题，或者在显示类和源之间构建一个管道。我们知道在CT扫描中骨骼非常亮，所以我们使用一个阈值滤波器，然后使用一个分割滤波器来解决这个问题。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_example_ct.png" alt=""> 现在让我们进一步假设，在成功将这种新技术出售给一家大公司后，我们计划利用超声成像技术做同样的事情。超声图像的亮度关系（与CT）基本相同，但超声图像有很多噪声，对比度明显更低。由于我们使用了流水线，所以这不成问题：我们不需要更改原有的分割类，只需在原有的管道前插入两个新的滤波器即可： <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_example_us.png" alt=""> 这看起来可能微不足道，但是当处理来自许多不同厂商的许多不同设备的输入流时，对不同规格的广泛支持，使得流水线技术可以节省很多时间。</p>
 <h1 id="MITK中的流水线"><a href="#MITK中的流水线" class="headerlink" title="MITK中的流水线"></a>MITK中的流水线</h1><h2 id="更新机制"><a href="#更新机制" class="headerlink" title="更新机制"></a>更新机制</h2><p>管道中的数据流只在用户调用Update()函数时触发。然后，管道的每个部分依次触发它前面（滤波器等）的Update()方法。最后，源使用自己的GenerateData()方法创建一批新的数据，并通知其后续者新数据可用。然后，管道可以开始处理数据，直到完成的数据被最后一个滤波器输出。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_update.png" alt=""></p>
 <h2 id="管道层次结构"><a href="#管道层次结构" class="headerlink" title="管道层次结构"></a>管道层次结构</h2><p>除用户（可以是任何类）之外，管道所有部分的基类都是mitk::BaseProcess。该类引入了处理数据的能力，具备输出和输入。但是，这个类很少被直接使用。 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/pipelining_hierarchy.png" alt=""> 几个源类扩展了BaseProcess。由它们提供的数据类型，ImageSource，PointSetSource和SurfaceSource都标志着管道的开始。 滤波器自身扩展了其中一个源类。这可能不会立即有意义，但从根本上来说滤波器就是一个具有额外输入的源。</p>
-<h1 id="使用滤波器"><a href="#使用滤波器" class="headerlink" title="使用滤波器"></a>使用滤波器</h1><h2 id="设置一个管道"><a href="#设置一个管道" class="headerlink" title="设置一个管道"></a>设置一个管道</h2><pre><code>// Create Participants
-mitk::USVideoDevice::Pointer videoDevice = mitk::USVideoDevice::New(&quot;-1&quot;, &quot;Manufacturer&quot;, &quot;Model&quot;);
-TestUSFilter::Pointer filter = TestUSFilter::New();
-// Make Videodevice produce it&apos;s first set of Data, so it&apos;s output isn&apos;t empty
-videoDevice-&gt;Update();
-// attacht filter input to device output
-filter-&gt;SetInput(videoDevice-&gt;GetOutput());
-// Pipeline is now functional
-filter-&gt;Update();
-</code></pre><h2 id="写我们自己的滤波器"><a href="#写我们自己的滤波器" class="headerlink" title="写我们自己的滤波器"></a>写我们自己的滤波器</h2><p>下面给出第一次写一个滤波器的推荐方法：</p>
+<h1 id="使用滤波器"><a href="#使用滤波器" class="headerlink" title="使用滤波器"></a>使用滤波器</h1><h2 id="设置一个管道"><a href="#设置一个管道" class="headerlink" title="设置一个管道"></a>设置一个管道</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create Participants</span></span><br><span class="line">mitk::USVideoDevice::Pointer videoDevice = mitk::USVideoDevice::New(<span class="string">"-1"</span>, <span class="string">"Manufacturer"</span>, <span class="string">"Model"</span>);</span><br><span class="line">TestUSFilter::Pointer filter = TestUSFilter::New();</span><br><span class="line"><span class="comment">// Make Videodevice produce it's first set of Data, so it's output isn't empty</span></span><br><span class="line">videoDevice-&gt;Update();</span><br><span class="line"><span class="comment">// attacht filter input to device output</span></span><br><span class="line">filter-&gt;SetInput(videoDevice-&gt;GetOutput());</span><br><span class="line"><span class="comment">// Pipeline is now functional</span></span><br><span class="line">filter-&gt;Update();</span><br></pre></td></tr></table></figure>
+<h2 id="写我们自己的滤波器"><a href="#写我们自己的滤波器" class="headerlink" title="写我们自己的滤波器"></a>写我们自己的滤波器</h2><p>下面给出第一次写一个滤波器的推荐方法：</p>
 <ul>
 <li>确定输入及输出所需的数据类型；</li>
 <li>根据第一步的信息，扩展BaseProcess可用的最具体的子类，例如，一个处理图像的滤波器，应该扩展ImageToImageFilter；</li>
 <li>确定需要多少输入和输出；</li>
-<li><p>在构造函数中，定义输出的数量，并创建一个输出；</p>
-<p>//set number of outputs<br>this-&gt;SetNumberOfOutputs(1);</p>
-<p>//create a new output<br>mitk::Image::Pointer newOutput = mitk::Image::New();<br>this-&gt;SetNthOutput(0, newOutput);</p>
-</li>
+<li>在构造函数中，定义输出的数量，并创建一个输出；</li>
 </ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//set number of outputs</span></span><br><span class="line"><span class="keyword">this</span>-&gt;SetNumberOfOutputs(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//create a new output</span></span><br><span class="line">mitk::Image::Pointer newOutput = mitk::Image::New();</span><br><span class="line"><span class="keyword">this</span>-&gt;SetNthOutput(<span class="number">0</span>, newOutput);</span><br></pre></td></tr></table></figure>
 <ul>
 <li>实现MakeOutput()方法，该方法创建一个新的、可以写入的、干净的输出，请参阅具有类似任务的滤波器；</li>
 <li>实现GenerateData()方法，该方法将根据输入生成输出。在执行时，可以假定输入的是新数据集。</li>

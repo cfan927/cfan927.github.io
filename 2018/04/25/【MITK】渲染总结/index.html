@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/3-1.png">
 <meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/4-1.png">
 <meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/5-1.png">
-<meta property="og:updated_time" content="2018-10-06T03:07:11.341Z">
+<meta property="og:updated_time" content="2018-10-06T05:26:15.966Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK】渲染总结">
 <meta name="twitter:description" content="编辑：王祺 审校：田兆瑞 1.综述官方文档参考：http://docs.mitk.org/nightly/QVTKRendering.html MITK的渲染底层是基于VTK的，大家对VTK的渲染应该都有了解，是一个面向对象的管道过滤器模型的渲染方式。本文建立在大家对VTK的渲染基础有了解的情况下进行讨论的。在VTK中，所有能够存在于一个渲染场景(2D或3D)中的可见物体，都继承自vtkProp(">
@@ -388,8 +388,8 @@
 </li>
 </ul>
 <h3 id="2-2-2-QmitkRenderWindow"><a href="#2-2-2-QmitkRenderWindow" class="headerlink" title="2.2.2 QmitkRenderWindow"></a>2.2.2 QmitkRenderWindow</h3><p>这个类在上文已经介绍过继承关系，其实可以理解为继承自VTK的Renderwindow，同时继承自RenderWindowBase。 构造函数：</p>
-<pre><code>QmitkRenderWindow (QWidget *parent=nullptr, const QString &amp;name=&quot;unnamed renderwindow&quot;, mitk::VtkPropRenderer *renderer=nullptr, mitk::RenderingManager *renderingManager=nullptr, mitk::BaseRenderer::RenderingMode::Type renderingMode=mitk::BaseRenderer::RenderingMode::Standard)
-</code></pre><p>从构造函数的参数可以看出来它需要一个QT的窗口来放置这个RenderWindow，需要一个名字，需要一个VtkPropRender，但是可以暂时设置为NULL，还需要一个RenderManager，暂时也可以设置为NULL，最后一个参数是设置这个渲染窗口的渲染模式，默认为Standard，还可以选择为DepthPeeling（深度剥离），MultiSampling（多重采样），在构造函数的函数体中对三种渲染模式进行了相关参数的设置。 函数体中调用了RenderWindowBase的Initialization（）函数来初始化构造函数中的DataStorage、VTKPropRender和vtkMitkRenderProp。这也是为什么在构造函数参数列表中这两个参数可以设置为NULL，因为要在Initialization中进行初始化。通过这个构造函数可以发现渲染窗口已经包含了VtkPropRender和vtkMitkRenderProp。还有一些函数可以对渲染窗口进行设置，下面就来介绍一下。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QmitkRenderWindow (QWidget *parent=<span class="literal">nullptr</span>, <span class="keyword">const</span> QString &amp;name=<span class="string">"unnamed renderwindow"</span>, mitk::VtkPropRenderer *renderer=<span class="literal">nullptr</span>, mitk::RenderingManager *renderingManager=<span class="literal">nullptr</span>, mitk::BaseRenderer::RenderingMode::Type renderingMode=mitk::BaseRenderer::RenderingMode::Standard)</span><br></pre></td></tr></table></figure>
+<p>从构造函数的参数可以看出来它需要一个QT的窗口来放置这个RenderWindow，需要一个名字，需要一个VtkPropRender，但是可以暂时设置为NULL，还需要一个RenderManager，暂时也可以设置为NULL，最后一个参数是设置这个渲染窗口的渲染模式，默认为Standard，还可以选择为DepthPeeling（深度剥离），MultiSampling（多重采样），在构造函数的函数体中对三种渲染模式进行了相关参数的设置。 函数体中调用了RenderWindowBase的Initialization（）函数来初始化构造函数中的DataStorage、VTKPropRender和vtkMitkRenderProp。这也是为什么在构造函数参数列表中这两个参数可以设置为NULL，因为要在Initialization中进行初始化。通过这个构造函数可以发现渲染窗口已经包含了VtkPropRender和vtkMitkRenderProp。还有一些函数可以对渲染窗口进行设置，下面就来介绍一下。</p>
 <ul>
 <li><p><strong>void QmitkRenderWindow::SetResendQtEvents ( bool resend )</strong> 设置渲染窗口接收到的QT事件（例如鼠标点击、键盘按键等等）是否传递给它的父窗口，默认为是。</p>
 </li>
@@ -484,22 +484,9 @@
 </li>
 </ul>
 <h2 id="3-2"><a href="#3-2" class="headerlink" title="3.2"></a>3.2</h2><p>如果我们需要新建一个渲染管线，大部分情况下我们可以为这个渲染管线设置独特的交互，和QmitkStdMultiWidget不一样的交互，我们需要实现下面的代码，很好理解。</p>
-<pre><code>//新建一个RenderManager
-mitk::RenderingManager::Pointer renderingManager = mitk::RenderingManager::New();
-// 新建一个DataStorage和Interactior
-mitk::DataStorage::Pointer dataStorage = mitk::DataStorage::New();
-mitk::GlobalInteraction::Pointer globalInteraction = mitk::GlobalInteraction::New();
-//绑定到RenderManager
-renderingManager-&gt;SetDataStorage( dataStorage );
-renderingManager-&gt;SetGlobalInteraction( globalInteraction );
-// 新建一个QmitkRenderWindow，包含了这个RenderManager
-QmitkRenderWindow* renderWindow = new QmitkRenderWindow( parent, &quot;name&quot;, renderer, renderingManager )
-</code></pre><h2 id="3-3-为一个数据节点设置一个独特的Mapper"><a href="#3-3-为一个数据节点设置一个独特的Mapper" class="headerlink" title="3.3 为一个数据节点设置一个独特的Mapper"></a>3.3 为一个数据节点设置一个独特的Mapper</h2><pre><code>//首先新建一个Mapper，Mapper的种类见下图，可以根据自己的需要选择合适的mapper
-newMapper = mitk::GPUVolumeMapper3D::New();
-//有两种方式设置一个节点的mapper,一种是通过node设置，一种是通过mapper设置，这两种方法都可以，通过node设置的话第一个参数是MapperSlotID
-//node-&gt;SetMapper(1, newMapper);
-newMapper-&gt;SetDataNode(node);
-</code></pre><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/5-1.png" alt=""></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新建一个RenderManager</span></span><br><span class="line">mitk::RenderingManager::Pointer renderingManager = mitk::RenderingManager::New();</span><br><span class="line"><span class="comment">// 新建一个DataStorage和Interactior</span></span><br><span class="line">mitk::DataStorage::Pointer dataStorage = mitk::DataStorage::New();</span><br><span class="line">mitk::GlobalInteraction::Pointer globalInteraction = mitk::GlobalInteraction::New();</span><br><span class="line"><span class="comment">//绑定到RenderManager</span></span><br><span class="line">renderingManager-&gt;SetDataStorage( dataStorage );</span><br><span class="line">renderingManager-&gt;SetGlobalInteraction( globalInteraction );</span><br><span class="line"><span class="comment">// 新建一个QmitkRenderWindow，包含了这个RenderManager</span></span><br><span class="line">QmitkRenderWindow* renderWindow = <span class="keyword">new</span> QmitkRenderWindow( parent, <span class="string">"name"</span>, renderer, renderingManager )</span><br></pre></td></tr></table></figure>
+<h2 id="3-3-为一个数据节点设置一个独特的Mapper"><a href="#3-3-为一个数据节点设置一个独特的Mapper" class="headerlink" title="3.3 为一个数据节点设置一个独特的Mapper"></a>3.3 为一个数据节点设置一个独特的Mapper</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//首先新建一个Mapper，Mapper的种类见下图，可以根据自己的需要选择合适的mapper</span></span><br><span class="line">newMapper = mitk::GPUVolumeMapper3D::New();</span><br><span class="line"><span class="comment">//有两种方式设置一个节点的mapper,一种是通过node设置，一种是通过mapper设置，这两种方法都可以，通过node设置的话第一个参数是MapperSlotID</span></span><br><span class="line"><span class="comment">//node-&gt;SetMapper(1, newMapper);</span></span><br><span class="line">newMapper-&gt;SetDataNode(node);</span><br></pre></td></tr></table></figure>
+<p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/5-1.png" alt=""></p>
 <h1 id="4-MITK渲染遇到的问题"><a href="#4-MITK渲染遇到的问题" class="headerlink" title="4. MITK渲染遇到的问题"></a>4. MITK渲染遇到的问题</h1><p>说到MITK渲染的问题，得回到为什么要分析MITK的渲染。最初的任务是移植Mevislab的一个渲染效果到MITK中，因为MITK集成的VTK和Mevislab都是使用OpenGL的底层，好像可以互相移植一下。在分析了Mevislab中的工程的过程中，发现其实Mevislab的使用是很灵活的，提供了大量的效果的过滤器，有很多基础的显示算法都集成进去了，但是我在VTK中并没有找到相应过滤器，这给我很大的困扰。后来调查了一下Mevislab发现其实它并不是直接使用的OpenGL作为底层，而是使用封装了OpenGL的OpenInventor作为底层，有兴趣的同学可以查一下OpenInventor（OIV）。OIV和VTK的能力显然是不对等的，方向也不是一致的，一个是专业用来渲染的API，一个是数据可视化的API。这就使得很多OIV中的效果无法在VTK中复现。也就很难再MITK中复现。 以上的意思就是如果不扩展VTK，那么MITK的渲染效果其实是有很大的制约，光靠API的调用是无法完成的。我目前在学习OpenGL，其实有些VTK中没有集成的效果我也知道如何用OpenGL实现，但是如何集成到VTK中还是一个障碍，这需要更改VTK的源码，是个很复杂的工作。这个工作我认为其实意义不大，不如直接不用VTK换一个底层API来的方便。 MITK渲染最大的问题就在于VTK的制约，如果无法对VTK有很大的显示效果的提升，那么MITK的显示效果不可能提升。 另外的一个大问题在于MITK的渲染框架太过复杂，上面的类图分析已经展示了它调用的复杂性，对于很多刚接触的人来说简直头大。其实这不利于用MITK进行开发。</p>
 <h1 id="5-个人感想"><a href="#5-个人感想" class="headerlink" title="5.个人感想"></a>5.个人感想</h1><p>我本人对计算机图形学很感兴趣，所以接了这个任务，收获颇丰，它直接促使我学习VTK以及继续学习OpenGL。图形学本身的学习很辛苦，是个复杂而且深奥的学问，我了解到的这部分其实连门都还没入，真正的工业级的渲染水平远远不是VTK和MITK能达到的。因为我还在学习中，接触的还很浅，也许文中会出现错误，实乃水平所致，多多包涵。在后续的学习中如果水平长进，会继续维护这个文档，同时跟进VTK以及MITK的渲染改进工作。 图形学是个很有意思且富有美感的学科，希望会有对图形学同样感兴趣的同学，一起讨论，一起前进。</p>
 

@@ -87,7 +87,7 @@
 <meta property="og:description" content="1.设置图像文件、表面文件路径 Step6继续前面的程序，添加一个交互式的区域增长； 在本节，我们将看到MITK图像类是如何访问ITK图像类的； 在这个例子中，我们仅需要加载图像文件Pic3D.nrrd，因为曲面文件是区域增长的结果； 设置完毕后，将MitkStep6设置为启动项。  2.运行程序区域增长是一个经典的基于灰度空间的分割算法，交互式区域增长是指可以由用户以鼠标交互方式选择空间点作为种">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/Step6%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
-<meta property="og:updated_time" content="2018-10-06T03:03:11.378Z">
+<meta property="og:updated_time" content="2018-10-06T05:07:57.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK Examples】Step6-使用交互式区域增长">
 <meta name="twitter:description" content="1.设置图像文件、表面文件路径 Step6继续前面的程序，添加一个交互式的区域增长； 在本节，我们将看到MITK图像类是如何访问ITK图像类的； 在这个例子中，我们仅需要加载图像文件Pic3D.nrrd，因为曲面文件是区域增长的结果； 设置完毕后，将MitkStep6设置为启动项。  2.运行程序区域增长是一个经典的基于灰度空间的分割算法，交互式区域增长是指可以由用户以鼠标交互方式选择空间点作为种">
@@ -361,90 +361,18 @@
 </ul>
 <h1 id="2-运行程序"><a href="#2-运行程序" class="headerlink" title="2.运行程序"></a>2.运行程序</h1><p>区域增长是一个经典的基于灰度空间的分割算法，交互式区域增长是指可以由用户以鼠标交互方式选择空间点作为种子点进行图像分割。</p>
 <h2 id="2-1代码选读"><a href="#2-1代码选读" class="headerlink" title="2.1代码选读"></a>2.1代码选读</h2><p>本节源代码分开成几个文件： + <a href="http://docs.mitk.org/2012.06/Step6_8cpp-example.html" target="_blank" rel="noopener">Step6.cpp</a> + <a href="http://docs.mitk.org/2012.06/Step6_8h-example.html" target="_blank" rel="noopener">Step6.h</a> + <a href="http://docs.mitk.org/2012.06/Step6RegionGrowing_8txx-example.html" target="_blank" rel="noopener">Step6RegionGrowing.txx</a> + <a href="http://docs.mitk.org/2012.06/Step6RegionGrowing1_8cpp-example.html" target="_blank" rel="noopener">Step6RegionGrowing1.cpp</a> + <a href="http://docs.mitk.org/2012.06/Step6RegionGrowing2_8cpp-example.html" target="_blank" rel="noopener">Step6RegionGrowing2.cpp</a> + <a href="http://docs.mitk.org/2012.06/Step6main_8cpp-example.html" target="_blank" rel="noopener">Step6main.cpp</a> 说明： + 在Step6.cpp定义了一个继承于QMainWindow的类，它重载方法用于初始化程序中的widgets； + Step6RegionGrowing.cpp包含用于执行区域增长的方法； + Step6main.cpp包含main方法；与ITK和VTK类型，类成员以m打头后接成员名，成员名的第一个字母大写(例如,m_Tree)。 + 函数名以大写开头。<br>+ 想了解更多MITK代码风格，请阅读<a href="http://docs.mitk.org/2012.06/StyleGuideAndNotesPage.html" target="_blank" rel="noopener">The MITK Style Guide</a>。 widgets和之前的章节一样初始化，在本节我们增加一个QVBox用于放置分割按钮：</p>
-<pre><code>// Create controlsParent widget with horizontal layout
-QWidget *controlsParent = new QWidget(this);
-this-&gt;layout()-&gt;addWidget(controlsParent);
-
-QHBoxLayout *hlayout = new QHBoxLayout(controlsParent);
-hlayout-&gt;setSpacing(2);
-
-QLabel *labelThresholdMin = new QLabel(&quot;Lower Threshold:&quot;, controlsParent);
-hlayout-&gt;addWidget(labelThresholdMin);
-
-m_LineEditThresholdMin = new QLineEdit(&quot;-1000&quot;, controlsParent);
-hlayout-&gt;addWidget(m_LineEditThresholdMin);
-
-QLabel *labelThresholdMax = new QLabel(&quot;Upper Threshold:&quot;, controlsParent);
-hlayout-&gt;addWidget(labelThresholdMax);
-
-m_LineEditThresholdMax = new QLineEdit(&quot;-400&quot;, controlsParent);
-hlayout-&gt;addWidget(m_LineEditThresholdMax);
-</code></pre><p>接下来新建这个按钮，并将它的clicked()信号与方法StartRegionGrowing()关联：</p>
-<pre><code>// create button to start the segmentation and connect its clicked()
-// signal to method StartRegionGrowing
-QPushButton *startButton = new QPushButton(&quot;start region growing&quot;, controlsParent);
-connect(startButton, SIGNAL(clicked()), this, SLOT(StartRegionGrowing()));
-</code></pre><h3 id="以ITK图像类型方式访问MITK图像类型"><a href="#以ITK图像类型方式访问MITK图像类型" class="headerlink" title="以ITK图像类型方式访问MITK图像类型"></a>以ITK图像类型方式访问MITK图像类型</h3><p>ITK图像类型是模板化的，而mitk::Images不是。要使用ITK广泛的图像处理算法来处理MITK图像，我们必须将MITK转换为ITK。为此，我们首先定义一个访问方法，将其模板化为ITK图像：</p>
-<pre><code>template&lt;TPixel, VImageDimension&gt;
-MyAccessMethod(itk::Image&lt;TPixel, VImageDimension&gt;* itkImage)
-{...}
-</code></pre><p>如果你不了解模板函数语法，你应该查阅C++ 教材的相关内容（例如，《C++ primer》的第16章）。理解模板的概念对于正确使用ITK十分重要。 为了让一个非模板化的mitk::Image访问这个模板方法，你可以使用定义在<a href="http://docs.mitk.org/2012.06/mitkImageAccessByItk_8h.html" target="_blank" rel="noopener">mitkImageAccessByItk.h</a>的AccessByItk宏。这个宏可以检测mitk::Image实际的图像类型，并作必要的转换。</p>
-<pre><code>AccessByItk(mitkImage, MyAccessMethod)
-</code></pre><p>在本节我们访问的方法称作<a href="http://docs.mitk.org/2012.06/Step6RegionGrowing_8txx.html#aff8261268c6bb7f2e947845e4ea82d49" target="_blank" rel="noopener">RegionGrowing()</a>（它定义在<a href="http://docs.mitk.org/2012.06/Step6RegionGrowing_8txx-example.html" target="_blank" rel="noopener">Step6RegionGrowing.txx</a>)</p>
-<pre><code>template &lt;typename TPixel, unsigned int VImageDimension&gt;
-void RegionGrowing(itk::Image&lt;TPixel, VImageDimension&gt; *itkImage, Step6 *step6)
-{
-  typedef itk::Image&lt;TPixel, VImageDimension&gt; ImageType;
-
-  typedef float InternalPixelType;
-  typedef itk::Image&lt;InternalPixelType, VImageDimension&gt; InternalImageType;
-
-  mitk::BaseGeometry *geometry = step6-&gt;m_FirstImage-&gt;GetGeometry();
-
-  // create itk::CurvatureFlowImageFilter for smoothing and set itkImage as input
-  typedef itk::CurvatureFlowImageFilter&lt;ImageType, InternalImageType&gt; CurvatureFlowFilter;
-  typename CurvatureFlowFilter::Pointer smoothingFilter = CurvatureFlowFilter::New();
-
-  smoothingFilter-&gt;SetInput(itkImage);
-  smoothingFilter-&gt;SetNumberOfIterations(4);
-  smoothingFilter-&gt;SetTimeStep(0.0625);
-
-  // create itk::ConnectedThresholdImageFilter and set filtered image as input
-  typedef itk::ConnectedThresholdImageFilter&lt;InternalImageType, ImageType&gt; RegionGrowingFilterType;
-  typedef typename RegionGrowingFilterType::IndexType IndexType;
-  typename RegionGrowingFilterType::Pointer regGrowFilter = RegionGrowingFilterType::New();
-
-  regGrowFilter-&gt;SetInput(smoothingFilter-&gt;GetOutput());
-  regGrowFilter-&gt;SetLower(step6-&gt;GetThresholdMin());
-  regGrowFilter-&gt;SetUpper(step6-&gt;GetThresholdMax());
-
-  // convert the points in the PointSet m_Seeds (in world-coordinates) to
-  // &quot;index&quot; values, i.e. points in pixel coordinates, and add these as seeds
-  // to the RegionGrower
-  mitk::PointSet::PointsConstIterator pit, pend = step6-&gt;m_Seeds-&gt;GetPointSet()-&gt;GetPoints()-&gt;End();
-  IndexType seedIndex;
-  for (pit = step6-&gt;m_Seeds-&gt;GetPointSet()-&gt;GetPoints()-&gt;Begin(); pit != pend; ++pit)
-  {
-    geometry-&gt;WorldToIndex(pit.Value(), seedIndex);
-    regGrowFilter-&gt;AddSeed(seedIndex);
-  }
-
-  regGrowFilter-&gt;GetOutput()-&gt;Update();
-  mitk::Image::Pointer mitkImage = mitk::Image::New();
-  mitk::CastToMitkImage(regGrowFilter-&gt;GetOutput(), mitkImage);
-
-  if (step6-&gt;m_ResultNode.IsNull())
-  {
-    step6-&gt;m_ResultNode = mitk::DataNode::New();
-    step6-&gt;m_DataStorage-&gt;Add(step6-&gt;m_ResultNode);
-  }
-</code></pre><p>此外，访问函数要求为所有数据类型和二维/三维实例化。由于对于一些编译器如果没有显示实例化会导致内存问题，在这里我们用两个文件为二维和三维分别提供实例化:<br>对于二维，定义在<a href="http://docs.mitk.org/2012.06/Step6RegionGrowing1_8cpp-example.html" target="_blank" rel="noopener">Step6RegionGrowing1.cpp</a>;<br>对于三维，定义在<a href="http://docs.mitk.org/2012.06/Step6RegionGrowing2_8cpp-example.html" target="_blank" rel="noopener">Step6RegionGrowing2.cpp</a> 。 StartRegionGrowing()方法最终调用我们的访问方法<a href="http://docs.mitk.org/2012.06/Step6RegionGrowing_8txx.html#aff8261268c6bb7f2e947845e4ea82d49" target="_blank" rel="noopener">RegionGrowing()</a>：</p>
-<pre><code>void Step6::StartRegionGrowing()
-{    
-AccessByItk_1(m_FirstImage, RegionGrowing, this);    
-mitk::RenderingManager::GetInstance()-&gt;RequestUpdateAll();
-}
-</code></pre><h3 id="ITK图像与MITK图像之间的相互转换"><a href="#ITK图像与MITK图像之间的相互转换" class="headerlink" title="ITK图像与MITK图像之间的相互转换"></a>ITK图像与MITK图像之间的相互转换</h3><p>在某些情况下，我们可以在ITK和MITK图像之间进行简单的转换。 从ITK转换到MITK很简单，因为mitk::Image可以处理大多数数据类型。 而从MITK转换到ITK则相对复杂一些，因为ITK图像必须在编译时使用固定像素类型和固定维度来实例化。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create controlsParent widget with horizontal layout</span></span><br><span class="line">QWidget *controlsParent = <span class="keyword">new</span> QWidget(<span class="keyword">this</span>);</span><br><span class="line"><span class="keyword">this</span>-&gt;layout()-&gt;addWidget(controlsParent);</span><br><span class="line"></span><br><span class="line">QHBoxLayout *hlayout = <span class="keyword">new</span> QHBoxLayout(controlsParent);</span><br><span class="line">hlayout-&gt;setSpacing(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">QLabel *labelThresholdMin = <span class="keyword">new</span> QLabel(<span class="string">"Lower Threshold:"</span>, controlsParent);</span><br><span class="line">hlayout-&gt;addWidget(labelThresholdMin);</span><br><span class="line"></span><br><span class="line">m_LineEditThresholdMin = <span class="keyword">new</span> QLineEdit(<span class="string">"-1000"</span>, controlsParent);</span><br><span class="line">hlayout-&gt;addWidget(m_LineEditThresholdMin);</span><br><span class="line"></span><br><span class="line">QLabel *labelThresholdMax = <span class="keyword">new</span> QLabel(<span class="string">"Upper Threshold:"</span>, controlsParent);</span><br><span class="line">hlayout-&gt;addWidget(labelThresholdMax);</span><br><span class="line"></span><br><span class="line">m_LineEditThresholdMax = <span class="keyword">new</span> QLineEdit(<span class="string">"-400"</span>, controlsParent);</span><br><span class="line">hlayout-&gt;addWidget(m_LineEditThresholdMax);</span><br></pre></td></tr></table></figure>
+<p>接下来新建这个按钮，并将它的clicked()信号与方法StartRegionGrowing()关联：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// create button to start the segmentation and connect its clicked()</span></span><br><span class="line"><span class="comment">// signal to method StartRegionGrowing</span></span><br><span class="line">QPushButton *startButton = <span class="keyword">new</span> QPushButton(<span class="string">"start region growing"</span>, controlsParent);</span><br><span class="line">connect(startButton, SIGNAL(clicked()), <span class="keyword">this</span>, SLOT(StartRegionGrowing()));</span><br></pre></td></tr></table></figure>
+<h3 id="以ITK图像类型方式访问MITK图像类型"><a href="#以ITK图像类型方式访问MITK图像类型" class="headerlink" title="以ITK图像类型方式访问MITK图像类型"></a>以ITK图像类型方式访问MITK图像类型</h3><p>ITK图像类型是模板化的，而mitk::Images不是。要使用ITK广泛的图像处理算法来处理MITK图像，我们必须将MITK转换为ITK。为此，我们首先定义一个访问方法，将其模板化为ITK图像：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;TPixel, VImageDimension&gt;</span><br><span class="line">MyAccessMethod(itk::Image&lt;TPixel, VImageDimension&gt;* itkImage)</span><br><span class="line">&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你不了解模板函数语法，你应该查阅C++ 教材的相关内容（例如，《C++ primer》的第16章）。理解模板的概念对于正确使用ITK十分重要。 为了让一个非模板化的mitk::Image访问这个模板方法，你可以使用定义在<a href="http://docs.mitk.org/2012.06/mitkImageAccessByItk_8h.html" target="_blank" rel="noopener">mitkImageAccessByItk.h</a>的AccessByItk宏。这个宏可以检测mitk::Image实际的图像类型，并作必要的转换。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AccessByItk(mitkImage, MyAccessMethod)</span><br></pre></td></tr></table></figure>
+<p>在本节我们访问的方法称作<a href="http://docs.mitk.org/2012.06/Step6RegionGrowing_8txx.html#aff8261268c6bb7f2e947845e4ea82d49" target="_blank" rel="noopener">RegionGrowing()</a>（它定义在<a href="http://docs.mitk.org/2012.06/Step6RegionGrowing_8txx-example.html" target="_blank" rel="noopener">Step6RegionGrowing.txx</a>)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> TPixel, <span class="keyword">unsigned</span> <span class="keyword">int</span> VImageDimension&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RegionGrowing</span><span class="params">(itk::Image&lt;TPixel, VImageDimension&gt; *itkImage, Step6 *step6)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">typedef</span> itk::Image&lt;TPixel, VImageDimension&gt; ImageType;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">typedef</span> <span class="keyword">float</span> InternalPixelType;</span><br><span class="line">  <span class="keyword">typedef</span> itk::Image&lt;InternalPixelType, VImageDimension&gt; InternalImageType;</span><br><span class="line"></span><br><span class="line">  mitk::BaseGeometry *geometry = step6-&gt;m_FirstImage-&gt;GetGeometry();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// create itk::CurvatureFlowImageFilter for smoothing and set itkImage as input</span></span><br><span class="line">  <span class="keyword">typedef</span> itk::CurvatureFlowImageFilter&lt;ImageType, InternalImageType&gt; CurvatureFlowFilter;</span><br><span class="line">  <span class="keyword">typename</span> CurvatureFlowFilter::Pointer smoothingFilter = CurvatureFlowFilter::New();</span><br><span class="line"></span><br><span class="line">  smoothingFilter-&gt;SetInput(itkImage);</span><br><span class="line">  smoothingFilter-&gt;SetNumberOfIterations(<span class="number">4</span>);</span><br><span class="line">  smoothingFilter-&gt;SetTimeStep(<span class="number">0.0625</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// create itk::ConnectedThresholdImageFilter and set filtered image as input</span></span><br><span class="line">  <span class="keyword">typedef</span> itk::ConnectedThresholdImageFilter&lt;InternalImageType, ImageType&gt; RegionGrowingFilterType;</span><br><span class="line">  <span class="keyword">typedef</span> <span class="keyword">typename</span> RegionGrowingFilterType::IndexType IndexType;</span><br><span class="line">  <span class="keyword">typename</span> RegionGrowingFilterType::Pointer regGrowFilter = RegionGrowingFilterType::New();</span><br><span class="line"></span><br><span class="line">  regGrowFilter-&gt;SetInput(smoothingFilter-&gt;GetOutput());</span><br><span class="line">  regGrowFilter-&gt;SetLower(step6-&gt;GetThresholdMin());</span><br><span class="line">  regGrowFilter-&gt;SetUpper(step6-&gt;GetThresholdMax());</span><br><span class="line"></span><br><span class="line">  <span class="comment">// convert the points in the PointSet m_Seeds (in world-coordinates) to</span></span><br><span class="line">  <span class="comment">// "index" values, i.e. points in pixel coordinates, and add these as seeds</span></span><br><span class="line">  <span class="comment">// to the RegionGrower</span></span><br><span class="line">  mitk::PointSet::PointsConstIterator pit, pend = step6-&gt;m_Seeds-&gt;GetPointSet()-&gt;GetPoints()-&gt;End();</span><br><span class="line">  IndexType seedIndex;</span><br><span class="line">  <span class="keyword">for</span> (pit = step6-&gt;m_Seeds-&gt;GetPointSet()-&gt;GetPoints()-&gt;Begin(); pit != pend; ++pit)</span><br><span class="line">  &#123;</span><br><span class="line">    geometry-&gt;WorldToIndex(pit.Value(), seedIndex);</span><br><span class="line">    regGrowFilter-&gt;AddSeed(seedIndex);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  regGrowFilter-&gt;GetOutput()-&gt;Update();</span><br><span class="line">  mitk::Image::Pointer mitkImage = mitk::Image::New();</span><br><span class="line">  mitk::CastToMitkImage(regGrowFilter-&gt;GetOutput(), mitkImage);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (step6-&gt;m_ResultNode.IsNull())</span><br><span class="line">  &#123;</span><br><span class="line">    step6-&gt;m_ResultNode = mitk::DataNode::New();</span><br><span class="line">    step6-&gt;m_DataStorage-&gt;Add(step6-&gt;m_ResultNode);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>此外，访问函数要求为所有数据类型和二维/三维实例化。由于对于一些编译器如果没有显示实例化会导致内存问题，在这里我们用两个文件为二维和三维分别提供实例化:<br>对于二维，定义在<a href="http://docs.mitk.org/2012.06/Step6RegionGrowing1_8cpp-example.html" target="_blank" rel="noopener">Step6RegionGrowing1.cpp</a>;<br>对于三维，定义在<a href="http://docs.mitk.org/2012.06/Step6RegionGrowing2_8cpp-example.html" target="_blank" rel="noopener">Step6RegionGrowing2.cpp</a> 。 StartRegionGrowing()方法最终调用我们的访问方法<a href="http://docs.mitk.org/2012.06/Step6RegionGrowing_8txx.html#aff8261268c6bb7f2e947845e4ea82d49" target="_blank" rel="noopener">RegionGrowing()</a>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Step6::StartRegionGrowing()</span><br><span class="line">&#123;    </span><br><span class="line">  AccessByItk_1(m_FirstImage, RegionGrowing, <span class="keyword">this</span>);    </span><br><span class="line">  mitk::RenderingManager::GetInstance()-&gt;RequestUpdateAll();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ITK图像与MITK图像之间的相互转换"><a href="#ITK图像与MITK图像之间的相互转换" class="headerlink" title="ITK图像与MITK图像之间的相互转换"></a>ITK图像与MITK图像之间的相互转换</h3><p>在某些情况下，我们可以在ITK和MITK图像之间进行简单的转换。 从ITK转换到MITK很简单，因为mitk::Image可以处理大多数数据类型。 而从MITK转换到ITK则相对复杂一些，因为ITK图像必须在编译时使用固定像素类型和固定维度来实例化。</p>
 <ul>
 <li><p><a href="http://docs.mitk.org/2012.06/classmitk_1_1Image.html" target="_blank" rel="noopener">mitk::Image</a> <a href="http://docs.mitk.org/2012.06/group__Adaptor.html#gab8fdb347545821af9a8c885098c339fe" target="_blank" rel="noopener">mitk::ImportItkImage</a>(itk::Image)</p>
 </li>
@@ -452,13 +380,10 @@ mitk::RenderingManager::GetInstance()-&gt;RequestUpdateAll();
 </li>
 </ul>
 <h3 id="把MITK图像类型连接至VTK"><a href="#把MITK图像类型连接至VTK" class="headerlink" title="把MITK图像类型连接至VTK"></a>把MITK图像类型连接至VTK</h3><p>图像不能转换或拷贝：图像数据通过一个封装在MITK图像类型的VTK对象访问。</p>
-<pre><code>vtkImageData* mitk::Image::GetVtkImageData(int time = 0)
-</code></pre><h3 id="MITK曲面类型与VTK曲面类型之间的相互转换"><a href="#MITK曲面类型与VTK曲面类型之间的相互转换" class="headerlink" title="MITK曲面类型与VTK曲面类型之间的相互转换"></a>MITK曲面类型与VTK曲面类型之间的相互转换</h3><p>同样的：没有转换，只能访问：</p>
-<pre><code> vtkPolyData* mitk::Surface::GetVtkPolyData(int time = 0)
-
-
-mitk::Surface::SetVtkPolyData(vtkPolyData*, int time = 0)
-</code></pre><h2 id="2-2-Step6运行结果"><a href="#2-2-Step6运行结果" class="headerlink" title="2.2 Step6运行结果"></a>2.2 Step6运行结果</h2><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/Step6%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt=""></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vtkImageData* mitk::Image::GetVtkImageData(<span class="keyword">int</span> time = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="MITK曲面类型与VTK曲面类型之间的相互转换"><a href="#MITK曲面类型与VTK曲面类型之间的相互转换" class="headerlink" title="MITK曲面类型与VTK曲面类型之间的相互转换"></a>MITK曲面类型与VTK曲面类型之间的相互转换</h3><p>同样的：没有转换，只能访问：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vtkPolyData* mitk::Surface::GetVtkPolyData(<span class="keyword">int</span> time = <span class="number">0</span>)</span><br><span class="line">mitk::Surface::SetVtkPolyData(vtkPolyData*, <span class="keyword">int</span> time = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-Step6运行结果"><a href="#2-2-Step6运行结果" class="headerlink" title="2.2 Step6运行结果"></a>2.2 Step6运行结果</h2><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/Step6%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt=""></p>
 
       
     </div>

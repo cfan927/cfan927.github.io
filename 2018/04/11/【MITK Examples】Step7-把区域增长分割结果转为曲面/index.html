@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="1.设置图像文件、表面文件路径 和Step6一样，在Step7中我们加载图像文件Pic3D.nrrd； 在本节，我们通过一个VTK filter把上一节的分割结果转为曲面模型； 设置完毕后，将MitkStep7设置为启动项。  2.运行程序Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下： if (m_Res">
+<meta name="description" content="1.设置图像文件、表面文件路径 和Step6一样，在Step7中我们加载图像文件Pic3D.nrrd； 在本节，我们通过一个VTK filter把上一节的分割结果转为曲面模型； 设置完毕后，将MitkStep7设置为启动项。  2.运行程序Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下： 123456789">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【MITK Examples】Step7-把区域增长分割结果转为曲面">
 <meta property="og:url" content="http://yoursite.com/2018/04/11/【MITK Examples】Step7-把区域增长分割结果转为曲面/index.html">
 <meta property="og:site_name" content="Cfan927">
-<meta property="og:description" content="1.设置图像文件、表面文件路径 和Step6一样，在Step7中我们加载图像文件Pic3D.nrrd； 在本节，我们通过一个VTK filter把上一节的分割结果转为曲面模型； 设置完毕后，将MitkStep7设置为启动项。  2.运行程序Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下： if (m_Res">
+<meta property="og:description" content="1.设置图像文件、表面文件路径 和Step6一样，在Step7中我们加载图像文件Pic3D.nrrd； 在本节，我们通过一个VTK filter把上一节的分割结果转为曲面模型； 设置完毕后，将MitkStep7设置为启动项。  2.运行程序Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下： 123456789">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/Step7%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
-<meta property="og:updated_time" content="2018-10-06T03:03:13.786Z">
+<meta property="og:updated_time" content="2018-10-06T05:21:14.051Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK Examples】Step7-把区域增长分割结果转为曲面">
-<meta name="twitter:description" content="1.设置图像文件、表面文件路径 和Step6一样，在Step7中我们加载图像文件Pic3D.nrrd； 在本节，我们通过一个VTK filter把上一节的分割结果转为曲面模型； 设置完毕后，将MitkStep7设置为启动项。  2.运行程序Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下： if (m_Res">
+<meta name="twitter:description" content="1.设置图像文件、表面文件路径 和Step6一样，在Step7中我们加载图像文件Pic3D.nrrd； 在本节，我们通过一个VTK filter把上一节的分割结果转为曲面模型； 设置完毕后，将MitkStep7设置为启动项。  2.运行程序Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下： 123456789">
 <meta name="twitter:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/Step7%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
 
 
@@ -359,28 +359,8 @@
 <li>设置完毕后，将MitkStep7设置为启动项。</li>
 </ul>
 <h1 id="2-运行程序"><a href="#2-运行程序" class="headerlink" title="2.运行程序"></a>2.运行程序</h1><p>Step7在Step6基础上修改。修改只是在StartRegionGrowing()方法内增加对结果图像的处理，使其产生曲面文件。代码如下：</p>
-<pre><code>if (m_ResultImage.IsNotNull())
-  {
-    m_ResultNode-&gt;SetProperty(&quot;volumerendering&quot;, mitk::BoolProperty::New(false));
-
-    vtkMarchingCubes *surfaceCreator = vtkMarchingCubes::New();
-    surfaceCreator-&gt;SetInputData(m_ResultImage-&gt;GetVtkImageData());
-    surfaceCreator-&gt;SetValue(0, 1);
-    surfaceCreator-&gt;Update();
-
-    mitk::Surface::Pointer surface = mitk::Surface::New();
-    surface-&gt;SetVtkPolyData(surfaceCreator-&gt;GetOutput()); // VTK6_TODO
-
-    mitk::DataNode::Pointer surfaceNode = mitk::DataNode::New();
-    surfaceNode-&gt;SetData(surface);
-
-    m_DataStorage-&gt;Add(surfaceNode);
-
-    mitk::RenderingManager::GetInstance()-&gt;RequestUpdateAll();
-    std::cout &lt;&lt; &quot;8&quot;;
-    surfaceCreator-&gt;Delete();
-  }
-</code></pre><h3 id="Step7运行结果"><a href="#Step7运行结果" class="headerlink" title="Step7运行结果"></a>Step7运行结果</h3><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/Step7%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt=""></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (m_ResultImage.IsNotNull())</span><br><span class="line">  &#123;</span><br><span class="line">    m_ResultNode-&gt;SetProperty(<span class="string">"volumerendering"</span>, mitk::BoolProperty::New(<span class="literal">false</span>));</span><br><span class="line"></span><br><span class="line">    vtkMarchingCubes *surfaceCreator = vtkMarchingCubes::New();</span><br><span class="line">    surfaceCreator-&gt;SetInputData(m_ResultImage-&gt;GetVtkImageData());</span><br><span class="line">    surfaceCreator-&gt;SetValue(<span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    surfaceCreator-&gt;Update();</span><br><span class="line"></span><br><span class="line">    mitk::Surface::Pointer surface = mitk::Surface::New();</span><br><span class="line">    surface-&gt;SetVtkPolyData(surfaceCreator-&gt;GetOutput()); <span class="comment">// VTK6_TODO</span></span><br><span class="line"></span><br><span class="line">    mitk::DataNode::Pointer surfaceNode = mitk::DataNode::New();</span><br><span class="line">    surfaceNode-&gt;SetData(surface);</span><br><span class="line"></span><br><span class="line">    m_DataStorage-&gt;Add(surfaceNode);</span><br><span class="line"></span><br><span class="line">    mitk::RenderingManager::GetInstance()-&gt;RequestUpdateAll();</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"8"</span>;</span><br><span class="line">    surfaceCreator-&gt;Delete();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Step7运行结果"><a href="#Step7运行结果" class="headerlink" title="Step7运行结果"></a>Step7运行结果</h3><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/Step7%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt=""></p>
 
       
     </div>

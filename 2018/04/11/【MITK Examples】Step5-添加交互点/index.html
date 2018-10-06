@@ -87,7 +87,7 @@
 <meta property="og:description" content="1.设置图像文件、表面文件路径 Step5也需要添加图像文件Pic3D.nrrd及曲面文件lungs.vtk； 设置完毕后，将MitkStep5设置为启动项。  2.运行程序1.说明 与Step4一样，在Step5中我们也要加载一个或多个数据集（图像、表面和其他格式）并按照这些数据创建3个视图； 此外，我们想添加交互式点。一个包含PointSet的数据结点加入数据树中，且在这个数据结点上关联一个用">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/Step5%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
-<meta property="og:updated_time" content="2018-10-06T03:03:08.981Z">
+<meta property="og:updated_time" content="2018-10-06T05:20:48.381Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK Examples】Step5-添加交互点">
 <meta name="twitter:description" content="1.设置图像文件、表面文件路径 Step5也需要添加图像文件Pic3D.nrrd及曲面文件lungs.vtk； 设置完毕后，将MitkStep5设置为启动项。  2.运行程序1.说明 与Step4一样，在Step5中我们也要加载一个或多个数据集（图像、表面和其他格式）并按照这些数据创建3个视图； 此外，我们想添加交互式点。一个包含PointSet的数据结点加入数据树中，且在这个数据结点上关联一个用">
@@ -369,32 +369,8 @@
 <li>关联行为 -- 执行相应的代码（例如，当鼠标点击时加入一个点）。</li>
 </ul>
 <h2 id="3-代码选读"><a href="#3-代码选读" class="headerlink" title="3.代码选读"></a>3.代码选读</h2><p>种子点交互必须创建一个点集和一个与之相符的数据结点，代码如下：</p>
-<pre><code>// ATTENTION: It is very important that the renderer already know their DataStorage,
-// because registerig DataInteractors with the render windows is done automatically
-// and only works if the BaseRenderer and the DataStorage know each other.
-
-// Create PointSet and a node for it
-mitk::PointSet::Pointer pointSet = mitk::PointSet::New();
-mitk::DataNode::Pointer pointSetNode = mitk::DataNode::New();
-// Store the point set in the DataNode
-pointSetNode-&gt;SetData(pointSet);
-
-// Add the node to the tree
-ds-&gt;Add(pointSetNode);
-
-// Create PointSetDataInteractor
-mitk::PointSetDataInteractor::Pointer interactor = mitk::PointSetDataInteractor::New();
-// Set the StateMachine pattern that describes the flow of the interactions
-interactor-&gt;LoadStateMachine(&quot;PointSet.xml&quot;);
-// Set the configuration file, which describes the user interactions that trigger actions
-// in this file SHIFT + LeftClick triggers add Point, but by modifying this file,
-// it could as well be changes to any other user interaction.
-interactor-&gt;SetEventConfig(&quot;PointSetConfig.xml&quot;);
-
-// Assign the pointSetNode to the interactor,
-// alternatively one could also add the DataInteractor to the pointSetNode using the SetDataInteractor() method.
-interactor-&gt;SetDataNode(pointSetNode);
-</code></pre><h2 id="4-Step5程序运行结果"><a href="#4-Step5程序运行结果" class="headerlink" title="4.Step5程序运行结果"></a>4.Step5程序运行结果</h2><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/Step5%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt=""></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ATTENTION: It is very important that the renderer already know their DataStorage,</span></span><br><span class="line"><span class="comment">// because registerig DataInteractors with the render windows is done automatically</span></span><br><span class="line"><span class="comment">// and only works if the BaseRenderer and the DataStorage know each other.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Create PointSet and a node for it</span></span><br><span class="line">mitk::PointSet::Pointer pointSet = mitk::PointSet::New();</span><br><span class="line">mitk::DataNode::Pointer pointSetNode = mitk::DataNode::New();</span><br><span class="line"><span class="comment">// Store the point set in the DataNode</span></span><br><span class="line">pointSetNode-&gt;SetData(pointSet);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add the node to the tree</span></span><br><span class="line">ds-&gt;Add(pointSetNode);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Create PointSetDataInteractor</span></span><br><span class="line">mitk::PointSetDataInteractor::Pointer interactor = mitk::PointSetDataInteractor::New();</span><br><span class="line"><span class="comment">// Set the StateMachine pattern that describes the flow of the interactions</span></span><br><span class="line">interactor-&gt;LoadStateMachine(<span class="string">"PointSet.xml"</span>);</span><br><span class="line"><span class="comment">// Set the configuration file, which describes the user interactions that trigger actions</span></span><br><span class="line"><span class="comment">// in this file SHIFT + LeftClick triggers add Point, but by modifying this file,</span></span><br><span class="line"><span class="comment">// it could as well be changes to any other user interaction.</span></span><br><span class="line">interactor-&gt;SetEventConfig(<span class="string">"PointSetConfig.xml"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Assign the pointSetNode to the interactor,</span></span><br><span class="line"><span class="comment">// alternatively one could also add the DataInteractor to the pointSetNode using the SetDataInteractor() method.</span></span><br><span class="line">interactor-&gt;SetDataNode(pointSetNode);</span><br></pre></td></tr></table></figure>
+<h2 id="4-Step5程序运行结果"><a href="#4-Step5程序运行结果" class="headerlink" title="4.Step5程序运行结果"></a>4.Step5程序运行结果</h2><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/Step5%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt=""></p>
 
       
     </div>

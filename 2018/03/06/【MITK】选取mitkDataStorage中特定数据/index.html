@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。 1.选取特定类型数据，如“Surface”、“Image”等类型mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(&amp;quot;Surface&amp;quot;); mitk::">
+<meta name="description" content="本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。 1.选取特定类型数据，如“Surface”、“Image”等类型1234567mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(&quot;Surface&quot;);mitk::Data">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【MITK】选取mitkDataStorage中特定数据">
 <meta property="og:url" content="http://yoursite.com/2018/03/06/【MITK】选取mitkDataStorage中特定数据/index.html">
 <meta property="og:site_name" content="Cfan927">
-<meta property="og:description" content="本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。 1.选取特定类型数据，如“Surface”、“Image”等类型mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(&amp;quot;Surface&amp;quot;); mitk::">
+<meta property="og:description" content="本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。 1.选取特定类型数据，如“Surface”、“Image”等类型1234567mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(&quot;Surface&quot;);mitk::Data">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-06T03:07:20.365Z">
+<meta property="og:updated_time" content="2018-10-06T05:26:37.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK】选取mitkDataStorage中特定数据">
-<meta name="twitter:description" content="本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。 1.选取特定类型数据，如“Surface”、“Image”等类型mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(&amp;quot;Surface&amp;quot;); mitk::">
+<meta name="twitter:description" content="本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。 1.选取特定类型数据，如“Surface”、“Image”等类型1234567mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(&quot;Surface&quot;);mitk::Data">
 
 
 
@@ -352,21 +352,9 @@
 
       
         <p>本代码用于选取mitkDataStorage中的特定数据，如特定类型、特定属性等等。</p>
-<h2 id="1-选取特定类型数据，如“Surface”、“Image”等类型"><a href="#1-选取特定类型数据，如“Surface”、“Image”等类型" class="headerlink" title="1.选取特定类型数据，如“Surface”、“Image”等类型"></a>1.选取特定类型数据，如“Surface”、“Image”等类型</h2><pre><code>mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(&quot;Surface&quot;);
-mitk::DataStorage::SetOfObjects::ConstPointer setOfObjectsSurface = this-&gt;GetDataStorage()-&gt;GetSubset(predicateDataTypeSurface);
-// transform all surface node
-for (mitk::DataStorage::SetOfObjects::ConstIterator nodeIt = setOfObjectsSurface-&gt;Begin(); nodeIt != setOfObjectsSurface-&gt;End(); ++nodeIt) // for each _DataNode
-{
-    nodeIt.Value().GetPointer()-&gt;GetData()-&gt;GetGeometry()-&gt;SetIndexToWorldTransform(mitkTransform);
-}
-</code></pre><h2 id="2-选取特定属性数据，如“name”属性为“Face”的数据"><a href="#2-选取特定属性数据，如“name”属性为“Face”的数据" class="headerlink" title="2.选取特定属性数据，如“name”属性为“Face”的数据"></a>2.选取特定属性数据，如“name”属性为“Face”的数据</h2><pre><code>mitk::NodePredicateProperty::Pointer p = mitk::NodePredicateProperty::New(&quot;name&quot;, mitk::StringProperty::New(&quot;Face&quot;));
-mitk::DataStorage::SetOfObjects::ConstPointer rs = this-&gt;GetDataStorage()-&gt;GetSubset(p);
-// Get element
-if (rs-&gt;Size() &gt;= 1)
-{
-    mitk::DataNode::Pointer dataNode = rs-&gt;GetElement(0);
-}
-</code></pre>
+<h2 id="1-选取特定类型数据，如“Surface”、“Image”等类型"><a href="#1-选取特定类型数据，如“Surface”、“Image”等类型" class="headerlink" title="1.选取特定类型数据，如“Surface”、“Image”等类型"></a>1.选取特定类型数据，如“Surface”、“Image”等类型</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mitk::NodePredicateDataType::Pointer predicateDataTypeSurface = mitk::NodePredicateDataType::New(<span class="string">"Surface"</span>);</span><br><span class="line">mitk::DataStorage::SetOfObjects::ConstPointer setOfObjectsSurface = <span class="keyword">this</span>-&gt;GetDataStorage()-&gt;GetSubset(predicateDataTypeSurface);</span><br><span class="line"><span class="comment">// transform all surface node</span></span><br><span class="line"><span class="keyword">for</span> (mitk::DataStorage::SetOfObjects::ConstIterator nodeIt = setOfObjectsSurface-&gt;Begin(); nodeIt != setOfObjectsSurface-&gt;End(); ++nodeIt) <span class="comment">// for each _DataNode</span></span><br><span class="line">&#123;</span><br><span class="line">    nodeIt.Value().GetPointer()-&gt;GetData()-&gt;GetGeometry()-&gt;SetIndexToWorldTransform(mitkTransform);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-选取特定属性数据，如“name”属性为“Face”的数据"><a href="#2-选取特定属性数据，如“name”属性为“Face”的数据" class="headerlink" title="2.选取特定属性数据，如“name”属性为“Face”的数据"></a>2.选取特定属性数据，如“name”属性为“Face”的数据</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mitk::NodePredicateProperty::Pointer p = mitk::NodePredicateProperty::New(<span class="string">"name"</span>, mitk::StringProperty::New(<span class="string">"Face"</span>));</span><br><span class="line">mitk::DataStorage::SetOfObjects::ConstPointer rs = <span class="keyword">this</span>-&gt;GetDataStorage()-&gt;GetSubset(p);</span><br><span class="line"><span class="comment">// Get element</span></span><br><span class="line"><span class="keyword">if</span> (rs-&gt;Size() &gt;= <span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">    mitk::DataNode::Pointer dataNode = rs-&gt;GetElement(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
     

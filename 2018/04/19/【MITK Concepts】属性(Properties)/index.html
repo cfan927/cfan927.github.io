@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Cfan927">
 <meta property="og:description" content="编辑：赵志奇 审校：田兆瑞 原文链接：http://docs.mitk.org/nightly/PropertiesPage.html 属性一个数据节点（data node）含有属性（properties），属性包含了MITK对节点处理的相关信息。属性提供了一个存储额外信息的空间。所谓的额外信息，它不是实际数据的一部分，因此没有理由包含在数据或文件当中。但是我们可能会在渲染（例如：传递函数）或交互">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-06T03:02:48.870Z">
+<meta property="og:updated_time" content="2018-10-06T05:16:45.643Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK Concepts】属性(Properties)">
 <meta name="twitter:description" content="编辑：赵志奇 审校：田兆瑞 原文链接：http://docs.mitk.org/nightly/PropertiesPage.html 属性一个数据节点（data node）含有属性（properties），属性包含了MITK对节点处理的相关信息。属性提供了一个存储额外信息的空间。所谓的额外信息，它不是实际数据的一部分，因此没有理由包含在数据或文件当中。但是我们可能会在渲染（例如：传递函数）或交互">
@@ -353,20 +353,8 @@
       
         <p>编辑：赵志奇 审校：田兆瑞 原文链接：<a href="http://docs.mitk.org/nightly/PropertiesPage.html" target="_blank" rel="noopener">http://docs.mitk.org/nightly/PropertiesPage.html</a></p>
 <h1 id="属性"><a href="#属性" class="headerlink" title="属性"></a><strong>属性</strong></h1><p>一个数据节点（data node）含有属性（properties），属性包含了MITK对节点处理的相关信息。属性提供了一个存储额外信息的空间。所谓的额外信息，它不是实际数据的一部分，因此没有理由包含在数据或文件当中。但是我们可能会在渲染（例如：传递函数）或交互（例如：节点名称）的时候用到它们。 属性可以通过以下方式读取和设置：</p>
-<pre><code>/*1: 读取属性*/
-mitk::Property::Pointer readProperty = node-&gt;GetProperty(&quot;color&quot;);
-//从数据节点中读取属性“颜色”
-
-mitk::ColorProperty::Pointer colorProperty = dynamic_cast&lt;mitk::ColorProperty*&gt;(readProperty);
-//将这个属性强制转化为子类型ColorProperty
-
-/*2: 写入属性*/
-mitk::BoolProperty::Pointer newProperty = mitk::BoolProperty::New( true );
-//创建一个新的属性（这里的例子创建的是一个新的布尔型的属性）
-
-node-&gt;SetProperty( &quot;IsTensorVolume&quot;, newProperty );
-//将这个属性添加到这个属性到含有关键字“IsTensorVolume”的节点
-</code></pre><h2 id="1-属性服务（Property-Services）"><a href="#1-属性服务（Property-Services）" class="headerlink" title="1.属性服务（Property Services）"></a><strong>1.属性服务（Property Services）</strong></h2><p>属性服务能够扩展MITK基本属性系统的能力，目前有四种属性服务，它们是别名（aliases）、说明（descriptions）、扩展（extensions）、过滤器（filters）。下面将会对它们做一个简单的叙述。关于它们更详细的信息可以在相应的API文档中找到，所有的服务都有完整的文档说明。 所有的属性服务都是通过C++ Micro Services的功能提供的。因此，您可以使用所有模块和插件中的属性服务。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*1: 读取属性*/</span></span><br><span class="line">mitk::Property::Pointer readProperty = node-&gt;GetProperty(<span class="string">"color"</span>);</span><br><span class="line"><span class="comment">//从数据节点中读取属性“颜色”</span></span><br><span class="line"></span><br><span class="line">mitk::ColorProperty::Pointer colorProperty = <span class="keyword">dynamic_cast</span>&lt;mitk::ColorProperty*&gt;(readProperty);</span><br><span class="line"><span class="comment">//将这个属性强制转化为子类型ColorProperty</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*2: 写入属性*/</span></span><br><span class="line">mitk::BoolProperty::Pointer newProperty = mitk::BoolProperty::New( <span class="literal">true</span> );</span><br><span class="line"><span class="comment">//创建一个新的属性（这里的例子创建的是一个新的布尔型的属性）</span></span><br><span class="line"></span><br><span class="line">node-&gt;SetProperty( <span class="string">"IsTensorVolume"</span>, newProperty );</span><br><span class="line"><span class="comment">//将这个属性添加到这个属性到含有关键字“IsTensorVolume”的节点</span></span><br></pre></td></tr></table></figure>
+<h2 id="1-属性服务（Property-Services）"><a href="#1-属性服务（Property-Services）" class="headerlink" title="1.属性服务（Property Services）"></a><strong>1.属性服务（Property Services）</strong></h2><p>属性服务能够扩展MITK基本属性系统的能力，目前有四种属性服务，它们是别名（aliases）、说明（descriptions）、扩展（extensions）、过滤器（filters）。下面将会对它们做一个简单的叙述。关于它们更详细的信息可以在相应的API文档中找到，所有的服务都有完整的文档说明。 所有的属性服务都是通过C++ Micro Services的功能提供的。因此，您可以使用所有模块和插件中的属性服务。</p>
 <h3 id="1-1-属性别名-Property-Aliases"><a href="#1-1-属性别名-Property-Aliases" class="headerlink" title="1.1 属性别名(Property Aliases)"></a><strong>1.1 属性别名(Property Aliases)</strong></h3><p>你可以将一个属性别名添加到某个由属性视图（Property View）显示的属性名称上，而不是添加到真实的属性名称上。属性名称可以有多个别名，在这种情况下，属性会在属性视图中显示多次。另外，别名很容易被限制在某些数据节点类型中。 属性别名由服务接口mitk::IPropertyAliases提供。</p>
 <h3 id="1-2-属性说明-Property-Descriptions"><a href="#1-2-属性说明-Property-Descriptions" class="headerlink" title="1.2 属性说明(Property Descriptions)"></a><strong>1.2 属性说明(Property Descriptions)</strong></h3><p>如果属性有相关说明，属性视图将会在底部显示当前选定属性的说明。说明被解析并显示为富文本格式（Rich Text）。 属性说明由服务接口mitk::IPropertyDescriptions提供。</p>
 <h3 id="1-3-属性扩张-Property-Extensions"><a href="#1-3-属性扩张-Property-Extensions" class="headerlink" title="1.3 属性扩张(Property Extensions)"></a><strong>1.3 属性扩张(Property Extensions)</strong></h3><p>属性扩展是将元数据（Meta data）附加到属性的一种非常通用的方法。它们的唯一要求就是继承自mitk::PropertyExtension。属性视图通过搜索已知的属性扩展去设置属性的编辑器，比如mitk::IntPropertyExtension和mitk::FloatPropertyExtension，可以指定数值属性的有效范围。 属性扩展由服务接口mitk::IPropertyExtensions提供。</p>
@@ -379,9 +367,8 @@ node-&gt;SetProperty( &quot;IsTensorVolume&quot;, newProperty );
 </ul>
 <h3 id="2-2-通用渲染属性"><a href="#2-2-通用渲染属性" class="headerlink" title="2.2 通用渲染属性"></a><strong>2.2 通用渲染属性</strong></h3><p>color：对表面（surface）、灰度图像、任何应该被渲染的内容着色（一般默认是白色）。有一个特殊的mitk::ColorProperty，你可以使用Getter/Setter方法去使用它。颜色由三个值（RGB）定义，范围介于0.0和1.0之间。</p>
 <h4 id="备注："><a href="#备注：" class="headerlink" title="备注："></a>备注：</h4><p>在一个映射器中，你可以使用下面的代码来获取颜色：</p>
-<pre><code>float rgb[3]={1.0f, 1.0f, 1.0f};
-GetColor( rgb, BaseRenderer );
-</code></pre><hr>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> rgb[<span class="number">3</span>]=&#123;<span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>&#125;;</span><br><span class="line">GetColor( rgb, BaseRenderer );</span><br></pre></td></tr></table></figure>
+<hr>
 <h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><p>如果你设置了属性“查找表”（Lookup Table）,该属性不会影响图像。在这种情况下，将会使用用户定 义的查找表。</p>
 <hr>
 <p>通过几何确定平面上的重采样范围：</p>
@@ -393,7 +380,10 @@ GetColor( rgb, BaseRenderer );
 <li>LookupTable：该属性包含用户定义的查找表，用来将标量值映射到颜色值。举个例子：如果一幅图像包含值128，在生成的图像中，查找表将此值映射为红色（255，0，0）。</li>
 </ul>
 <hr>
-<h4 id="注意：-1"><a href="#注意：-1" class="headerlink" title="注意："></a>注意：</h4><p>如果设置了“LookupTable”属性，“color”属性不会再影响图像。 MITK中设置查找表的例子： ```cpp #include #include #include #include […] vtkSmartPointer vtkLUT = vtkSmartPointer::New(); vtkLUT-&gt;SetRange(100,200); //define your table here vtkLUT-&gt;Build(); //pass the table to MITK mitk::LookupTable::Pointer mitkLookupTable = mitk::LookupTable::New(); mitkLookupTable-&gt;SetVtkLookupTable(vtkLUT); mitk::LookupTableProperty::Pointer LookupTableProp = mitk::LookupTableProperty::New( mitkLookupTable ); result-&gt;SetProperty( “LookupTable”, LookupTableProp ); result-&gt;Update(); <pre class="line-numbers prism-highlight" data-start="1"><code class="language-null"><br> - opacity：节点、图像、表面等的透明度值（Alpha值）。取值范围在0.0和1.0之间。 #### 备注： 在一个映射器中，你可以使用以下代码来获取不透明度： ```cpp float opacity=1.0f; GetOpacity( opacity, BaseRenderer );</code></pre></p>
+<h4 id="注意：-1"><a href="#注意：-1" class="headerlink" title="注意："></a>注意：</h4><p>如果设置了“LookupTable”属性，“color”属性不会再影响图像。 MITK中设置查找表的例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> #<span class="meta-keyword">include</span> #<span class="meta-keyword">include</span> #<span class="meta-keyword">include</span> [...]</span></span><br><span class="line">vtkSmartPointer vtkLUT = vtkSmartPointer::New();</span><br><span class="line">vtkLUT-&gt;SetRange(<span class="number">100</span>,<span class="number">200</span>);</span><br><span class="line"><span class="comment">//define your table here vtkLUT-&gt;Build();</span></span><br><span class="line"><span class="comment">//pass the table to MITK</span></span><br><span class="line">mitk::LookupTable::Pointer mitkLookupTable = mitk::LookupTable::New(); mitkLookupTable-&gt;SetVtkLookupTable(vtkLUT); mitk::LookupTableProperty::Pointer LookupTableProp = mitk::LookupTableProperty::New( mitkLookupTable );</span><br><span class="line">result-&gt;SetProperty( <span class="string">"LookupTable"</span>, LookupTableProp );</span><br><span class="line">result-&gt;Update();</span><br></pre></td></tr></table></figure>
+<p>opacity：节点、图像、表面等的透明度值（Alpha值）。取值范围在0.0和1.0之间。</p>
+<h4 id="备注：-在一个映射器中，你可以使用以下代码来获取不透明度："><a href="#备注：-在一个映射器中，你可以使用以下代码来获取不透明度：" class="headerlink" title="备注： 在一个映射器中，你可以使用以下代码来获取不透明度："></a>备注： 在一个映射器中，你可以使用以下代码来获取不透明度：</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> opacity=<span class="number">1.0f</span>; GetOpacity( opacity, BaseRenderer );</span><br></pre></td></tr></table></figure>
 <ul>
 <li>reslice interpolation：该属性仅在旋转模式（swivel model）或十字准线旋转（crosshair rotation）中生效。插值模式“Nearest”、“Linear”、“Cubic”都是可用的，并且沿着旋转平面影响像素结果。</li>
 <li>texture interpolation：该属性切换为纹理插值。如果启用，图像像素之间的边缘会模糊；如果禁用，边缘保持清晰。</li>
@@ -427,30 +417,19 @@ GetColor( rgb, BaseRenderer );
 <li>volumerendering.cpu.ambient：环境光</li>
 <li>volumerendering.cpu.diffuse：增加/减少光的散射</li>
 <li>volumerendering.cpu.specular：增加/减少非漫反射</li>
-<li><p>volumerendering.cpu.specular.power：控制非漫反射的百分比</p>
-</li>
-<li><p>volumerendering.gpu.amibent：使用gpu，同cpu</p>
-</li>
-<li><p>volumerendering.gpu.diffuse</p>
-</li>
+<li>volumerendering.cpu.specular.power：控制非漫反射的百分比</li>
+<li>volumerendering.gpu.amibent：使用gpu，同cpu</li>
+<li>volumerendering.gpu.diffuse</li>
 <li>volumerendering.gpu.specular</li>
-<li><p>volumerendering.gpu.specular.power</p>
-</li>
-<li><p>volumerendering.ray.ambient：使用ray,同cpu</p>
-</li>
-<li><p>volumerendering.ray.diffuse</p>
-</li>
+<li>volumerendering.gpu.specular.power</li>
+<li>volumerendering.ray.ambient：使用ray,同cpu</li>
+<li>volumerendering.ray.diffuse</li>
 <li>volumerendering.ray.specular</li>
-<li><p>volumerendering.ray.specular.power</p>
-</li>
-<li><p>volumerendering.gpu.reducesliceartifacts：减少切片伪影</p>
-</li>
-<li><p>volumerendering.gpu.usetexturecompression：使用纹理压缩</p>
-</li>
-<li><p>volumerendering.usegpu：是否使用gpu进行渲染</p>
-</li>
-<li><p>volumerendering.uselod：是否使用细节层次机制（Level Of Detail）</p>
-</li>
+<li>volumerendering.ray.specular.power</li>
+<li>volumerendering.gpu.reducesliceartifacts：减少切片伪影</li>
+<li>volumerendering.gpu.usetexturecompression：使用纹理压缩</li>
+<li>volumerendering.usegpu：是否使用gpu进行渲染</li>
+<li>volumerendering.uselod：是否使用细节层次机制（Level Of Detail）</li>
 <li>volumerendering.usemip：是否使用最大亮度投影（Maximum Intensity Projection）</li>
 <li>volumerendering.useray：是否使用光线投射（raycasting）</li>
 </ul>
@@ -495,12 +474,9 @@ GetColor( rgb, BaseRenderer );
 <li>planarfigure.hover.markerline.color：在鼠标悬停在图上但没有选中的情况下，控制标记线的颜色。</li>
 <li>planarfigure.hover.markerline.opacity：在鼠标悬停在图上但没有选中的情况下，控制标记线的不透明度。</li>
 <li>planarfigure.hover.outline.color：在鼠标悬停在图上但没有选中的情况下，控制轮廓线的颜色。</li>
-<li><p>planarfigure.hover.outline.opacity：在鼠标悬停在图上但没有选中的情况下，控制轮廓线的不透明度。</p>
-</li>
-<li><p>planarfigure.selected.helperline.color：在图被选中的情况下，控制辅助线的颜色。</p>
-</li>
-<li><p>planarfigure.hover.helperline.opacity：在图被选中的情况下，控制辅助线的不透明度。</p>
-</li>
+<li>planarfigure.hover.outline.opacity：在鼠标悬停在图上但没有选中的情况下，控制轮廓线的不透明度。</li>
+<li>planarfigure.selected.helperline.color：在图被选中的情况下，控制辅助线的颜色。</li>
+<li>planarfigure.hover.helperline.opacity：在图被选中的情况下，控制辅助线的不透明度。</li>
 <li>planarfigure.selected.line.color：在图被选中的情况下，控制线条的颜色。</li>
 <li>planarfigure.hover.line.opacity：在图被选中的情况下，控制线条的不透明度。</li>
 <li>planarfigure.selected.marker.color：在图被选中的情况下，控制标记的颜色。</li>
@@ -508,12 +484,9 @@ GetColor( rgb, BaseRenderer );
 <li>planarfigure.selected.markerline.color：在图被选中的情况下，控制标记线的颜色。</li>
 <li>planarfigure.hover.markerline.opacity：在图被选中的情况下，控制标记线的不透明度。</li>
 <li>planarfigure.selected.outline.color：在图被选中的情况下，控制轮廓线的颜色。</li>
-<li><p>planarfigure.hover.outline.opacity：在图被选中的情况下，控制轮廓线的不透明度。</p>
-</li>
-<li><p>planarfigure.ishovering：如果图处于悬停状态，其设置为true，控制是否使用悬停设置。</p>
-</li>
-<li><p>planarfigure.helperline.width：控制辅助线的线宽</p>
-</li>
+<li>planarfigure.hover.outline.opacity：在图被选中的情况下，控制轮廓线的不透明度。</li>
+<li>planarfigure.ishovering：如果图处于悬停状态，其设置为true，控制是否使用悬停设置。</li>
+<li>planarfigure.helperline.width：控制辅助线的线宽</li>
 <li>planarfigure.line.width：控制线条的线宽</li>
 <li>planarfigure.outline.width：控制轮廓线的线宽</li>
 <li>planarfigure.drawoutline：是否画轮廓线</li>
@@ -706,7 +679,7 @@ GetColor( rgb, BaseRenderer );
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#属性"><span class="nav-number">1.</span> <span class="nav-text">属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-属性服务（Property-Services）"><span class="nav-number">1.1.</span> <span class="nav-text">1.属性服务（Property Services）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-属性别名-Property-Aliases"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 属性别名(Property Aliases)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-属性说明-Property-Descriptions"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 属性说明(Property Descriptions)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-属性扩张-Property-Extensions"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 属性扩张(Property Extensions)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-属性过滤器-Property-Filters"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 属性过滤器(Property Filters)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-模块独立属性列表"><span class="nav-number">1.2.</span> <span class="nav-text">2.模块独立属性列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-文件管理"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 文件管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-通用渲染属性"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 通用渲染属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#备注："><span class="nav-number">1.2.2.1.</span> <span class="nav-text">备注：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意："><span class="nav-number">1.2.2.2.</span> <span class="nav-text">注意：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意：-1"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">注意：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-表面渲染属性"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 表面渲染属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-体渲染属性"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 体渲染属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#备注：-1"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">备注：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-点集属性"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 点集属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-几何2D属性"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.6 几何2D属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-平面图属性"><span class="nav-number">1.2.7.</span> <span class="nav-text">2.7 平面图属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-分割属性"><span class="nav-number">1.2.8.</span> <span class="nav-text">2.7 分割属性</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#属性"><span class="nav-number">1.</span> <span class="nav-text">属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-属性服务（Property-Services）"><span class="nav-number">1.1.</span> <span class="nav-text">1.属性服务（Property Services）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-属性别名-Property-Aliases"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 属性别名(Property Aliases)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-属性说明-Property-Descriptions"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 属性说明(Property Descriptions)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-属性扩张-Property-Extensions"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 属性扩张(Property Extensions)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-属性过滤器-Property-Filters"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 属性过滤器(Property Filters)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-模块独立属性列表"><span class="nav-number">1.2.</span> <span class="nav-text">2.模块独立属性列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-文件管理"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 文件管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-通用渲染属性"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 通用渲染属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#备注："><span class="nav-number">1.2.2.1.</span> <span class="nav-text">备注：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意："><span class="nav-number">1.2.2.2.</span> <span class="nav-text">注意：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意：-1"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">注意：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#备注：-在一个映射器中，你可以使用以下代码来获取不透明度："><span class="nav-number">1.2.2.4.</span> <span class="nav-text">备注： 在一个映射器中，你可以使用以下代码来获取不透明度：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-表面渲染属性"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 表面渲染属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-体渲染属性"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 体渲染属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#备注：-1"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">备注：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-点集属性"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 点集属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-几何2D属性"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.6 几何2D属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-平面图属性"><span class="nav-number">1.2.7.</span> <span class="nav-text">2.7 平面图属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-分割属性"><span class="nav-number">1.2.8.</span> <span class="nav-text">2.7 分割属性</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

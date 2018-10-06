@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="调用命令行工具：The MITK Plugin Generator，可快速创建插件。 1、创建插件方法1) 进入MitkPluginGenerator.exe所在目录譬如：D:\MITK 16.11\MITK-Bin\MITK-build\bin\Release 2) 打开命令行窗口目录空白处按下shift和鼠标右键，选择“在此处打开命令窗口” 3) 输入命令MitkPluginGenerator">
+<meta name="description" content="调用命令行工具：The MITK Plugin Generator，可快速创建插件。 1、创建插件方法1) 进入MitkPluginGenerator.exe所在目录譬如：D:\MITK 16.11\MITK-Bin\MITK-build\bin\Release 2) 打开命令行窗口目录空白处按下shift和鼠标右键，选择“在此处打开命令窗口” 3) 输入命令1MitkPluginGenerato">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【MITK】创建插件&amp;添加View">
 <meta property="og:url" content="http://yoursite.com/2018/04/09/【MITK】创建插件&添加View/index.html">
 <meta property="og:site_name" content="Cfan927">
-<meta property="og:description" content="调用命令行工具：The MITK Plugin Generator，可快速创建插件。 1、创建插件方法1) 进入MitkPluginGenerator.exe所在目录譬如：D:\MITK 16.11\MITK-Bin\MITK-build\bin\Release 2) 打开命令行窗口目录空白处按下shift和鼠标右键，选择“在此处打开命令窗口” 3) 输入命令MitkPluginGenerator">
+<meta property="og:description" content="调用命令行工具：The MITK Plugin Generator，可快速创建插件。 1、创建插件方法1) 进入MitkPluginGenerator.exe所在目录譬如：D:\MITK 16.11\MITK-Bin\MITK-build\bin\Release 2) 打开命令行窗口目录空白处按下shift和鼠标右键，选择“在此处打开命令窗口” 3) 输入命令1MitkPluginGenerato">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-06T03:03:31.548Z">
+<meta property="og:updated_time" content="2018-10-06T05:25:12.800Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【MITK】创建插件&amp;添加View">
-<meta name="twitter:description" content="调用命令行工具：The MITK Plugin Generator，可快速创建插件。 1、创建插件方法1) 进入MitkPluginGenerator.exe所在目录譬如：D:\MITK 16.11\MITK-Bin\MITK-build\bin\Release 2) 打开命令行窗口目录空白处按下shift和鼠标右键，选择“在此处打开命令窗口” 3) 输入命令MitkPluginGenerator">
+<meta name="twitter:description" content="调用命令行工具：The MITK Plugin Generator，可快速创建插件。 1、创建插件方法1) 进入MitkPluginGenerator.exe所在目录譬如：D:\MITK 16.11\MITK-Bin\MITK-build\bin\Release 2) 打开命令行窗口目录空白处按下shift和鼠标右键，选择“在此处打开命令窗口” 3) 输入命令1MitkPluginGenerato">
 
 
 
@@ -354,61 +354,17 @@
         <p>调用命令行工具：The MITK Plugin Generator，可快速创建插件。</p>
 <h2 id="1、创建插件方法"><a href="#1、创建插件方法" class="headerlink" title="1、创建插件方法"></a>1、创建插件方法</h2><h3 id="1-进入MitkPluginGenerator-exe所在目录"><a href="#1-进入MitkPluginGenerator-exe所在目录" class="headerlink" title="1) 进入MitkPluginGenerator.exe所在目录"></a>1) 进入MitkPluginGenerator.exe所在目录</h3><p>譬如：D:\MITK 16.11\MITK-Bin\MITK-build\bin\Release</p>
 <h3 id="2-打开命令行窗口"><a href="#2-打开命令行窗口" class="headerlink" title="2) 打开命令行窗口"></a>2) 打开命令行窗口</h3><p>目录空白处按下shift和鼠标右键，选择“在此处打开命令窗口”</p>
-<h3 id="3-输入命令"><a href="#3-输入命令" class="headerlink" title="3) 输入命令"></a>3) 输入命令</h3><pre><code>MitkPluginGenerator --plugin-symbolic-name org.mycompany.myplugin --view-name &quot;My View&quot;
-</code></pre><p>（note: 新产生的插件默认存放在如下目录，可参考下表设置相关参数，例如：输出路径等）</p>
-<pre><code>C:\Users\Ariemedi02\AppData\Local\Temp\org.mycompany.myplugin
-</code></pre><h2 id="2、The-MITK-Plugin-Generator相关参数"><a href="#2、The-MITK-Plugin-Generator相关参数" class="headerlink" title="2、The MITK Plugin Generator相关参数"></a>2、The MITK Plugin Generator相关参数</h2><pre><code> [* - options are required]   // A CTK plugin generator for MITK (version 1.2.0)
--h, --help                    // Show this help text
--o, --out-dir                 // Output directory (default: /tmp)
--l, --license                 // Path to a file containing license information (default: :/MITKLicense.txt)
--v, --vendor                  // The vendor of the generated code (default: DKFZ, Medical and Biological Informatics)
--q, --quiet                   // Do not print additional information
--y, --confirm-all             // Answer all questions with &apos;yes&apos;
--u, --check-update            // Check for updates and exit
--n, --no-networking           // Disable all network requests
+<h3 id="3-输入命令"><a href="#3-输入命令" class="headerlink" title="3) 输入命令"></a>3) 输入命令</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MitkPluginGenerator --plugin-symbolic-name org.mycompany.myplugin --view-name <span class="string">"My View"</span></span><br></pre></td></tr></table></figure>
+<p>（note: 新产生的插件默认存放在如下目录，可参考下表设置相关参数，例如：输出路径等）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Ariemedi02\AppData\Local\Temp\org.mycompany.myplugin</span><br></pre></td></tr></table></figure>
+<h2 id="2、The-MITK-Plugin-Generator相关参数"><a href="#2、The-MITK-Plugin-Generator相关参数" class="headerlink" title="2、The MITK Plugin Generator相关参数"></a>2、The MITK Plugin Generator相关参数</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"> [* - options are required]   <span class="comment">// A CTK plugin generator for MITK (version 1.2.0)</span></span><br><span class="line">-h, --help                    <span class="comment">// Show this help text</span></span><br><span class="line">-o, --out-dir                 <span class="comment">// Output directory (default: /tmp)</span></span><br><span class="line">-l, --license                 <span class="comment">// Path to a file containing license information (default: :/MITKLicense.txt)</span></span><br><span class="line">-v, --vendor                  <span class="comment">// The vendor of the generated code (default: DKFZ, Medical and Biological Informatics)</span></span><br><span class="line">-q, --quiet                   <span class="comment">// Do not print additional information</span></span><br><span class="line">-y, --confirm-all             <span class="comment">// Answer all questions with 'yes'</span></span><br><span class="line">-u, --check-update            <span class="comment">// Check for updates and exit</span></span><br><span class="line">-n, --no-networking           <span class="comment">// Disable all network requests</span></span><br><span class="line"></span><br><span class="line">Plugin View options</span><br><span class="line">-vc, --view-<span class="class"><span class="keyword">class</span>             // <span class="title">The</span> <span class="title">View</span>'<span class="title">s</span>' <span class="title">class</span> <span class="title">name</span></span></span><br><span class="line"><span class="class">-<span class="title">vn</span>, --<span class="title">view</span>-<span class="title">name</span>              // * <span class="title">The</span> <span class="title">View</span>'<span class="title">s</span> <span class="title">human</span> <span class="title">readable</span> <span class="title">name</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">Plugin</span> <span class="title">options</span></span></span><br><span class="line"><span class="class">-<span class="title">ps</span>, --<span class="title">plugin</span>-<span class="title">symbolic</span>-<span class="title">name</span>   // * <span class="title">The</span> <span class="title">plugin</span>'<span class="title">s</span> <span class="title">symbolic</span> <span class="title">name</span></span></span><br><span class="line"><span class="class">-<span class="title">pn</span>, --<span class="title">plugin</span>-<span class="title">name</span>            // <span class="title">The</span> <span class="title">plugin</span>'<span class="title">s</span> <span class="title">human</span> <span class="title">readable</span> <span class="title">name</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">Project</span> <span class="title">options</span></span></span><br><span class="line"><span class="class">--<span class="title">project</span>-<span class="title">copyright</span>           // <span class="title">Path</span> <span class="title">to</span> <span class="title">a</span> <span class="title">file</span> <span class="title">containing</span> <span class="title">copyright</span> <span class="title">information</span> (<span class="title">default</span>:</span>:/LICENSE.txt)</span><br><span class="line">--project-name                <span class="comment">// The project name</span></span><br><span class="line">--project-app-name            <span class="comment">// The application name</span></span><br></pre></td></tr></table></figure>
+<h2 id="3、插件中添加new-view"><a href="#3、插件中添加new-view" class="headerlink" title="3、插件中添加new view"></a>3、插件中添加new view</h2><p>假设new view的名字为Useful Functions View</p>
+<h3 id="1、添加文件"><a href="#1、添加文件" class="headerlink" title="1、添加文件"></a>1、添加文件</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">src/internal/QmitkUsefulFunctionsView.h</span><br><span class="line">src/internal/QmitkUsefulFunctionsView.cpp</span><br><span class="line">Const <span class="built_in">std</span>::<span class="built_in">string</span> QmitkUsefulFunctionsView::VIEW_ID = <span class="string">"org.mitk.views.usefulfunctions"</span>;<span class="comment">//QmitkUsefulFunctionsView.cpp文件中设置view 的id：</span></span><br><span class="line">src/internal/QmitkUsefulFunctionsViewControls.ui</span><br><span class="line">resources/UsefulFunctionsViewIcon.png</span><br><span class="line">documentation/UserManual/QmitkUsefulFunctionsViewUserManual.dox</span><br><span class="line">\page org_mitk_views_usefulfunctions The Useful Functions View <span class="comment">//*.dox文件中添加。view id 作为 page id后可使用F1找到view</span></span><br></pre></td></tr></table></figure>
+<h3 id="2、添加文件内容"><a href="#2、添加文件内容" class="headerlink" title="2、添加文件内容"></a>2、添加文件内容</h3><p>files.cmake 文件添加以下内容</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span>(INTERNAL_CPP_FILES</span><br><span class="line">  QmitkUsefulFunctionsView.cpp</span><br><span class="line">)</span><br><span class="line"><span class="built_in">set</span>(UI_FILES</span><br><span class="line">  src/internal/QmitkUsefulFunctionsViewControls.ui</span><br><span class="line">)</span><br><span class="line"><span class="built_in">set</span>(MOC_H_FILES</span><br><span class="line">  src/internal/QmitkUsefulFunctionsView.h</span><br><span class="line">)</span><br><span class="line"><span class="built_in">set</span>(CACHED_RESOURCE_FILES</span><br><span class="line">  resources/UsefulFunctionsViewIcon.png</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>Plugin.xml文件添加以下内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//new view添加扩展点</span><br><span class="line"><span class="tag">&lt;<span class="name">extension</span> <span class="attr">point</span>=<span class="string">"org.blueberry.ui.views"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">id</span>=<span class="string">"org.mitk.views.usefulfunctions"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">name</span>=<span class="string">"Useful Functions"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">class</span>=<span class="string">"QmitkUsefulFunctionsView"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">icon</span>=<span class="string">"resources/UsefulFunctionsViewIcon.png"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">extension</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-Plugin View options
--vc, --view-class             // The View&apos;s&apos; class name
--vn, --view-name              // * The View&apos;s human readable name
-
-Plugin options
--ps, --plugin-symbolic-name   // * The plugin&apos;s symbolic name
--pn, --plugin-name            // The plugin&apos;s human readable name
-
-Project options
---project-copyright           // Path to a file containing copyright information (default::/LICENSE.txt)
---project-name                // The project name
---project-app-name            // The application name
-</code></pre><h2 id="3、插件中添加new-view"><a href="#3、插件中添加new-view" class="headerlink" title="3、插件中添加new view"></a>3、插件中添加new view</h2><p>假设new view的名字为Useful Functions View</p>
-<h3 id="1、添加文件"><a href="#1、添加文件" class="headerlink" title="1、添加文件"></a>1、添加文件</h3><pre><code>src/internal/QmitkUsefulFunctionsView.h
-src/internal/QmitkUsefulFunctionsView.cpp
-Const std::string QmitkUsefulFunctionsView::VIEW_ID = &quot;org.mitk.views.usefulfunctions&quot;;//QmitkUsefulFunctionsView.cpp文件中设置view 的id：
-src/internal/QmitkUsefulFunctionsViewControls.ui
-resources/UsefulFunctionsViewIcon.png
-documentation/UserManual/QmitkUsefulFunctionsViewUserManual.dox
-\page org_mitk_views_usefulfunctions The Useful Functions View //*.dox文件中添加。view id 作为 page id后可使用F1找到view
-</code></pre><h3 id="2、添加文件内容"><a href="#2、添加文件内容" class="headerlink" title="2、添加文件内容"></a>2、添加文件内容</h3><p>files.cmake 文件添加以下内容</p>
-<pre><code>set(INTERNAL_CPP_FILES
-  QmitkUsefulFunctionsView.cpp
-)
-set(UI_FILES
-  src/internal/QmitkUsefulFunctionsViewControls.ui
-)
-set(MOC_H_FILES
-  src/internal/QmitkUsefulFunctionsView.h
-)
-set(CACHED_RESOURCE_FILES
-  resources/UsefulFunctionsViewIcon.png
-)
-</code></pre><p>Plugin.xml文件添加以下内容</p>
-<pre><code>//new view添加扩展点
-&lt;extension point=&quot;org.blueberry.ui.views&quot;&gt;
-  &lt;view id=&quot;org.mitk.views.usefulfunctions&quot;
-        name=&quot;Useful Functions&quot;
-        class=&quot;QmitkUsefulFunctionsView&quot;
-        icon=&quot;resources/UsefulFunctionsViewIcon.png&quot; /&gt;
-&lt;/extension&gt;
-</code></pre>
       
     </div>
     
