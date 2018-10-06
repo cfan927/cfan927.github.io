@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="将QMessageBox进行封装，实现定制化的弹出框。 函数原型及说明int QarmdMessageBox(QMessageBox::Icon icon, std::string text, std::string detailedText, QMessageBox::StandardButtons buttons = QMessageBox::Ok) 函数QarmdMessageBox包含4个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【规范】弹出框QarmdMessageBox定义及使用方法">
+<meta property="og:url" content="http://yoursite.com/2018/04/08/e3-80-90mitk-e3-80-91-e5-bc-b9-e5-87-ba-e6-a1-86qarmdmessagebox-e5-ae-9a-e4-b9-89-e5-8f-8a-e4-bd-bf-e7-94-a8-e6-96-b9-e6-b3-95/index.html">
+<meta property="og:site_name" content="Cfan927">
+<meta property="og:description" content="将QMessageBox进行封装，实现定制化的弹出框。 函数原型及说明int QarmdMessageBox(QMessageBox::Icon icon, std::string text, std::string detailedText, QMessageBox::StandardButtons buttons = QMessageBox::Ok) 函数QarmdMessageBox包含4个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180408094321.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180408094917.png">
+<meta property="og:updated_time" content="2018-10-06T02:48:01.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【规范】弹出框QarmdMessageBox定义及使用方法">
+<meta name="twitter:description" content="将QMessageBox进行封装，实现定制化的弹出框。 函数原型及说明int QarmdMessageBox(QMessageBox::Icon icon, std::string text, std::string detailedText, QMessageBox::StandardButtons buttons = QMessageBox::Ok) 函数QarmdMessageBox包含4个">
+<meta name="twitter:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180408094321.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/08/e3-80-90mitk-e3-80-91-e5-bc-b9-e5-87-ba-e6-a1-86qarmdmessagebox-e5-ae-9a-e4-b9-89-e5-8f-8a-e4-bd-bf-e7-94-a8-e6-96-b9-e6-b3-95/"/>
+
+
+
+
+
+  <title>【规范】弹出框QarmdMessageBox定义及使用方法 | Cfan927</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cfan927</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mitk">
+          <a href="/mitk/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-medkit"></i> <br />
+            
+            MITK
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-设计模式">
+          <a href="/design-patterns/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-magic"></i> <br />
+            
+            设计模式
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-c++">
+          <a href="/cpp/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-code"></i> <br />
+            
+            C++
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/08/e3-80-90mitk-e3-80-91-e5-bc-b9-e5-87-ba-e6-a1-86qarmdmessagebox-e5-ae-9a-e4-b9-89-e5-8f-8a-e4-bd-bf-e7-94-a8-e6-96-b9-e6-b3-95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cfan927">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cfan927">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【规范】弹出框QarmdMessageBox定义及使用方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-08T09:34:23+08:00">
+                2018-04-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/规范/" itemprop="url" rel="index">
+                    <span itemprop="name">规范</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>将QMessageBox进行封装，实现定制化的弹出框。</p>
+<h1 id="函数原型及说明"><a href="#函数原型及说明" class="headerlink" title="函数原型及说明"></a>函数原型及说明</h1><pre><code>int QarmdMessageBox(QMessageBox::Icon icon, std::string text, std::string detailedText, QMessageBox::StandardButtons buttons = QMessageBox::Ok)
+</code></pre><p>函数QarmdMessageBox包含4个参数，并返回一个int值。参数说明见图： <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180408094321.png" alt=""> 返回值为按钮点击值。</p>
+<h1 id="函数实现"><a href="#函数实现" class="headerlink" title="函数实现"></a>函数实现</h1><pre><code>int QarmdMessageBox(QMessageBox::Icon icon, std::string text, std::string detailedText, QMessageBox::StandardButtons buttons)
+{
+    QMessageBox message;
+    message.setWindowFlags(Qt::FramelessWindowHint);
+    message.setStyleSheet(&quot;QMessageBox *{font-family:黑体; color:rgb(255,255,255);}&quot;
+        &quot;QMessageBox{background:rgb(16,69,121);border:1px solid rgb(55,159,211);border-radius:10px;}&quot;
+        &quot;QPushButton{min-width:100px;min-height:30px;background-color:qlineargradient(spread : pad, x1 : 0, y1 : 0, x2 : 0, y2 : 1, stop : 0.457711 rgba(2, 107, 186, 255), stop : 1 rgba(0, 64, 120, 255));border-radius:10px;border:1px solid rgb(2, 91, 159);}&quot;
+        &quot;QPushButton:hover{background-color:qlineargradient(spread : pad, x1 : 0, y1 : 0, x2 : 0, y2 : 1, stop : 0.457711 rgba(244,203,37, 255), stop : 1 rgba(179,113,8, 255));border:1px solid rgb(217, 165, 25);}&quot;);
+    message.setWindowTitle(QString::fromLocal8Bit(&quot;提示&quot;));
+    message.setText(QString::fromLocal8Bit(text.c_str()));
+    message.setInformativeText(QString::fromLocal8Bit(detailedText.c_str()));
+    message.setIcon(icon);
+    message.setStandardButtons(buttons);
+    message.setButtonText(QMessageBox::Ok, QString::fromLocal8Bit(&quot;确定&quot;));
+    message.setButtonText(QMessageBox::Cancel, QString::fromLocal8Bit(&quot;取消&quot;));
+    message.setButtonText(QMessageBox::Yes, QString::fromLocal8Bit(&quot;是&quot;));
+    message.setButtonText(QMessageBox::No, QString::fromLocal8Bit(&quot;否&quot;));
+    // Pre-show message box to calculate it&apos;s actual size
+    message.show();
+    message.hide();
+    // Set border radius
+    QBitmap bmp(message.size());
+    bmp.fill(Qt::white);
+    QPainter p(&amp;bmp);
+    p.setPen(Qt::NoPen);
+    p.setBrush(Qt::black);
+    // One pixel (border width) smaller than the actual radius, to prevent cutting out border
+    p.drawRoundedRect(bmp.rect(), 9, 9);
+    message.setMask(bmp);
+    return message.exec();
+}
+</code></pre><h1 id="调用实例"><a href="#调用实例" class="headerlink" title="调用实例"></a>调用实例</h1><pre><code>QarmdMessageBox(QMessageBox::Critical, &quot;错误&quot;, &quot;请先加载病人数据！&quot;);
+</code></pre><p>运行结果： <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20180408094917.png" alt=""></p>
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>函数体可根据实际需要做调整。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/06/e9-80-89-e5-8f-96datastorage-e4-b8-ad-e7-89-b9-e5-ae-9a-e7-b1-bb-e5-9e-8b-e6-95-b0-e6-8d-ae/" rel="next" title="【MITK】选取mitkDataStorage中特定数据">
+                <i class="fa fa-chevron-left"></i> 【MITK】选取mitkDataStorage中特定数据
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/08/e3-80-90mitk-e4-bb-8e-e5-85-a5-e9-97-a8-e5-88-b0-e6-94-be-e5-bc-83-e3-80-91windows-e4-b8-8b-e7-bc-96-e8-af-91mitk/" rel="prev" title="【MITK从入门到放弃】Windows下编译MITK">
+                【MITK从入门到放弃】Windows下编译MITK <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Cfan927" />
+            
+              <p class="site-author-name" itemprop="name">Cfan927</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#函数原型及说明"><span class="nav-number">1.</span> <span class="nav-text">函数原型及说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数实现"><span class="nav-number">2.</span> <span class="nav-text">函数实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调用实例"><span class="nav-number">3.</span> <span class="nav-text">调用实例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意"><span class="nav-number">4.</span> <span class="nav-text">注意</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bit-lwj</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 版本要求 System：Win10 IDE：MSVC 2015 Community MITK：2016.11 CMake：3.7.2 Qt：5.7.1  2. 安装工具安装VS 2015、Cmake、Qt等，常规流程，版本正确即可（vs2015 64bit binary安装版本，无需自己编译），这里不再赘述 3. 开始编译MITKa. 下载mitk windows版源代码（下载地址http:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【MITK从入门到放弃】Windows下编译MITK">
+<meta property="og:url" content="http://yoursite.com/2018/04/08/e3-80-90mitk-e4-bb-8e-e5-85-a5-e9-97-a8-e5-88-b0-e6-94-be-e5-bc-83-e3-80-91windows-e4-b8-8b-e7-bc-96-e8-af-91mitk/index.html">
+<meta property="og:site_name" content="Cfan927">
+<meta property="og:description" content="1. 版本要求 System：Win10 IDE：MSVC 2015 Community MITK：2016.11 CMake：3.7.2 Qt：5.7.1  2. 安装工具安装VS 2015、Cmake、Qt等，常规流程，版本正确即可（vs2015 64bit binary安装版本，无需自己编译），这里不再赘述 3. 开始编译MITKa. 下载mitk windows版源代码（下载地址http:">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/%E6%9C%AA%E5%91%BD%E5%90%8D%E5%9B%BE%E7%89%87.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/%E6%9C%AA%E5%91%BD%E5%90%8D%E5%9B%BE%E7%89%871.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/1.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/2.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/3.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/4.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/5.png">
+<meta property="og:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/6.png">
+<meta property="og:updated_time" content="2018-10-06T02:48:01.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【MITK从入门到放弃】Windows下编译MITK">
+<meta name="twitter:description" content="1. 版本要求 System：Win10 IDE：MSVC 2015 Community MITK：2016.11 CMake：3.7.2 Qt：5.7.1  2. 安装工具安装VS 2015、Cmake、Qt等，常规流程，版本正确即可（vs2015 64bit binary安装版本，无需自己编译），这里不再赘述 3. 开始编译MITKa. 下载mitk windows版源代码（下载地址http:">
+<meta name="twitter:image" content="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/%E6%9C%AA%E5%91%BD%E5%90%8D%E5%9B%BE%E7%89%87.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/08/e3-80-90mitk-e4-bb-8e-e5-85-a5-e9-97-a8-e5-88-b0-e6-94-be-e5-bc-83-e3-80-91windows-e4-b8-8b-e7-bc-96-e8-af-91mitk/"/>
+
+
+
+
+
+  <title>【MITK从入门到放弃】Windows下编译MITK | Cfan927</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cfan927</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mitk">
+          <a href="/mitk/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-medkit"></i> <br />
+            
+            MITK
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-设计模式">
+          <a href="/design-patterns/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-magic"></i> <br />
+            
+            设计模式
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-c++">
+          <a href="/cpp/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-code"></i> <br />
+            
+            C++
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/08/e3-80-90mitk-e4-bb-8e-e5-85-a5-e9-97-a8-e5-88-b0-e6-94-be-e5-bc-83-e3-80-91windows-e4-b8-8b-e7-bc-96-e8-af-91mitk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cfan927">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cfan927">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【MITK从入门到放弃】Windows下编译MITK</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-08T16:24:52+08:00">
+                2018-04-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MITK/" itemprop="url" rel="index">
+                    <span itemprop="name">MITK</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-版本要求"><a href="#1-版本要求" class="headerlink" title="1. 版本要求"></a>1. 版本要求</h1><ul>
+<li>System：Win10</li>
+<li>IDE：MSVC 2015 Community</li>
+<li>MITK：2016.11</li>
+<li>CMake：3.7.2</li>
+<li>Qt：5.7.1</li>
+</ul>
+<h1 id="2-安装工具"><a href="#2-安装工具" class="headerlink" title="2. 安装工具"></a>2. 安装工具</h1><p>安装VS 2015、Cmake、Qt等，常规流程，版本正确即可（vs2015 64bit binary安装版本，无需自己编译），这里不再赘述</p>
+<h1 id="3-开始编译MITK"><a href="#3-开始编译MITK" class="headerlink" title="3. 开始编译MITK"></a>3. 开始编译MITK</h1><h2 id="a-下载mitk-windows版源代码（下载地址http-mitk-org-wiki-Downloads）"><a href="#a-下载mitk-windows版源代码（下载地址http-mitk-org-wiki-Downloads）" class="headerlink" title="a. 下载mitk windows版源代码（下载地址http://mitk.org/wiki/Downloads）"></a>a. 下载mitk windows版源代码（下载地址<a href="http://mitk.org/wiki/Downloads）" target="_blank" rel="noopener">http://mitk.org/wiki/Downloads）</a></h2><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/%E6%9C%AA%E5%91%BD%E5%90%8D%E5%9B%BE%E7%89%87.png" alt=""> 解压后得到的源码目录如下： <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/%E6%9C%AA%E5%91%BD%E5%90%8D%E5%9B%BE%E7%89%871.png" alt=""></p>
+<h2 id="b-打开cmake-gui，设置源码路径及生成路径"><a href="#b-打开cmake-gui，设置源码路径及生成路径" class="headerlink" title="b. 打开cmake-gui，设置源码路径及生成路径"></a>b. 打开cmake-gui，设置源码路径及生成路径</h2><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/1.png" alt=""></p>
+<h2 id="c-点击Condigure按钮，配置文件"><a href="#c-点击Condigure按钮，配置文件" class="headerlink" title="c. 点击Condigure按钮，配置文件"></a>c. 点击Condigure按钮，配置文件</h2><p>第一次点击Configure按钮，会弹出提示框选择编译器，这里需要选择跟mitk版本一致的编译器（比如我们用的mitk是64位版本，那么这里就要选择Win64编译器），一定注意不要选错 <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/2.png" alt=""> 点击Finish后等待，出现Configure done表示Configure成功</p>
+<h2 id="d-点击Generate按钮，生成配置文件-makefile，输出Generate-done后则表示Generate成功"><a href="#d-点击Generate按钮，生成配置文件-makefile，输出Generate-done后则表示Generate成功" class="headerlink" title="d. 点击Generate按钮，生成配置文件/makefile，输出Generate done后则表示Generate成功"></a>d. 点击Generate按钮，生成配置文件/makefile，输出Generate done后则表示Generate成功</h2><h2 id="e-点击Open-project打开VS项目"><a href="#e-点击Open-project打开VS项目" class="headerlink" title="e. 点击Open project打开VS项目"></a>e. 点击Open project打开VS项目</h2><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/3.png" alt=""></p>
+<h2 id="f-对ALL-BUILD右键选择“生成”"><a href="#f-对ALL-BUILD右键选择“生成”" class="headerlink" title="f. 对ALL_BUILD右键选择“生成”"></a>f. 对ALL_BUILD右键选择“生成”</h2><p><img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/4.png" alt=""></p>
+<h2 id="g-等待编译完成即可"><a href="#g-等待编译完成即可" class="headerlink" title="g. 等待编译完成即可"></a>g. 等待编译完成即可</h2><h1 id="4-常见问题"><a href="#4-常见问题" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h1><h2 id="a-CTK-build-error"><a href="#a-CTK-build-error" class="headerlink" title="a. CTK build error"></a>a. CTK build error</h2><p>该问题多半是由于CMake版本太高导致 CTK源代码中有一处多了一个结尾大括号}，高版本CMake（如3.9.x）会报错，而3.7.x会忽略这个语法错误</p>
+<h2 id="b-ITK-build-error"><a href="#b-ITK-build-error" class="headerlink" title="b. ITK build error"></a>b. ITK build error</h2><p>该问题是由于build目录长度过大，ITK目录长度要求小于50个字符</p>
+<h2 id="c-警告被视为错误"><a href="#c-警告被视为错误" class="headerlink" title="c. 警告被视为错误"></a>c. 警告被视为错误</h2><p>中英文编码错误 解决方法：双击错误提示，打开错误文件，选择“文件”-“高级保存选项”，选择“Unicode-代码页1200”，保存文件，再次对ALL_BUILD右键“生成”即可</p>
+<h2 id="d-VS2015的安装错误"><a href="#d-VS2015的安装错误" class="headerlink" title="d.VS2015的安装错误"></a>d.VS2015的安装错误</h2><p>MITK编译失败也可能是由于VS2015缺少相应的插件造成的。 解决方法：注意要勾选编程语言中的Visual C++选项和windows和web开发选项。</p>
+<h2 id="e-要提前把第三方库放到”…-MITK-bin-MITK-build-ep-src”目录下，不然VS在编译MITK时会自动下载第三方库，使得编译时间特别长。"><a href="#e-要提前把第三方库放到”…-MITK-bin-MITK-build-ep-src”目录下，不然VS在编译MITK时会自动下载第三方库，使得编译时间特别长。" class="headerlink" title="e.要提前把第三方库放到”…/MITK_bin/MITK_build/ep/src”目录下，不然VS在编译MITK时会自动下载第三方库，使得编译时间特别长。"></a>e.要提前把第三方库放到”…/MITK_bin/MITK_build/ep/src”目录下，不然VS在编译MITK时会自动下载第三方库，使得编译时间特别长。</h2><h1 id="5-打开MITK"><a href="#5-打开MITK" class="headerlink" title="5. 打开MITK"></a>5. 打开MITK</h1><p>进入如下目录： <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/5.png" alt=""> 打开startMitkWorkbench_debug.bat/startMitkWorkbench_release.bat即可打开MITK 注意：.bat是一个批处理文件，对其“右键”以文本方式打开，截取部分内容如下： <img src="http://192.168.1.172/wordpress/wp-content/uploads/2018/04/6.png" alt=""> 第一行设置临时环境变量，这些路径都是MITK运行是需要的链接库，第二行为需要打开的可执行文件</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/08/e3-80-90mitk-e3-80-91-e5-bc-b9-e5-87-ba-e6-a1-86qarmdmessagebox-e5-ae-9a-e4-b9-89-e5-8f-8a-e4-bd-bf-e7-94-a8-e6-96-b9-e6-b3-95/" rel="next" title="【规范】弹出框QarmdMessageBox定义及使用方法">
+                <i class="fa fa-chevron-left"></i> 【规范】弹出框QarmdMessageBox定义及使用方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/09/e3-80-90mitk-examples-e3-80-91step0-e4-bd-bf-e7-94-a8cmake-e6-9e-84-e5-bb-bamitk-e7-a4-ba-e4-be-8b/" rel="prev" title="【MITK Examples】Step0-使用CMake构建MITK示例">
+                【MITK Examples】Step0-使用CMake构建MITK示例 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Cfan927" />
+            
+              <p class="site-author-name" itemprop="name">Cfan927</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-版本要求"><span class="nav-number">1.</span> <span class="nav-text">1. 版本要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-安装工具"><span class="nav-number">2.</span> <span class="nav-text">2. 安装工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-开始编译MITK"><span class="nav-number">3.</span> <span class="nav-text">3. 开始编译MITK</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a-下载mitk-windows版源代码（下载地址http-mitk-org-wiki-Downloads）"><span class="nav-number">3.1.</span> <span class="nav-text">a. 下载mitk windows版源代码（下载地址http://mitk.org/wiki/Downloads）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#b-打开cmake-gui，设置源码路径及生成路径"><span class="nav-number">3.2.</span> <span class="nav-text">b. 打开cmake-gui，设置源码路径及生成路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-点击Condigure按钮，配置文件"><span class="nav-number">3.3.</span> <span class="nav-text">c. 点击Condigure按钮，配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#d-点击Generate按钮，生成配置文件-makefile，输出Generate-done后则表示Generate成功"><span class="nav-number">3.4.</span> <span class="nav-text">d. 点击Generate按钮，生成配置文件/makefile，输出Generate done后则表示Generate成功</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#e-点击Open-project打开VS项目"><span class="nav-number">3.5.</span> <span class="nav-text">e. 点击Open project打开VS项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#f-对ALL-BUILD右键选择“生成”"><span class="nav-number">3.6.</span> <span class="nav-text">f. 对ALL_BUILD右键选择“生成”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#g-等待编译完成即可"><span class="nav-number">3.7.</span> <span class="nav-text">g. 等待编译完成即可</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-常见问题"><span class="nav-number">4.</span> <span class="nav-text">4. 常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a-CTK-build-error"><span class="nav-number">4.1.</span> <span class="nav-text">a. CTK build error</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#b-ITK-build-error"><span class="nav-number">4.2.</span> <span class="nav-text">b. ITK build error</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-警告被视为错误"><span class="nav-number">4.3.</span> <span class="nav-text">c. 警告被视为错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#d-VS2015的安装错误"><span class="nav-number">4.4.</span> <span class="nav-text">d.VS2015的安装错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#e-要提前把第三方库放到”…-MITK-bin-MITK-build-ep-src”目录下，不然VS在编译MITK时会自动下载第三方库，使得编译时间特别长。"><span class="nav-number">4.5.</span> <span class="nav-text">e.要提前把第三方库放到”…/MITK_bin/MITK_build/ep/src”目录下，不然VS在编译MITK时会自动下载第三方库，使得编译时间特别长。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-打开MITK"><span class="nav-number">5.</span> <span class="nav-text">5. 打开MITK</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bit-lwj</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
